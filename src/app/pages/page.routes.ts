@@ -1,5 +1,4 @@
 import { Route } from '@angular/router';
-import { authRoutes } from './auth/auth.routes';
 
 export const pageRoutes: Route[] = [
   {
@@ -10,9 +9,7 @@ export const pageRoutes: Route[] = [
   },
   {
     path: 'auth',
-    loadComponent: () =>
-      import('./auth/auth.component').then((m) => m.AuthComponent),
-    children: authRoutes,
+    loadChildren: () => import('./auth/auth.routes').then((m) => m.authRoutes),
   },
   {
     path: '**',

@@ -25,8 +25,11 @@
     "@bidv-ui/icons": "^1.1.7",
     "@bidv-ui/kit": "^1.1.7",
     "@bidv-ui/styles": "^1.1.7",
+    "@types/three": "^0.173.0",
     "rxjs": "~7.8.0",
+    "three": "^0.173.0",
     "tslib": "^2.3.0",
+    "vanta": "^0.5.24",
     "zone.js": "~0.15.0"
   },
   "devDependencies": {

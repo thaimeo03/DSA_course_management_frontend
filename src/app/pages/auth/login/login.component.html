@@ -1,12 +1,17 @@
-<p class="bidv-text_headline-2">login works!</p>
-<div>
-  <button
-    bidvButton
-    iconLeft="bidvIconAdd"
-    appearance="primary"
-    size="s"
-    variant="outlined"
-  >
-    Button
-  </button>
-</div>
+<ng-container>
+  <label class="bidv-text_label-1 bidv-text_semibold">
+    Email
+    <bidv-input formControlName="email" bidvTextfieldSize="s">
+      Type an email
+      <input bidvTextfield placeholder="thaimeo@gmail.com" />
+    </bidv-input>
+  </label>
+
+  <label>
+    <div class="password-label">
+      <span class="bidv-text_label-1 bidv-text_semibold">Password</span>
+      <span class="bidv-text_label-2 forgot-password">Forgot your password?</span>
+    </div>
+    <bidv-input-password bidvTextfieldSize="s" formControlName="password">Type a password</bidv-input-password>
+  </label>
+</ng-container>

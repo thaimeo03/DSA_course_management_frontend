@@ -1,18 +1,16 @@
 <div #background class="vanta-bg">
   <div class="container">
     <div class="card_group">
-      <bidv-card-layout class="card_layout">
+      <bidv-card-layout class="card_layout" style="width: 24rem;">
         <div class="card_header">
           <h1 class="bidv-text_headline-4">Login</h1>
-          <p class="bidv-text_label-1 bidv-space_top-2">Enter your email below to login to your account</p>
+          <p class="bidv-text_body-2 bidv-space_top-2">Enter your email below to login to your account
+          </p>
         </div>
 
         <bidv-card-content>
           <form>
             <router-outlet></router-outlet>
-            <button bidvButton size="s" class="submit-btn" style="width: 100%; margin-top: 2rem">
-              Login
-            </button>
           </form>
         </bidv-card-content>
       </bidv-card-layout>

@@ -1,26 +1,10 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
-import {
-  BidvButtonModule,
-  BidvLabelModule,
-  BidvSvgModule,
-  BidvTextfieldControllerModule,
-} from '@bidv-ui/core';
-import { BidvInputModule, BidvInputPasswordModule } from '@bidv-ui/kit';
+import { AuthFormComponent } from '../components/auth-form/auth-form.component';
 
 @Component({
   selector: 'app-login',
-  imports: [
-    BidvButtonModule,
-    BidvLabelModule,
-    BidvInputModule,
-    BidvInputPasswordModule,
-    BidvTextfieldControllerModule,
-    BidvSvgModule,
-    RouterLink,
-  ],
-  templateUrl: './login.component.html',
-  styleUrl: './login.component.scss',
+  imports: [AuthFormComponent],
+  template: `<app-auth-form [isLogin]="true" />`,
 })
 export class LoginComponent {
   constructor() {}

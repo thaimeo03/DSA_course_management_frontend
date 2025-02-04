@@ -1,0 +1,55 @@
+<ng-container>
+  <div class="bidv-space_bottom-4">
+    <h1 class="bidv-text_headline-4">{{isLogin ? loginItem.title : registerItem.title}}</h1>
+    <p class="bidv-text_body-2 bidv-space_top-2">
+      {{isLogin ? loginItem.desc : registerItem.desc}}
+    </p>
+  </div>
+
+  <form [formGroup]="isLogin ? loginForm : registerForm" (ngSubmit)="handleSubmit()">
+    <!-- Show name when register -->
+    <label *ngIf="!isLogin" class="bidv-text_label-1 bidv-text_semibold">
+      Full name
+      <bidv-input formControlName="fullName" bidvTextfieldSize="s">
+        Type your full name
+        <input bidvTextfield placeholder="Trần Hồng Thái" />
+      </bidv-input>
+    </label>
+
+    <label class="bidv-text_label-1 bidv-text_semibold">
+      Email
+      <bidv-input formControlName="email" bidvTextfieldSize="s">
+        Type an email
+        <input bidvTextfield placeholder="thaimeo@gmail.com" />
+      </bidv-input>
+    </label>
+
+    <label>
+      <div class="password-label">
+        <span class="bidv-text_label-1 bidv-text_semibold">Password</span>
+        <span *ngIf="isLogin" class="bidv-text_label-2 forgot-password">Forgot your password?</span>
+      </div>
+      <bidv-input-password bidvTextfieldSize="s" formControlName="password">Type a password</bidv-input-password>
+    </label>
+
+    <!-- Show confirm password when register -->
+    <label *ngIf="!isLogin" class="bidv-text_label-1 bidv-text_semibold">
+      Confirm password
+      <bidv-input-password bidvTextfieldSize="s" formControlName="password">Type confirm password</bidv-input-password>
+    </label>
+
+    <button bidvButton size="s" class="submit-btn">
+      {{isLogin ? loginItem.title : registerItem.title}}
+    </button>
+
+    <button *ngIf="isLogin" bidvButton size="s" class="submit-btn" variant="outlined">
+      Login with Google
+    </button>
+
+    <div class="bidv-text_label-1 footer">
+      {{isLogin ? loginItem.switchText : registerItem.switchText}}
+      <a routerLink="{{isLogin ? loginItem.switchLink : registerItem.switchLink}}">{{isLogin ? loginItem.switchDesc :
+        registerItem.switchDesc}}</a>
+    </div>
+  </form>
+</ng-container>

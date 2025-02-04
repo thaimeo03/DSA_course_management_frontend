@@ -1,11 +1,9 @@
 import { Component } from '@angular/core';
+import { AuthFormComponent } from '../components/auth-form/auth-form.component';
 
 @Component({
   selector: 'app-register',
-  imports: [],
-  templateUrl: './register.component.html',
-  styleUrl: './register.component.scss'
+  imports: [AuthFormComponent],
+  template: `<app-auth-form [isLogin]="false" />`,
 })
-export class RegisterComponent {
-
-}
+export class RegisterComponent {}

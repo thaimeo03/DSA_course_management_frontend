@@ -36,7 +36,7 @@ interface AuthItem {
 export class AuthFormComponent {
   @Input({ required: true }) isLogin = true;
 
-  loginItem: AuthItem = {
+  protected loginItem: AuthItem = {
     title: 'Login',
     desc: 'Enter your email below to login to your account',
     switchText: "Don't have an account?",
@@ -44,7 +44,7 @@ export class AuthFormComponent {
     switchDesc: 'Sign up',
   };
 
-  registerItem: AuthItem = {
+  protected registerItem: AuthItem = {
     title: 'Register',
     desc: 'Enter your information to create your account',
     switchText: 'Already have an account?',
@@ -52,12 +52,12 @@ export class AuthFormComponent {
     switchDesc: 'Login',
   };
 
-  loginForm = new FormGroup({
+  protected loginForm = new FormGroup({
     email: new FormControl(''),
     password: new FormControl(''),
   });
 
-  registerForm = new FormGroup({
+  protected registerForm = new FormGroup({
     fullName: new FormControl(''),
     email: new FormControl(''),
     password: new FormControl(''),

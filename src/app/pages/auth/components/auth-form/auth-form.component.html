@@ -14,6 +14,7 @@
         Type your full name
         <input bidvTextfield placeholder="Trần Hồng Thái" />
       </bidv-input>
+      <bidv-error formControlName="fullName" [error]="[] | bidvFieldError | async"></bidv-error>
     </label>
 
     <label class="bidv-text_label-1 bidv-text_semibold">
@@ -22,20 +23,24 @@
         Type an email
         <input bidvTextfield placeholder="thaimeo@gmail.com" />
       </bidv-input>
+      <bidv-error formControlName="email" [error]="[] | bidvFieldError | async"></bidv-error>
     </label>
 
-    <label>
+    <label class="">
       <div class="password-label">
         <span class="bidv-text_label-1 bidv-text_semibold">Password</span>
         <span *ngIf="isLogin" class="bidv-text_label-2 forgot-password">Forgot your password?</span>
       </div>
       <bidv-input-password bidvTextfieldSize="s" formControlName="password">Type a password</bidv-input-password>
+      <bidv-error formControlName="password" [error]="[] | bidvFieldError | async"></bidv-error>
     </label>
 
     <!-- Show confirm password when register -->
     <label *ngIf="!isLogin" class="bidv-text_label-1 bidv-text_semibold">
       Confirm password
-      <bidv-input-password bidvTextfieldSize="s" formControlName="password">Type confirm password</bidv-input-password>
+      <bidv-input-password bidvTextfieldSize="s" formControlName="confirmPassword">Type confirm
+        password</bidv-input-password>
+      <bidv-error formControlName="confirmPassword" [error]="[] | bidvFieldError | async"></bidv-error>
     </label>
 
     <button bidvButton size="s" class="submit-btn">
@@ -46,7 +51,7 @@
       Login with Google
     </button>
 
-    <div class="bidv-text_label-1 footer">
+    <div class=" bidv-text_label-1 footer">
       {{isLogin ? loginItem.switchText : registerItem.switchText}}
       <a routerLink="{{isLogin ? loginItem.switchLink : registerItem.switchLink}}">{{isLogin ? loginItem.switchDesc :
         registerItem.switchDesc}}</a>

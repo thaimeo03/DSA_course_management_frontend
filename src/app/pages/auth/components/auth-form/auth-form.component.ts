@@ -36,12 +36,21 @@ interface AuthItem {
 function passwordMatchValidator(): ValidatorFn {
   return (control: AbstractControl): ValidationErrors | null => {
     const formGroup = control as FormGroup;
-    const password = formGroup.get('password')?.value;
-    const confirmPassword = formGroup.get('confirmPassword')?.value;
+    const passwordControl = formGroup.get('password');
+    const confirmPasswordControl = formGroup.get('confirmPassword');
 
-    return password === confirmPassword
-      ? null
-      : { other: 'Passwords do not match' };
+    if (!passwordControl || !confirmPasswordControl) return null;
+
+    const password = passwordControl.value;
+    const confirmPassword = confirmPasswordControl.value;
+
+    if (confirmPassword && password !== confirmPassword) {
+      confirmPasswordControl.setErrors({ passwordMismatch: true });
+    } else {
+      confirmPasswordControl.setErrors(null);
+    }
+
+    return null;
   };
 }
 
@@ -71,7 +80,7 @@ function passwordMatchValidator(): ValidatorFn {
           of(`Minimum length — ${requiredLength}`),
         maxLength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Maximum length — ${requiredLength}`),
-        // passwordMismatch: 'Passwords do not match',
+        passwordMismatch: 'Confirm password do not match',
       },
     },
   ],
@@ -118,13 +127,11 @@ export class AuthFormComponent {
       confirmPassword: new FormControl('', [
         Validators.required,
         Validators.minLength(6),
-        passwordMatchValidator,
       ]),
     },
-    (control) =>
-      Object.values((control as FormGroup).controls).every(({ valid }) => valid)
-        ? null
-        : { other: 'Form is invalid' },
+    {
+      validators: passwordMatchValidator(),
+    },
   );
 
   handleSubmit() {

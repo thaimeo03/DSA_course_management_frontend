@@ -12,7 +12,6 @@ export class ApiInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    console.log('API Interceptor');
     const apiReq = req.clone({
       url: `${environment.apiUrl}${req.url}`,
     });

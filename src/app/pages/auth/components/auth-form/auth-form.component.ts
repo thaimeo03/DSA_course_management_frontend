@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import { Component, inject, Input, OnInit } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -9,7 +9,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import {
   BidvButtonModule,
   BidvErrorModule,
@@ -22,7 +22,8 @@ import {
   BidvInputModule,
   BidvInputPasswordModule,
 } from '@bidv-ui/kit';
-import { of } from 'rxjs';
+import { injectMutation } from '@tanstack/angular-query-experimental';
+import { lastValueFrom, of } from 'rxjs';
 import { ROUTES } from 'src/app/constants/routes';
 import { LoginBody } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
@@ -87,7 +88,8 @@ function passwordMatchValidator(): ValidatorFn {
     },
   ],
 })
-export class AuthFormComponent {
+export class AuthFormComponent implements OnInit {
+  private router = inject(Router);
   private userService = inject(UserService);
 
   @Input({ required: true }) isLogin = true;
@@ -138,22 +140,38 @@ export class AuthFormComponent {
     },
   );
 
+  protected failed = '';
+
+  protected loginMutation = injectMutation(() => ({
+    mutationFn: (body: LoginBody) =>
+      lastValueFrom(this.userService.login(body)),
+    onSuccess: () => {
+      this.router.navigate([ROUTES.home]);
+    },
+    onError: (err: any) => {
+      if (err.status === 0 || err.status === 500) return;
+
+      this.failed = err.error.message;
+    },
+  }));
+
+  ngOnInit(): void {
+    this.loginForm.statusChanges.subscribe(() => {
+      if (this.failed) this.failed = '';
+    });
+
+    this.registerForm.statusChanges.subscribe(() => {
+      if (this.failed) this.failed = '';
+    });
+  }
+
   handleSubmit() {
     if (this.isLogin) {
       this.loginForm.markAllAsTouched();
+
       if (this.loginForm.invalid) return;
 
-      this.userService.login(this.loginForm.value as LoginBody).subscribe({
-        next: (data) => {
-          console.log(data.message);
-        },
-        error: (err) => {
-          console.log(err);
-          (this.loginForm.get('email') as FormControl).setErrors({
-            failed: err.error.message,
-          });
-        },
-      });
+      this.loginMutation.mutate(this.loginForm.value as LoginBody);
     } else {
       this.registerForm.markAllAsTouched();
     }

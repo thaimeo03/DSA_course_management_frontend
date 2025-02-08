@@ -27,6 +27,7 @@
     "@bidv-ui/kit": "^1.1.7",
     "@bidv-ui/layout": "^1.1.7",
     "@bidv-ui/styles": "^1.1.7",
+    "@tanstack/angular-query-experimental": "^5.66.0",
     "@types/three": "^0.173.0",
     "rxjs": "~7.8.0",
     "three": "^0.173.0",

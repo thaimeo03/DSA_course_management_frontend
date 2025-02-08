@@ -13,6 +13,10 @@ import {
   withInterceptorsFromDi,
 } from '@angular/common/http';
 import { provideInterceptors } from './interceptors';
+import {
+  provideTanStackQuery,
+  QueryClient,
+} from '@tanstack/angular-query-experimental';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -20,6 +24,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideAnimations(),
     importProvidersFrom(BidvRootModule),
+    provideTanStackQuery(new QueryClient()),
     provideHttpClient(withInterceptorsFromDi()), // DI-based interceptors must be explicitly enabled.
     ...provideInterceptors,
   ],

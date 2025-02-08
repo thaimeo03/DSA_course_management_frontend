@@ -16,11 +16,10 @@ export class CachingInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
-    console.log('Caching Interceptor');
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
-        if (err.status === 500) {
-          this.alerts.open(err.message).subscribe();
+        if (err.status === 500 || err.status === 0) {
+          this.alerts.open(err.statusText, { status: 'error' }).subscribe();
         }
 
         return throwError(() => err);

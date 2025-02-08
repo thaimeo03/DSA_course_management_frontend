@@ -24,9 +24,10 @@
         <input bidvTextfield placeholder="thaimeo@gmail.com" />
       </bidv-input>
       <bidv-error formControlName="email" [error]="[] | bidvFieldError | async"></bidv-error>
+      <bidv-error *ngIf="failed" [error]="failed"></bidv-error>
     </label>
 
-    <label class="">
+    <label>
       <div class="password-label">
         <span class="bidv-text_label-1 bidv-text_semibold">Password</span>
         <span *ngIf="isLogin" class="bidv-text_label-2 forgot-password">Forgot your password?</span>
@@ -43,7 +44,7 @@
       <bidv-error formControlName="confirmPassword" [error]="[] | bidvFieldError | async"></bidv-error>
     </label>
 
-    <button bidvButton size="s" class="submit-btn">
+    <button bidvButton [loading]="loginMutation.isPending()" size="s" class="submit-btn">
       {{isLogin ? loginItem.title : registerItem.title}}
     </button>
 
@@ -51,7 +52,7 @@
       Login with Google
     </button>
 
-    <div class=" bidv-text_label-1 footer">
+    <div class="bidv-text_label-1 footer">
       {{isLogin ? loginItem.switchText : registerItem.switchText}}
       <a routerLink="{{isLogin ? loginItem.switchLink : registerItem.switchLink}}">{{isLogin ? loginItem.switchDesc :
         registerItem.switchDesc}}</a>

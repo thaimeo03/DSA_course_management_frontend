@@ -19,6 +19,7 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
+    console.log('Auth Interceptor');
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
         // Handle call api refresh token

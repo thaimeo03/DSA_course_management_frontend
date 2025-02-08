@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -24,6 +24,8 @@ import {
 } from '@bidv-ui/kit';
 import { of } from 'rxjs';
 import { ROUTES } from 'src/app/constants/routes';
+import { LoginBody } from 'src/app/models/user.model';
+import { UserService } from 'src/app/services/user.service';
 
 interface AuthItem {
   title: string;
@@ -86,6 +88,8 @@ function passwordMatchValidator(): ValidatorFn {
   ],
 })
 export class AuthFormComponent {
+  private userService = inject(UserService);
+
   @Input({ required: true }) isLogin = true;
 
   protected loginItem: AuthItem = {
@@ -137,6 +141,19 @@ export class AuthFormComponent {
   handleSubmit() {
     if (this.isLogin) {
       this.loginForm.markAllAsTouched();
+      if (this.loginForm.invalid) return;
+
+      this.userService.login(this.loginForm.value as LoginBody).subscribe({
+        next: (data) => {
+          console.log(data.message);
+        },
+        error: (err) => {
+          console.log(err);
+          (this.loginForm.get('email') as FormControl).setErrors({
+            failed: err.error.message,
+          });
+        },
+      });
     } else {
       this.registerForm.markAllAsTouched();
     }

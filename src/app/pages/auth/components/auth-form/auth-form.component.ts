@@ -1,5 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input, OnInit } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  Input,
+  OnInit,
+} from '@angular/core';
 import {
   AbstractControl,
   FormControl,
@@ -25,7 +32,7 @@ import {
 import { injectMutation } from '@tanstack/angular-query-experimental';
 import { lastValueFrom, of } from 'rxjs';
 import { ROUTES } from 'src/app/constants/routes';
-import { LoginBody } from 'src/app/models/user.model';
+import { LoginBody, RegisterBody } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
 
 interface AuthItem {
@@ -87,10 +94,12 @@ function passwordMatchValidator(): ValidatorFn {
       },
     },
   ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AuthFormComponent implements OnInit {
   private router = inject(Router);
   private userService = inject(UserService);
+  private cdr = inject(ChangeDetectorRef);
 
   @Input({ required: true }) isLogin = true;
 
@@ -152,6 +161,21 @@ export class AuthFormComponent implements OnInit {
       if (err.status === 0 || err.status === 500) return;
 
       this.failed = err.error.message;
+      this.cdr.markForCheck();
+    },
+  }));
+
+  protected registerMutation = injectMutation(() => ({
+    mutationFn: (body: RegisterBody) =>
+      lastValueFrom(this.userService.register(body)),
+    onSuccess: () => {
+      this.router.navigate([ROUTES.home]);
+    },
+    onError: (err: any) => {
+      if (err.status === 0 || err.status === 500) return;
+
+      this.failed = err.error.message;
+      this.cdr.markForCheck();
     },
   }));
 
@@ -173,7 +197,9 @@ export class AuthFormComponent implements OnInit {
 
       this.loginMutation.mutate(this.loginForm.value as LoginBody);
     } else {
-      this.registerForm.markAllAsTouched();
+      if (this.registerForm.invalid) return;
+
+      this.registerMutation.mutate(this.registerForm.value as RegisterBody);
     }
   }
 }

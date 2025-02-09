@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { LoginBody } from '../models/user.model';
+import { LoginBody, RegisterBody } from '../models/user.model';
 import { MessageResponse } from '../models';
 
 @Injectable({
@@ -11,5 +11,12 @@ export class UserService {
 
   login(loginBody: LoginBody) {
     return this.#httpClient.post<MessageResponse>('/users/login', loginBody);
+  }
+
+  register(registerBody: RegisterBody) {
+    return this.#httpClient.post<MessageResponse>(
+      '/users/register',
+      registerBody,
+    );
   }
 }

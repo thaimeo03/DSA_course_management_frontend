@@ -1,0 +1,53 @@
+nav {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+
+  a {
+    font-weight: 500;
+    padding: 0.5rem;
+
+    &:hover {
+      opacity: 0.8;
+    }
+  }
+}
+
+/* Dropdown Menu */
+.dropdown-menu {
+  background: #fff;
+  border-radius: 8px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  padding: 10px 0;
+}
+
+/* User Email */
+.user-info {
+  padding: 10px 15px;
+  border-bottom: 1px solid #ccc;
+  text-align: center;
+  font-size: 14px;
+  color: #555;
+}
+
+/* Dropdown Items */
+.dropdown-list {
+  li {
+    padding: 8px 15px;
+
+    a {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      text-decoration: none;
+      color: #333;
+      font-size: 14px;
+      transition: color 0.2s;
+
+      &:hover {
+        opacity: 0.8;
+      }
+    }
+  }
+}

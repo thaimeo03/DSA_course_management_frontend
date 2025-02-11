@@ -1,0 +1,29 @@
+<ng-container *ngIf="isAuthenticated; else anonymous">
+  <div bidvDropdownHover [bidvDropdown]="content">
+    <bidv-avatar-navigation
+      src="/avatar.jpg"
+      titleName="Trần Hồng Thái"
+      class="_info"
+      [description]="['Học viên']"
+    />
+  </div>
+  <ng-template #content>
+    <div class="dropdown-menu">
+      <div class="user-info">
+        <p class="user-email">tran.hongthai&#64;xample.com</p>
+      </div>
+      <ul class="dropdown-list">
+        <li><a [routerLink]="[loginLink]">Tài khoản</a></li>
+        <li><a [routerLink]="[loginLink]">Đơn mua</a></li>
+        <li><a [routerLink]="[loginLink]">Đăng xuất</a></li>
+      </ul>
+    </div>
+  </ng-template>
+</ng-container>
+
+<ng-template #anonymous>
+  <nav>
+    <a [routerLink]="[loginLink]">Đăng nhập</a>
+    <a [routerLink]="[registerLink]">Đăng ký</a>
+  </nav>
+</ng-template>

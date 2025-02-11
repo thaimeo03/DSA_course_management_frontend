@@ -50,6 +50,10 @@
                 "glob": "**/*",
                 "input": "node_modules/@bidv-ui/icons/src",
                 "output": "assets/bidv-ui/icons"
+              },
+              {
+                "glob": "**/*",
+                "input": "src/assets"
               }
             ],
             "styles": [

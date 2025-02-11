@@ -15,6 +15,7 @@ import {
 } from '@bidv-ui/layout';
 import * as THREE from 'three';
 import GLOBE from 'vanta/dist/vanta.globe.min';
+import { MainLayoutComponent } from '../components/main-layout/main-layout.component';
 
 @Component({
   selector: 'app-auth',
@@ -25,6 +26,7 @@ import GLOBE from 'vanta/dist/vanta.globe.min';
     BidvCardContentModule,
     BidvCardActionModule,
     BidvButtonModule,
+    MainLayoutComponent,
   ],
   templateUrl: './auth.component.html',
   styleUrl: './auth.component.scss',

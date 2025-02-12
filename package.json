@@ -19,6 +19,7 @@
     "@angular/platform-browser": "^19.0.0",
     "@angular/platform-browser-dynamic": "^19.0.0",
     "@angular/router": "^19.0.0",
+    "@bidv-ui/addon-commerce": "^1.1.7",
     "@bidv-ui/cdk": "^1.1.7",
     "@bidv-ui/core": "^1.1.7",
     "@bidv-ui/experimental": "^1.1.7",

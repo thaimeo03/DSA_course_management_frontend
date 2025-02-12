@@ -1,0 +1,29 @@
+<section class="sorting-container">
+  <form [formGroup]="sortingForm">
+    <span class="bidv-text_label-1 bidv-space_right-4">Sắp xếp theo</span>
+
+    <bidv-select
+      bidvTextfieldSize="s"
+      formControlName="sortByCreatedAt"
+      class="item-select"
+    >
+      Created at
+      <bidv-data-list-wrapper
+        *bidvDataList
+        [items]="sortByCreatedAts"
+      ></bidv-data-list-wrapper>
+    </bidv-select>
+
+    <bidv-select
+      bidvTextfieldSize="s"
+      formControlName="sortByPrice"
+      class="item-select price"
+    >
+      Price
+      <bidv-data-list-wrapper
+        *bidvDataList
+        [items]="sortByPrices"
+      ></bidv-data-list-wrapper>
+    </bidv-select>
+  </form>
+</section>

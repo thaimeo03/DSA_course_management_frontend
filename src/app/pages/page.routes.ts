@@ -13,15 +13,15 @@ export const pageRoutes: Route[] = [
         loadComponent: () =>
           import('./home/home.component').then((m) => m.HomeComponent),
       },
-      {
-        path: '**',
-        redirectTo: '',
-      },
     ],
     title: 'Home',
   },
   {
     path: 'auth',
     loadChildren: () => import('./auth/auth.routes').then((m) => m.authRoutes),
+  },
+  {
+    path: '**',
+    redirectTo: '',
   },
 ];

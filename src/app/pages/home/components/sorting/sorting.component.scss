@@ -1,0 +1,23 @@
+.sorting-container {
+  display: flex;
+  justify-content: end;
+  align-items: center;
+}
+
+form {
+  display: flex;
+  align-items: center;
+  padding: 8px 20px;
+  background-color: var(--colors-gray-50);
+  border: 1px solid #ccc;
+  border-radius: var(--corner-radius-m);
+
+  .item-select {
+    width: 140px;
+    margin-left: 0.5rem;
+  }
+
+  .item-select.price {
+    width: 200px;
+  }
+}

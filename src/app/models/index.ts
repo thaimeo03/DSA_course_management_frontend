@@ -1,3 +1,9 @@
+// Common model
+export interface SelectItem {
+  label: string;
+  value: any;
+}
+
 // Message for response success or error
 export interface MessageResponse {
   message: string | string[];

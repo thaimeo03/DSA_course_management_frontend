@@ -1,0 +1,10 @@
+.course-list-container {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1rem;
+
+  .course-item-card {
+    grid-column: span 3 / span 3;
+  }
+}

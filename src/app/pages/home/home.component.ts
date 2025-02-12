@@ -1,9 +1,8 @@
 import { Component } from '@angular/core';
-import { MainLayoutComponent } from '../components/main-layout/main-layout.component';
 
 @Component({
   selector: 'app-home',
-  imports: [MainLayoutComponent],
+  imports: [],
   templateUrl: './home.component.html',
   styleUrl: './home.component.scss',
 })

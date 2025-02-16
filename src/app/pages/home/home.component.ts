@@ -3,6 +3,7 @@ import { CourseListComponent } from './components/course-list/course-list.compon
 import { SortingComponent } from './components/sorting/sorting.component';
 import { LinkItem } from 'src/app/models';
 import { BreadcrumbsComponent } from '../components/breadcrumbs/breadcrumbs.component';
+import { ROUTES } from 'src/app/constants/routes';
 
 @Component({
   selector: 'app-home',
@@ -14,7 +15,7 @@ export class HomeComponent {
   breadcrumbs: LinkItem[] = [
     {
       label: 'Home',
-      link: '',
+      link: ROUTES.home,
     },
   ];
 }

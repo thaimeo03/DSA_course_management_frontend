@@ -1,0 +1,30 @@
+.title-box {
+  margin-bottom: 1rem;
+
+  .title {
+    margin: 0.5rem 0 0.25rem 0;
+  }
+}
+
+.tab-layout {
+  margin-top: 1.5rem;
+  display: flex;
+
+  .left {
+    width: 16.666667%;
+
+    .tab-item {
+      font-size: 16px;
+      font-weight: 500;
+    }
+  }
+
+  .content {
+    width: 83.333333%;
+    margin-left: 2rem;
+  }
+}
+
+.active {
+  color: var(--colors-primary-600);
+}

@@ -13,17 +13,22 @@
         <p class="user-email">tran.hongthai&#64;xample.com</p>
       </div>
       <ul class="dropdown-list">
-        <li><a [routerLink]="[loginLink]">My account</a></li>
-        <li><a [routerLink]="[loginLink]">Order</a></li>
-        <li><a [routerLink]="[loginLink]">Logout</a></li>
+        <ng-container *ngFor="let item of authenticatedNavLinks">
+          <li>
+            <a [routerLink]="[item.link]">{{ item.label }}</a>
+          </li>
+        </ng-container>
       </ul>
     </div>
   </ng-template>
 </ng-container>
 
 <ng-template #anonymous>
-  <nav>
-    <a [routerLink]="[loginLink]">Login</a>
-    <a [routerLink]="[registerLink]">Register</a>
-  </nav>
+  <ul>
+    <ng-container *ngFor="let item of anonymousNavLinks">
+      <li>
+        <a [routerLink]="[item.link]">{{ item.label }}</a>
+      </li>
+    </ng-container>
+  </ul>
 </ng-template>

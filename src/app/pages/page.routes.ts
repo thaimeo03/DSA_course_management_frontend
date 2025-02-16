@@ -22,6 +22,11 @@ export const pageRoutes: Route[] = [
           ),
         title: 'Purchased course',
       },
+      {
+        path: 'user',
+        loadChildren: () =>
+          import('./user/user.routes').then((m) => m.userRoutes),
+      },
     ],
     title: 'Home',
   },

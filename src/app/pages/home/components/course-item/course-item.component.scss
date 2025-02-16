@@ -26,8 +26,15 @@
 
 .card_content {
   padding-bottom: 1.5rem;
+
+  .card_info {
+    margin-top: 0.5rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
 }
 
 .price-text {
-  margin-top: 0.5rem;
+  color: var(--colors-red-400);
 }

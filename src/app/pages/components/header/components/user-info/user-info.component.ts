@@ -17,7 +17,7 @@ import { ROUTES } from 'src/app/constants/routes';
   styleUrl: './user-info.component.scss',
 })
 export class UserInfoComponent {
+  protected isAuthenticated = true;
   protected loginLink = ROUTES.login;
   protected registerLink = ROUTES.register;
-  protected isAuthenticated = true;
 }

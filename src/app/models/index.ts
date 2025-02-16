@@ -4,6 +4,11 @@ export interface SelectItem {
   value: any;
 }
 
+export interface LinkItem {
+  label: string;
+  link: string;
+}
+
 // Message for response success or error
 export interface MessageResponse {
   message: string | string[];

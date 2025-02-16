@@ -1,5 +1,17 @@
-<div class="course-list-container">
-  <ng-container *ngFor="let item of courseList">
-    <app-course-item class="course-item-card" />
-  </ng-container>
-</div>
+<section>
+  <div class="course-list-container">
+    <ng-container *ngFor="let item of courseList; index as i">
+      <app-course-item
+        [purchasedIndex]="purchasedIndex"
+        [index]="i"
+        class="course-item-card"
+      />
+    </ng-container>
+  </div>
+
+  <bidv-pagination
+    [length]="pageCount"
+    [index]="currentPage"
+    (indexChange)="goToPage($event)"
+  ></bidv-pagination>
+</section>

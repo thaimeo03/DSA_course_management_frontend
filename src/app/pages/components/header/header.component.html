@@ -5,8 +5,14 @@
         <img src="/b-one-logo.svg" />
       </span>
 
-      <a [routerLink]="[homeLink]">Trang chủ</a>
-      <a [routerLink]="[homeLink]">Khóa học đã mua</a>
+      <ng-container *ngFor="let item of navLinks">
+        <a
+          [routerLink]="[item.link]"
+          routerLinkActive="active"
+          [routerLinkActiveOptions]="{ exact: true }"
+          >{{ item.label }}</a
+        >
+      </ng-container>
     </nav>
 
     <app-user-info />

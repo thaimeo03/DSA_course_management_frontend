@@ -8,7 +8,7 @@ nav {
     padding: 0.5rem;
 
     &:hover {
-      opacity: 0.8;
+      color: var(--colors-primary-600);
     }
   }
 }
@@ -46,7 +46,7 @@ nav {
       transition: color 0.2s;
 
       &:hover {
-        opacity: 0.8;
+        color: var(--colors-primary-600);
       }
     }
   }

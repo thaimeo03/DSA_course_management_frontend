@@ -1,3 +1,9 @@
 {
-  "cSpell.words": ["bidv"]
+  "cSpell.words": ["bidv"],
+  "angular-schematics.schematicsDefaultOptions": {
+    "angular-*": {
+      "style": "scss",
+      "externalTemplate": true
+    }
+  }
 }

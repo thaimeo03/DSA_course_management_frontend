@@ -1,0 +1,12 @@
+<bidv-breadcrumbs>
+  <ng-container *ngFor="let item of breadcrumbs; index as i">
+    <a *bidvItem bidvLink [routerLink]="item.link">
+      <bidv-svg
+        *ngIf="i === 0"
+        src="bidvIconHome"
+        style="width: 16px"
+      ></bidv-svg>
+      {{ item.label }}
+    </a>
+  </ng-container>
+</bidv-breadcrumbs>

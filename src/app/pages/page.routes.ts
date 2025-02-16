@@ -12,6 +12,15 @@ export const pageRoutes: Route[] = [
         path: '',
         loadComponent: () =>
           import('./home/home.component').then((m) => m.HomeComponent),
+        title: 'Home',
+      },
+      {
+        path: 'purchased-course',
+        loadComponent: () =>
+          import('./purchased-course/purchased-course.component').then(
+            (m) => m.PurchasedCourseComponent,
+          ),
+        title: 'Purchased course',
       },
     ],
     title: 'Home',

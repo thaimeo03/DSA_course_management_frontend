@@ -1,15 +1,32 @@
 import { Component } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { BidvContainerDirective } from '@bidv-ui/layout';
 import { ROUTES } from 'src/app/constants/routes';
 import { UserInfoComponent } from './components/user-info/user-info.component';
+import { CommonModule } from '@angular/common';
+import { LinkItem } from 'src/app/models';
 
 @Component({
   selector: 'app-header',
-  imports: [BidvContainerDirective, RouterLink, UserInfoComponent],
+  imports: [
+    CommonModule,
+    BidvContainerDirective,
+    RouterLink,
+    UserInfoComponent,
+    RouterLinkActive,
+  ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  protected homeLink = ROUTES.home;
+  protected navLinks: LinkItem[] = [
+    {
+      label: 'Home',
+      link: ROUTES.home,
+    },
+    {
+      label: 'Purchased course',
+      link: ROUTES.purchasedCourse,
+    },
+  ];
 }

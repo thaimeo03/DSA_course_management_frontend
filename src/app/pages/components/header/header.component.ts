@@ -19,14 +19,21 @@ import { LinkItem } from 'src/app/models';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
+  protected isAuthenticated = true;
+
   protected navLinks: LinkItem[] = [
     {
       label: 'Home',
       link: ROUTES.home,
     },
-    {
-      label: 'Purchased course',
-      link: ROUTES.purchasedCourse,
-    },
   ];
+
+  constructor() {
+    if (this.isAuthenticated) {
+      this.navLinks.push({
+        label: 'Purchased course',
+        link: ROUTES.purchasedCourse,
+      });
+    }
+  }
 }

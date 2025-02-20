@@ -24,11 +24,9 @@
 </ng-container>
 
 <ng-template #anonymous>
-  <ul>
+  <nav class="anonymous">
     <ng-container *ngFor="let item of anonymousNavLinks">
-      <li>
-        <a [routerLink]="[item.link]">{{ item.label }}</a>
-      </li>
+      <a [routerLink]="[item.link]">{{ item.label }}</a>
     </ng-container>
-  </ul>
+  </nav>
 </ng-template>

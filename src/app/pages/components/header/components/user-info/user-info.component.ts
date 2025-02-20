@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { BidvDropdownModule } from '@bidv-ui/core';
 import { BidvAvatarNavigationComponent } from '@bidv-ui/kit';
@@ -18,7 +18,8 @@ import { LinkItem } from 'src/app/models';
   styleUrl: './user-info.component.scss',
 })
 export class UserInfoComponent {
-  protected isAuthenticated = true;
+  @Input({ required: true }) isAuthenticated!: boolean;
+
   protected loginLink = ROUTES.login;
   protected registerLink = ROUTES.register;
 

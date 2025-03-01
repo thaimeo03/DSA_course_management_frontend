@@ -19,7 +19,8 @@
     "target": "ES2022",
     "module": "ES2022",
     "paths": {
-      "@env/*": ["src/environments/*"]
+      "@env/*": ["src/environments/*"],
+      "@app/*": ["src/app/*"]
     }
   },
   "angularCompilerOptions": {

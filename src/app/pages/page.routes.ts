@@ -27,6 +27,11 @@ export const pageRoutes: Route[] = [
         loadChildren: () =>
           import('./user/user.routes').then((m) => m.userRoutes),
       },
+      {
+        path: 'course/:id',
+        loadComponent: () =>
+          import('./course/course.component').then((m) => m.CourseComponent),
+      },
     ],
     title: 'Home',
   },

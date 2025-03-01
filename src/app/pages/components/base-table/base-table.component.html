@@ -1,0 +1,100 @@
+<ng-container *ngIf="rowData.length > 0; else noDataTemplate">
+  <ag-grid-angular
+    style="height: 100%"
+    class="ag-theme-alpine"
+    [columnDefs]="colDefs"
+    [rowData]="rowData"
+    [rowHeight]="rowHeight"
+    [defaultColDef]="defaultColDef"
+    [gridOptions]="gridOptions"
+    enableCellTextSelection
+  >
+  </ag-grid-angular>
+
+  <div class="pagination" *ngIf="!hidePagination">
+    <bidv-pagination-select-page
+      [index]="index"
+      [itemPages]="itemPages"
+      [itemPerPages]="itemPerPages"
+      [total]="length"
+      [showCount]="false"
+      [showSearchPage]="false"
+      (handleSelectPage)="selectPage($event)"
+      (indexChange)="goToPage($event)"
+    />
+  </div>
+</ng-container>
+<ng-template #noDataTemplate>
+  <div class="_no-data-table">
+    <span class="_img">
+      <svg
+        width="100"
+        height="85"
+        viewBox="0 0 100 85"
+        fill="none"
+        xmlns="http://www.w3.org/2000/svg"
+      >
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M92 5C96.4183 5 100 8.58172 100 13V21C100 20.9764 99.9999 20.9529 99.9997 20.9294V17C99.9997 12.5817 96.418 9 91.9997 9H39.1399C38.7086 8.24688 38.3953 7.41271 38.2273 6.52011C38.1278 5.99149 37.9777 5.48324 37.7825 5H92Z"
+          fill="black"
+          fill-opacity="0.2"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M92 5C96.4183 5 100 8.58172 100 13V21C100 20.9764 99.9999 20.9529 99.9997 20.9294V17C99.9997 12.5817 96.418 9 91.9997 9H39.1399C38.7086 8.24688 38.3953 7.41271 38.2273 6.52011C38.1278 5.99149 37.9777 5.48324 37.7825 5H92Z"
+          fill="white"
+          fill-opacity="0.2"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M99.9997 21V17C99.9997 12.5817 96.418 9 91.9997 9H39.1396C40.5242 11.4175 43.1249 13 46.0404 13H91.9997C96.418 13 99.9997 16.5817 99.9997 21Z"
+          fill="black"
+          fill-opacity="0.1"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M99.9997 21V17C99.9997 12.5817 96.418 9 91.9997 9H39.1396C40.5242 11.4175 43.1249 13 46.0404 13H91.9997C96.418 13 99.9997 16.5817 99.9997 21Z"
+          fill="white"
+          fill-opacity="0.1"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M0 8C0 3.58172 3.58172 0 8 0H30.3654C34.213 0 37.5156 2.73893 38.2273 6.52011C38.9347 10.278 42.2169 13 46.0408 13H92C96.4183 13 100 16.5817 100 21V77C100 81.4183 96.4183 85 92 85H43.3536H8C3.58172 85 0 81.4183 0 77V21V8ZM52 61H64H65V60.917C67.8377 60.441 70 57.973 70 55C70 51.6863 67.3137 49 64 49C64 42.3726 58.6274 37 52 37C46.6219 37 42.0702 40.5379 40.5452 45.4134C39.7457 45.1453 38.8898 45 38 45C33.5817 45 30 48.5817 30 53C30 57.4183 33.5817 61 38 61H52Z"
+          fill="black"
+          fill-opacity="0.05"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M0 8C0 3.58172 3.58172 0 8 0H30.3654C34.213 0 37.5156 2.73893 38.2273 6.52011C38.9347 10.278 42.2169 13 46.0408 13H92C96.4183 13 100 16.5817 100 21V77C100 81.4183 96.4183 85 92 85H43.3536H8C3.58172 85 0 81.4183 0 77V21V8ZM52 61H64H65V60.917C67.8377 60.441 70 57.973 70 55C70 51.6863 67.3137 49 64 49C64 42.3726 58.6274 37 52 37C46.6219 37 42.0702 40.5379 40.5452 45.4134C39.7457 45.1453 38.8898 45 38 45C33.5817 45 30 48.5817 30 53C30 57.4183 33.5817 61 38 61H52Z"
+          fill="white"
+          fill-opacity="0.05"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M64 61H52H38C33.5817 61 30 57.4183 30 53C30 48.5817 33.5817 45 38 45C38.8898 45 39.7457 45.1453 40.5452 45.4134C42.0702 40.5379 46.6219 37 52 37C58.6274 37 64 42.3726 64 49C67.3137 49 70 51.6863 70 55C70 57.973 67.8377 60.441 65 60.917V61H64Z"
+          fill="black"
+          fill-opacity="0.2"
+        />
+        <path
+          fill-rule="evenodd"
+          clip-rule="evenodd"
+          d="M64 61H52H38C33.5817 61 30 57.4183 30 53C30 48.5817 33.5817 45 38 45C38.8898 45 39.7457 45.1453 40.5452 45.4134C42.0702 40.5379 46.6219 37 52 37C58.6274 37 64 42.3726 64 49C67.3137 49 70 51.6863 70 55C70 57.973 67.8377 60.441 65 60.917V61H64Z"
+          fill="white"
+          fill-opacity="0.2"
+        />
+      </svg>
+    </span>
+    <div class="_context">
+      <span>Không có dữ liệu</span>
+      <span> Hiện chưa có dữ liệu trong khoảng thời gian bạn chọn </span>
+    </div>
+  </div>
+</ng-template>

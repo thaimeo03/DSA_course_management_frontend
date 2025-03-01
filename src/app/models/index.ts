@@ -9,6 +9,13 @@ export interface LinkItem {
   link: string;
 }
 
+export interface BadgeItem {
+  label: string;
+  value: any;
+  icon?: string;
+  class?: string;
+}
+
 // Message for response success or error
 export interface MessageResponse {
   message: string | string[];

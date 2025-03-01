@@ -6,4 +6,10 @@
   <app-sorting />
 
   <app-course-list />
+
+  <bidv-pagination
+    [length]="pageCount"
+    [index]="currentPage"
+    (indexChange)="goToPage($event)"
+  ></bidv-pagination>
 </div>

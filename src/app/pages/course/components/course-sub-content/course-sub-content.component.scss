@@ -1,0 +1,17 @@
+.sub-content-container {
+  margin-top: 1.5rem;
+}
+
+.tab-item {
+  font-size: 16px;
+  width: 100%;
+  max-width: 33.333333%;
+  justify-content: center;
+}
+
+bidv-tabs[data-size='m'] + [bidvTab],
+bidv-tabs[data-size='m'] [bidvTab],
+[bidvTabs][data-size='m'] [bidvTab] {
+  margin-left: 0;
+  font-size: 16px;
+}

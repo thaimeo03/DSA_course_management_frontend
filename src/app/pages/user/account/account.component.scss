@@ -16,12 +16,6 @@ form {
       column-gap: 0.5rem;
     }
 
-    .badge-red {
-      --t-background-color: var(--background-semantic-negative-subtle);
-      --t-text-color: var(--text-semantic-negative-intermediate);
-      --t-icon-color: var(--foreground-semantic-negative-intermediate);
-    }
-
     .submit-btn {
       width: fit-content;
     }

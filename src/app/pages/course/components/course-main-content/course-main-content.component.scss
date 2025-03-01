@@ -1,0 +1,51 @@
+.title {
+  margin: 0.5rem 0;
+}
+
+.sub-title {
+  display: flex;
+  column-gap: 2rem;
+}
+
+.intro-container {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 2rem;
+
+  .video-box {
+    grid-column: span 8 / span 8;
+  }
+
+  .info-box {
+    grid-column: span 4 / span 4;
+  }
+}
+
+.invited-info {
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: var(--corner-radius-l);
+
+  ul {
+    margin-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.75rem;
+
+    li {
+      display: flex;
+      align-items: center;
+      column-gap: 0.5rem;
+    }
+  }
+
+  .buy-btn {
+    margin-top: 1rem;
+    width: 100%;
+  }
+}
+
+.description {
+  margin-top: 2rem;
+}

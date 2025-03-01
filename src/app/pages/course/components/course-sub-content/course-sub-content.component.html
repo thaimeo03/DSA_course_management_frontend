@@ -1,0 +1,30 @@
+<section class="sub-content-container">
+  <bidv-tabs [(activeItemIndex)]="activeItemIndex">
+    <button bidvTab iconLeft="bidvIconVideo" class="tab-item">
+      Course lecture content
+    </button>
+    <button bidvTab iconLeft="bidvIconDocumentFlowchart" class="tab-item">
+      Problems
+    </button>
+    <button bidvTab iconLeft="bidvIconHeart" class="tab-item">
+      Related courses
+    </button>
+  </bidv-tabs>
+
+  <!-- Tab content -->
+  <div *ngIf="activeItemIndex === 0">
+    <app-lecture-list [clickable]="false" />
+  </div>
+
+  <div *ngIf="activeItemIndex === 1">
+    <app-problem-table
+      [hideStatus]="false"
+      [hidePagination]="true"
+      [rowLink]="false"
+    />
+  </div>
+
+  <div *ngIf="activeItemIndex === 2">
+    <app-course-list />
+  </div>
+</section>

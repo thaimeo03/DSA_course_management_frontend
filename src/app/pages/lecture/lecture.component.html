@@ -1,0 +1,80 @@
+<div>
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <h1 class="bidv-text_headline-2 title">Thông tin khóa học</h1>
+  <span>Updated at: 02/2025</span>
+
+  <section class="lecture-container">
+    <div class="lecture-content">
+      <iframe
+        *ngIf="videoUrl"
+        [src]="videoUrl"
+        width="100%"
+        height="612"
+        frameborder="0"
+        allowfullscreen
+      ></iframe>
+
+      <div class="next-lecture">
+        <button iconRight="bidvIconChevronRight" bidvButton>Bài tiếp</button>
+      </div>
+
+      <div class="bidv-text_headline-8 lecture-desc">
+        Lorem ipsum dolor sit amet consectetur adipisicing elit. Modi,
+        voluptatibus minus enim rem culpa impedit dolorem illum ea, fuga
+        dignissimos porro nam exercitationem nostrum ad animi quasi, facilis
+        adipisci. Sequi? Nam dolor repellat quia excepturi quis? Blanditiis,
+        voluptas magnam totam temporibus culpa maiores fuga nulla corporis
+        voluptatum quas consequatur cupiditate similique repellat quidem
+        molestias eum distinctio porro! Tempora, sunt maiores. Ullam ratione ab
+        saepe esse quaerat asperiores iste praesentium possimus expedita hic cum
+        dolores iusto qui, tempore tempora, ipsam voluptatibus quis perspiciatis
+        nemo commodi repellendus quam laboriosam delectus? Alias, blanditiis.
+        Voluptates, non? Vel qui repellat, cupiditate quas veritatis illo
+        aliquam! Odio, corrupti. Fugit consectetur cumque beatae natus eum ut
+        quo. Deleniti ab magni provident quam omnis quas exercitationem et
+        ipsam? Vitae numquam hic voluptates amet expedita dicta delectus
+        distinctio praesentium, libero illo rem laborum! A perspiciatis ipsa quo
+        magnam aliquam, earum blanditiis veritatis laudantium impedit fugiat
+        fuga? Quaerat, amet ipsum? Ea fuga eos repellat beatae cumque cum
+        cupiditate consequatur hic ipsum sapiente totam, nemo, dicta incidunt
+        voluptates nulla blanditiis vero. Quae maiores obcaecati nisi odit quos
+        saepe et? Nisi, autem. Ex non distinctio laboriosam voluptates quia
+        molestiae exercitationem ad, sed sunt ipsa quibusdam quod! Ab quia omnis
+        qui id aut fugit harum! Perferendis illum modi fuga sunt esse qui
+        repellat. Ad, facilis. Mollitia veritatis quas consectetur est vel
+        cupiditate a, accusamus inventore molestiae eum sint rem quae odit
+        officia exercitationem eveniet possimus expedita ullam. Similique quam
+        possimus at dolore culpa. Id corrupti, quod ex ab ipsa quidem ratione,
+        alias eum quas ea ipsum voluptatum numquam rem officiis quibusdam fuga a
+        pariatur recusandae delectus temporibus provident cum? Nemo voluptates
+        sunt sequi! Impedit voluptas est magni, omnis distinctio dolor molestiae
+        nihil dignissimos inventore, esse iusto, architecto ut facere. Sed
+        necessitatibus atque velit earum quo, nulla animi esse sapiente dolorem,
+        adipisci magnam dignissimos!
+      </div>
+
+      <div class="document-box">
+        <h2 class="bidv-text_title-1 bidv-text_semibold">Tài liệu</h2>
+
+        <div *ngIf="documents" class="document-list">
+          <ng-container *ngFor="let item of documents">
+            <a [href]="item.link" download class="document-item">
+              <img
+                class="document-icon"
+                [src]="item.iconSrc"
+                [alt]="item.label"
+              />
+
+              <div class="bidv-text_body-2">{{ item.label }}</div>
+            </a>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <div class="lecture-list">
+      <app-lecture-list [clickable]="true" [scrollable]="true" />
+    </div>
+  </section>
+</div>

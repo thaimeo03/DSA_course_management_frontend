@@ -1,6 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ROUTES } from '@app/constants/routes';
+import { extractVideoId } from '@app/utils/extract-data';
 import { BidvButtonModule, BidvSvgModule } from '@bidv-ui/core';
 
 @Component({
@@ -11,10 +14,12 @@ import { BidvButtonModule, BidvSvgModule } from '@bidv-ui/core';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CrouseMainContentComponent {
+  private router = inject(Router);
+  private activatedRoute = inject(ActivatedRoute);
   private sanitizer = inject(DomSanitizer);
 
   protected videoUrl!: SafeResourceUrl;
-  protected isPurchased = false;
+  protected isPurchased = true;
 
   protected invitedInfo = [
     {
@@ -47,17 +52,21 @@ export class CrouseMainContentComponent {
     this.initVideo('https://youtu.be/K5HtEA8Egms');
   }
 
+  // Display video
   private initVideo(url: string) {
-    const videoId = this.extractVideoId(url);
+    const videoId = extractVideoId(url);
     this.videoUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
       `https://www.youtube.com/embed/${videoId}`,
     );
   }
 
-  private extractVideoId(url: string): string {
-    const regExp =
-      /(?:https?:\/\/)?(?:www\.)?(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/;
-    const match = url.match(regExp);
-    return match ? match[1] : '';
+  // Handlers
+  protected handleAction() {
+    if (this.isPurchased) {
+      this.router.navigate([ROUTES.lecture], {
+        relativeTo: this.activatedRoute,
+      });
+    } else {
+    }
   }
 }

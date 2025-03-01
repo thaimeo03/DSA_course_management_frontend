@@ -24,7 +24,12 @@
             <li><bidv-svg [src]="item.icon" /> {{ item.title }}</li>
           </ng-container>
         </ul>
-        <button bidvButton variant="filled" class="buy-btn">
+        <button
+          bidvButton
+          (click)="handleAction()"
+          variant="filled"
+          class="buy-btn"
+        >
           {{ isPurchased ? 'Tham gia học' : 'Mua ngay' }}
         </button>
       </div>

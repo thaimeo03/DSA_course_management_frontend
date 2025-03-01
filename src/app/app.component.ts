@@ -6,7 +6,7 @@ import { BidvRootModule } from '@bidv-ui/core';
   selector: 'app-root',
   imports: [RouterOutlet, BidvRootModule],
   template: `
-    <bidv-root>
+    <bidv-root style="height: 100%">
       <!-- content of your app -->
       <router-outlet></router-outlet>
 

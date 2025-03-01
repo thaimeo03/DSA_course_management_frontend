@@ -32,6 +32,12 @@ export const pageRoutes: Route[] = [
         loadComponent: () =>
           import('./course/course.component').then((m) => m.CourseComponent),
       },
+      {
+        path: 'course/:id/lecture',
+        loadComponent: () =>
+          import('./lecture/lecture.component').then((m) => m.LectureComponent),
+        title: 'Lecture',
+      },
     ],
     title: 'Home',
   },

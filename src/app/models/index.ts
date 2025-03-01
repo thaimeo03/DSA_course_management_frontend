@@ -1,3 +1,5 @@
+import { UrlTree } from '@angular/router';
+
 // Common model
 export interface SelectItem {
   label: string;
@@ -6,7 +8,13 @@ export interface SelectItem {
 
 export interface LinkItem {
   label: string;
+  link?: string | any[] | UrlTree | undefined;
+}
+
+export interface DocumentItem {
+  label: string;
   link: string;
+  iconSrc?: string;
 }
 
 export interface BadgeItem {

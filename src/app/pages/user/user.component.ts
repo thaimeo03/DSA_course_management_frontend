@@ -60,7 +60,7 @@ export class UserComponent implements OnInit {
     });
   }
 
-  protected onTabClick(link: string) {
+  protected onTabClick(link: any) {
     this.router.navigate([link]);
   }
 }

@@ -5,5 +5,6 @@ export const ROUTES = {
   purchasedCourse: '/purchased-course',
   account: '/user/account',
   order: '/user/order',
-  detailCourse: '/course/:id',
+  detailCourse: '/course',
+  lecture: 'lecture',
 } as const;

@@ -1,0 +1,62 @@
+.title {
+  margin-bottom: 0.5rem;
+}
+
+.lecture-container {
+  margin-top: 1.5rem;
+  display: grid;
+  grid-template-columns: repeat(12, minmax(0, 1fr));
+  gap: 1rem;
+
+  .lecture-content {
+    grid-column: span 9 / span 9;
+  }
+
+  .lecture-list {
+    grid-column: span 3 / span 3;
+  }
+}
+
+.next-lecture {
+  display: flex;
+  justify-content: end;
+}
+
+.lecture-desc {
+  margin-top: 1rem;
+}
+
+.document-box {
+  margin-top: 1rem;
+  padding: 1rem;
+  border: 1px solid #ccc;
+  border-radius: var(--corner-radius-l);
+
+  .document-list {
+    margin-top: 0.5rem;
+    display: flex;
+    flex-direction: column;
+    row-gap: 0.5rem;
+
+    .document-item {
+      display: flex;
+      align-items: center;
+      column-gap: 0.5rem;
+      padding: 0.5rem;
+      background: var(--colors-gray-100);
+      border: 1px solid #ccc;
+      border-radius: var(--corner-radius-l);
+      cursor: pointer;
+      transition: all 0.2s linear;
+
+      &:hover {
+        background: #fff;
+      }
+
+      .document-icon {
+        width: 32px;
+        height: 32px;
+      }
+    }
+  }
+}

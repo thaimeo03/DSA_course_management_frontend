@@ -5,13 +5,3 @@
   padding: 1rem 0;
   border-bottom: 1px solid #ccc;
 }
-
-.clickable {
-  cursor: pointer;
-  transition: all 0.2s linear;
-
-  &:hover {
-    text-decoration: underline;
-    color: var(--colors-primary-600);
-  }
-}

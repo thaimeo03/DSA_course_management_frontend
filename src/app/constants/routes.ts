@@ -7,4 +7,5 @@ export const ROUTES = {
   order: '/user/order',
   detailCourse: '/course',
   lecture: 'lecture',
+  problem: 'problem',
 } as const;

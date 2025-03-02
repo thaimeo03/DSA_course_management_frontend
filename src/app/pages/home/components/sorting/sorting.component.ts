@@ -1,3 +1,4 @@
+import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
@@ -14,6 +15,7 @@ import { SelectItem } from 'src/app/models';
 @Component({
   selector: 'app-sorting',
   imports: [
+    CommonModule,
     ReactiveFormsModule,
     BidvSelectModule,
     BidvDataListModule,

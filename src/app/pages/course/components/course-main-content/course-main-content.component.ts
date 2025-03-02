@@ -69,4 +69,12 @@ export class CrouseMainContentComponent {
     } else {
     }
   }
+
+  protected handleNavigateProblem() {
+    if (this.isPurchased) {
+      this.router.navigate([ROUTES.problem], {
+        relativeTo: this.activatedRoute,
+      });
+    }
+  }
 }

@@ -8,7 +8,7 @@ import {
 import { BreadcrumbsComponent } from '../components/breadcrumbs/breadcrumbs.component';
 import { DocumentItem, LinkItem } from '@app/models';
 import { ROUTES } from '@app/constants/routes';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { extractFileType, extractVideoId } from '@app/utils/extract-data';
 import {
   DomSanitizer,
@@ -17,8 +17,7 @@ import {
 } from '@angular/platform-browser';
 import { LectureListComponent } from '../components/lecture-list/lecture-list.component';
 import { BidvButtonModule, BidvSvgModule } from '@bidv-ui/core';
-import { DocumentType } from '@app/enums/document.enum';
-import { DOC_ICONS } from '@app/constants/document.constant';
+import { DOC_ICONS } from '@app/constants/document';
 
 @Component({
   selector: 'app-lecture',
@@ -34,6 +33,7 @@ import { DOC_ICONS } from '@app/constants/document.constant';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class LectureComponent implements OnInit {
+  private router = inject(Router);
   private activatedRoute = inject(ActivatedRoute);
   private titleService = inject(Title);
   private sanitizer = inject(DomSanitizer);
@@ -99,5 +99,14 @@ export class LectureComponent implements OnInit {
       ...document,
       iconSrc: DOC_ICONS[extractFileType(document.link)],
     }));
+  }
+
+  // Handlers
+  protected handleNavigateProblem() {
+    this.router.navigate([ROUTES.detailCourse, this.courseId, ROUTES.problem]);
+  }
+
+  protected handleSelectLecture(id: string) {
+    console.log(id);
   }
 }

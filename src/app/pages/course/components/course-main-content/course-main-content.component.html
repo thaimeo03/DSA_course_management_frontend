@@ -28,9 +28,18 @@
           bidvButton
           (click)="handleAction()"
           variant="filled"
-          class="buy-btn"
+          class="action-btn"
         >
           {{ isPurchased ? 'Tham gia học' : 'Mua ngay' }}
+        </button>
+        <button
+          *ngIf="isPurchased"
+          bidvButton
+          (click)="handleNavigateProblem()"
+          variant="outlined"
+          class="action-btn"
+        >
+          Thực hành
         </button>
       </div>
     </div>

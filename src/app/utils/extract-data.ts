@@ -1,4 +1,4 @@
-import { DocumentType } from '@app/enums/document.enum';
+import { DocumentType } from '@app/enums/document';
 
 export const extractVideoId = (url: string): string => {
   const regExp =

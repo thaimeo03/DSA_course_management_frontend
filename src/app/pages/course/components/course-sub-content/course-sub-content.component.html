@@ -18,9 +18,10 @@
 
   <div *ngIf="activeItemIndex === 1">
     <app-problem-table
-      [hideStatus]="false"
+      [hideStatus]="true"
       [hidePagination]="true"
       [rowLink]="false"
+      [hideFilter]="true"
     />
   </div>
 

@@ -9,10 +9,4 @@ import { BidvSvgModule } from '@bidv-ui/core';
   styleUrl: './lecture-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LectureItemComponent {
-  @Input() clickable = false;
-
-  protected handleSelectLecture(lectureId: string) {
-    console.log(lectureId);
-  }
-}
+export class LectureItemComponent {}

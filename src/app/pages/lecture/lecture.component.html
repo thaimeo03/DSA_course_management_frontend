@@ -15,8 +15,24 @@
         allowfullscreen
       ></iframe>
 
-      <div class="next-lecture">
-        <button iconRight="bidvIconChevronRight" bidvButton>Bài tiếp</button>
+      <div class="lecture-action">
+        <button
+          bidvButton
+          (click)="handleNavigateProblem()"
+          iconRight="bidvIconChevronRight"
+          variant="outlined"
+          size="s"
+        >
+          Thực hành
+        </button>
+        <button
+          bidvButton
+          iconRight="bidvIconChevronRight"
+          variant="filled"
+          size="s"
+        >
+          Bài tiếp
+        </button>
       </div>
 
       <div class="bidv-text_headline-8 lecture-desc">
@@ -74,7 +90,11 @@
     </div>
 
     <div class="lecture-list">
-      <app-lecture-list [clickable]="true" [scrollable]="true" />
+      <app-lecture-list
+        [canInteract]="true"
+        [scrollable]="true"
+        (selectLecture)="handleSelectLecture($event)"
+      />
     </div>
   </section>
 </div>

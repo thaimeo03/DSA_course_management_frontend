@@ -17,9 +17,10 @@
   }
 }
 
-.next-lecture {
+.lecture-action {
   display: flex;
   justify-content: end;
+  column-gap: 1rem;
 }
 
 .lecture-desc {

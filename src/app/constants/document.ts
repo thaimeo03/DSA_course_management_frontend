@@ -1,4 +1,4 @@
-import { DocumentType } from '@app/enums/document.enum';
+import { DocumentType } from '@app/enums/document';
 
 export const DOC_ICONS: Record<DocumentType, string> = {
   other: '/documents/doc-icon.png',

@@ -3,7 +3,7 @@ import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { CourseListComponent } from '@app/pages/components/course-list/course-list.component';
 import { BidvTabsModule } from '@bidv-ui/kit';
 import { LectureListComponent } from '@app/pages/components/lecture-list/lecture-list.component';
-import { ProblemTableComponent } from '../../../components/problem-table/problem-table.component';
+import { ProblemTableComponent } from '@app/pages/components/problem-table/problem-table.component';
 
 @Component({
   selector: 'app-course-sub-content',

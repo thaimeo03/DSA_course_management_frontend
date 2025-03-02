@@ -1,7 +1,37 @@
-<base-table
-  class="identifier-table"
-  [colDefs]="columnDefs"
-  [gridOptions]="gridOptions"
-  [rowData]="rowData"
-  [hidePagination]="hidePagination"
-/>
+<div>
+  <form *ngIf="!hideFilter" [formGroup]="filterForm" class="filter-box">
+    <bidv-select
+      formControlName="difficulty"
+      bidvTextfieldSize="s"
+      [bidvTextfieldCleaner]="true"
+      class="item-select"
+    >
+      Độ khó
+      <bidv-data-list-wrapper
+        *bidvDataList
+        [items]="filterByDifficulties"
+      ></bidv-data-list-wrapper>
+    </bidv-select>
+
+    <bidv-select
+      formControlName="status"
+      bidvTextfieldSize="s"
+      [bidvTextfieldCleaner]="true"
+      class="item-select"
+    >
+      Status
+      <bidv-data-list-wrapper
+        *bidvDataList
+        [items]="filterByStatuses"
+      ></bidv-data-list-wrapper>
+    </bidv-select>
+  </form>
+
+  <base-table
+    class="identifier-table"
+    [colDefs]="columnDefs"
+    [gridOptions]="gridOptions"
+    [rowData]="rowData"
+    [hidePagination]="hidePagination"
+  />
+</div>

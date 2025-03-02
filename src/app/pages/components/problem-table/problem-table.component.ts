@@ -9,10 +9,25 @@ import { ColDef, ColGroupDef, GridOptions } from 'ag-grid-community';
 import { BaseTableComponent } from '../base-table/base-table.component';
 import { StatusComponent } from './status/status.component';
 import { DifficultyComponent } from './difficulty/difficulty.component';
+import { SelectItem } from '@app/models';
+import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
+import { BidvDataListWrapperModule, BidvSelectModule } from '@bidv-ui/kit';
+import {
+  BidvDataListModule,
+  BidvTextfieldControllerModule,
+} from '@bidv-ui/core';
 
 @Component({
   selector: 'app-problem-table',
-  imports: [CommonModule, BaseTableComponent],
+  imports: [
+    CommonModule,
+    BaseTableComponent,
+    ReactiveFormsModule,
+    BidvSelectModule,
+    BidvDataListModule,
+    BidvDataListWrapperModule,
+    BidvTextfieldControllerModule,
+  ],
   templateUrl: './problem-table.component.html',
   styleUrl: './problem-table.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -21,6 +36,7 @@ export class ProblemTableComponent implements OnInit {
   @Input() hidePagination = false;
   @Input() hideStatus = false;
   @Input() rowLink = false;
+  @Input() hideFilter = false;
 
   protected columnDefs: Array<ColDef | ColGroupDef> = [];
   protected gridOptions: GridOptions = {
@@ -30,6 +46,46 @@ export class ProblemTableComponent implements OnInit {
     rowStyle: this.rowLink ? { cursor: 'pointer' } : undefined,
   };
   protected rowData: any[] = [];
+
+  // Filter
+  protected filterByDifficulties: SelectItem[] = [
+    {
+      label: 'Dễ',
+      value: 'easy',
+    },
+    {
+      label: 'Trung bình',
+      value: 'medium',
+    },
+    {
+      label: 'Khó',
+      value: 'hard',
+    },
+  ];
+
+  protected filterByStatuses: SelectItem[] = [
+    {
+      label: 'Chưa làm',
+      value: 'todo',
+    },
+    {
+      label: 'Đang làm',
+      value: 'pending',
+    },
+    {
+      label: 'Đã xong',
+      value: 'done',
+    },
+    {
+      label: 'Lỗi',
+      value: 'failed',
+    },
+  ];
+
+  protected filterForm = new FormGroup({
+    difficulty: new FormControl(null),
+    status: new FormControl(null),
+  });
 
   constructor() {
     this.createColumnDefs();

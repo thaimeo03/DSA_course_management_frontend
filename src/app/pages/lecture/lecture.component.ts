@@ -103,7 +103,11 @@ export class LectureComponent implements OnInit {
 
   // Handlers
   protected handleNavigateProblem() {
-    this.router.navigate([ROUTES.detailCourse, this.courseId, ROUTES.problem]);
+    this.router.navigate([
+      ROUTES.detailCourse,
+      this.courseId,
+      ROUTES.problemRepository,
+    ]);
   }
 
   protected handleSelectLecture(id: string) {

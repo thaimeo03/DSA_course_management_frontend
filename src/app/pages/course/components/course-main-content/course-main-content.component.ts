@@ -72,7 +72,7 @@ export class CrouseMainContentComponent {
 
   protected handleNavigateProblem() {
     if (this.isPurchased) {
-      this.router.navigate([ROUTES.problem], {
+      this.router.navigate([ROUTES.problemRepository], {
         relativeTo: this.activatedRoute,
       });
     }

@@ -38,10 +38,17 @@ export const pageRoutes: Route[] = [
           import('./lecture/lecture.component').then((m) => m.LectureComponent),
       },
       {
-        path: 'course/:id/problem',
+        path: 'course/:id/problem-repository',
+        loadComponent: () =>
+          import('./problem-repository/problem-repository.component').then(
+            (m) => m.ProblemRepositoryComponent,
+          ),
+        title: 'Problems',
+      },
+      {
+        path: 'problem/:problemId',
         loadComponent: () =>
           import('./problem/problem.component').then((m) => m.ProblemComponent),
-        title: 'Problems',
       },
     ],
     title: 'Home',

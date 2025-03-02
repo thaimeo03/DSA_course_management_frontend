@@ -1,51 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ProblemTableComponent } from '../components/problem-table/problem-table.component';
-import { LinkItem, SelectItem } from '@app/models';
-import { bidvItemsHandlersProvider } from '@bidv-ui/kit';
-import { ActivatedRoute } from '@angular/router';
-import { ROUTES } from '@app/constants/routes';
-import { BreadcrumbsComponent } from '../components/breadcrumbs/breadcrumbs.component';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 @Component({
   selector: 'app-problem',
-  imports: [CommonModule, ProblemTableComponent, BreadcrumbsComponent],
+  imports: [CommonModule],
   templateUrl: './problem.component.html',
   styleUrl: './problem.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    bidvItemsHandlersProvider({
-      stringify: (item: SelectItem) => `${item.label}`,
-    }),
-  ],
 })
-export class ProblemComponent {
-  private activatedRoute = inject(ActivatedRoute);
-
-  private courseId = this.activatedRoute.snapshot.paramMap.get('id');
-
-  protected breadcrumbs: LinkItem[] = [];
-
-  constructor() {
-    this.initBreadcrumbs();
-  }
-
-  // Init data
-  private initBreadcrumbs() {
-    if (this.courseId) {
-      this.breadcrumbs = [
-        {
-          label: 'Home',
-          link: ROUTES.home,
-        },
-        {
-          label: 'Detail course',
-          link: [ROUTES.detailCourse, this.courseId],
-        },
-        {
-          label: 'Problems',
-        },
-      ];
-    }
-  }
-}
+export class ProblemComponent {}

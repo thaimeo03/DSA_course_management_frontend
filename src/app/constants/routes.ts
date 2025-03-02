@@ -7,5 +7,6 @@ export const ROUTES = {
   order: '/user/order',
   detailCourse: '/course',
   lecture: 'lecture',
-  problem: 'problem',
+  problemRepository: 'problem-repository',
+  problem: '/problem',
 } as const;

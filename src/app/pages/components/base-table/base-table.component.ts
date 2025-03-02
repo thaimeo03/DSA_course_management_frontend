@@ -27,6 +27,7 @@ export class BaseTableComponent {
     suppressMovable: true,
     resizable: false,
     sortable: false,
+    unSortIcon: true,
   };
   @Input() gridOptions: GridOptions = {};
   @Input() rowData: any[] = [];

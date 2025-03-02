@@ -2,10 +2,16 @@ import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
   Component,
+  inject,
   Input,
   OnInit,
 } from '@angular/core';
-import { ColDef, ColGroupDef, GridOptions } from 'ag-grid-community';
+import {
+  ColDef,
+  ColGroupDef,
+  GridOptions,
+  RowClickedEvent,
+} from 'ag-grid-community';
 import { BaseTableComponent } from '../base-table/base-table.component';
 import { StatusComponent } from './status/status.component';
 import { DifficultyComponent } from './difficulty/difficulty.component';
@@ -16,6 +22,8 @@ import {
   BidvDataListModule,
   BidvTextfieldControllerModule,
 } from '@bidv-ui/core';
+import { Router } from '@angular/router';
+import { ROUTES } from '@app/constants/routes';
 
 @Component({
   selector: 'app-problem-table',
@@ -33,17 +41,22 @@ import {
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ProblemTableComponent implements OnInit {
+  private router = inject(Router);
+
   @Input() hidePagination = false;
   @Input() hideStatus = false;
-  @Input() rowLink = false;
+  @Input() clickableRow = false;
   @Input() hideFilter = false;
 
   protected columnDefs: Array<ColDef | ColGroupDef> = [];
   protected gridOptions: GridOptions = {
     domLayout: 'autoHeight',
-    rowSelection: 'single',
-    unSortIcon: true,
-    rowStyle: this.rowLink ? { cursor: 'pointer' } : undefined,
+    rowSelection: {
+      mode: 'singleRow',
+      checkboxes: false,
+    },
+    rowStyle: this.clickableRow ? { cursor: 'pointer' } : undefined,
+    onRowClicked: this.onRowClicked.bind(this),
   };
   protected rowData: any[] = [];
 
@@ -94,10 +107,10 @@ export class ProblemTableComponent implements OnInit {
 
   ngOnInit(): void {
     // Set grid options
-    this.gridOptions.rowStyle = this.rowLink
+    this.gridOptions.rowStyle = this.clickableRow
       ? { cursor: 'pointer' }
       : undefined;
-    this.gridOptions.enableCellTextSelection = !this.rowLink;
+    this.gridOptions.enableCellTextSelection = !this.clickableRow;
 
     // Set show/hide status
     const statusColumn = this.columnDefs.find(
@@ -112,8 +125,12 @@ export class ProblemTableComponent implements OnInit {
   private createColumnDefs() {
     this.columnDefs = [
       {
-        headerName: '#',
         field: 'id',
+        hide: true,
+      },
+      {
+        headerName: '#',
+        field: 'num',
         width: 80,
         pinned: true,
       },
@@ -158,7 +175,8 @@ export class ProblemTableComponent implements OnInit {
       const index = i + 1;
 
       rowData.push({
-        id: index,
+        id: `id-${index}`,
+        num: index,
         status: Math.floor(Math.random() * 4),
         title: `Title ${index}`,
         point: `Point ${index}`,
@@ -168,5 +186,12 @@ export class ProblemTableComponent implements OnInit {
     }
 
     this.rowData = rowData;
+  }
+
+  private onRowClicked(event: RowClickedEvent) {
+    if (!this.clickableRow) return;
+
+    const problemId = event.data.id;
+    this.router.navigate([ROUTES.problem, problemId]);
   }
 }

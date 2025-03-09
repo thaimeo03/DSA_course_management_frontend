@@ -1,0 +1,19 @@
+.config-box {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .language-config {
+    width: 150px;
+  }
+
+  .theme-config {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+  }
+}
+
+.editor-box {
+  margin-top: 0.5rem;
+}

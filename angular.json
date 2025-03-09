@@ -59,6 +59,7 @@
             "styles": [
               "node_modules/@bidv-ui/core/styles/bidv-ui-theme.less",
               "node_modules/@bidv-ui/styles/bidv-ui-global.less",
+              "node_modules/roboto-fontface/css/roboto/roboto-fontface.css",
               "src/styles.scss"
             ],
             "scripts": []

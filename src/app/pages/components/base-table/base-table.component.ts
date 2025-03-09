@@ -2,7 +2,11 @@ import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { AgGridAngular } from 'ag-grid-angular';
 import { ColDef, GridOptions } from 'ag-grid-community';
-import { BidvLoaderModule, BidvSvgModule } from '@bidv-ui/core';
+import {
+  BidvButtonModule,
+  BidvLoaderModule,
+  BidvSvgModule,
+} from '@bidv-ui/core';
 import { BidvPaginationSelectPageModule } from '@bidv-ui/kit';
 import { AllCommunityModule, ModuleRegistry } from 'ag-grid-community';
 

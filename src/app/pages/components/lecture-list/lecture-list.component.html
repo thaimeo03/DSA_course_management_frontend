@@ -4,7 +4,7 @@
       <app-lecture-item
         (click)="canInteract && handleSelectLecture('123', i)"
         [ngClass]="canInteract ? 'canInteract' : ''"
-        [class.active]="i === activeItemIndex"
+        [class.active]="canInteract && i === activeItemIndex"
       />
     </ng-container>
   </bidv-scrollbar>

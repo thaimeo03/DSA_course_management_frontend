@@ -13,7 +13,7 @@
     (ngSubmit)="handleSubmit()"
   >
     <!-- Show name when register -->
-    <label *ngIf="!isLogin" class="bidv-text_label-1 bidv-text_semibold">
+    <label *ngIf="!isLogin" class="bidv-text_label-1">
       Full name
       <bidv-input formControlName="fullName" bidvTextfieldSize="s">
         Type your full name
@@ -25,7 +25,7 @@
       ></bidv-error>
     </label>
 
-    <label class="bidv-text_label-1 bidv-text_semibold">
+    <label class="bidv-text_label-1">
       Email
       <bidv-input formControlName="email" bidvTextfieldSize="s">
         Type an email
@@ -40,7 +40,7 @@
 
     <label>
       <div class="password-label">
-        <span class="bidv-text_label-1 bidv-text_semibold">Password</span>
+        <span class="bidv-text_label-1">Password</span>
         <span *ngIf="isLogin" class="bidv-text_label-2 forgot-password"
           >Forgot your password?</span
         >
@@ -55,7 +55,7 @@
     </label>
 
     <!-- Show confirm password when register -->
-    <label *ngIf="!isLogin" class="bidv-text_label-1 bidv-text_semibold">
+    <label *ngIf="!isLogin" class="bidv-text_label-1">
       Confirm password
       <bidv-input-password
         bidvTextfieldSize="s"
@@ -87,7 +87,7 @@
       Login with Google
     </button>
 
-    <div class="bidv-text_label-1 footer">
+    <div class="bidv-text_body-1 footer">
       {{ isLogin ? loginItem.switchText : registerItem.switchText }}
       <a
         routerLink="{{

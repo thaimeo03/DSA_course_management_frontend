@@ -1,3 +1,11 @@
-:host {
-  display: block;
+.problem-container {
+  display: flex;
+}
+
+.content-box {
+  flex: 1;
+}
+
+.code-editor-box {
+  flex: 1;
 }

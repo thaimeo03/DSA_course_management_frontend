@@ -1,11 +1,11 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
-import { ProblemTableComponent } from '../components/problem-table/problem-table.component';
 import { LinkItem, SelectItem } from '@app/models';
 import { bidvItemsHandlersProvider } from '@bidv-ui/kit';
 import { ActivatedRoute } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
-import { BreadcrumbsComponent } from '../components/breadcrumbs/breadcrumbs.component';
+import { ProblemTableComponent } from '@app/pages/components/problem-table/problem-table.component';
+import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-problem',

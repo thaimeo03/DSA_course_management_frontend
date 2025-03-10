@@ -9,13 +9,15 @@ export const userRoutes: Routes = [
       {
         path: 'account',
         loadComponent: () =>
-          import('./account/account.component').then((m) => m.AccountComponent),
+          import('./pages/account/account.component').then(
+            (m) => m.AccountComponent,
+          ),
         title: 'Account',
       },
       {
         path: 'order',
         loadComponent: () =>
-          import('./order/order.component').then((m) => m.OrderComponent),
+          import('./pages/order/order.component').then((m) => m.OrderComponent),
         title: 'Order',
       },
       {

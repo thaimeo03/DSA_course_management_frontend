@@ -20,6 +20,7 @@ import {
   BidvSwitchComponent,
 } from '@bidv-ui/kit';
 import {
+  BidvButtonModule,
   BidvDataListModule,
   BidvTextfieldControllerModule,
 } from '@bidv-ui/core';
@@ -43,6 +44,7 @@ type ITheme = 'light' | 'dark';
     BidvDataListWrapperModule,
     BidvSwitchComponent,
     BidvTextfieldControllerModule,
+    BidvButtonModule,
   ],
   templateUrl: './code-mirror-editor.component.html',
   styleUrl: './code-mirror-editor.component.scss',
@@ -60,7 +62,7 @@ export class CodeMirrorEditorComponent implements OnInit {
 
   protected languages: ILanguage[] = ['Javascript', 'Python', 'Java'];
 
-  protected editorConfigForm = new FormGroup({
+  protected codeEditorForm = new FormGroup({
     language: new FormControl(this.languages[0]),
     darkMode: new FormControl(false),
   });
@@ -72,15 +74,15 @@ export class CodeMirrorEditorComponent implements OnInit {
   // Config editor
   private loadEditor() {
     const langExtension = this.getLanguageExtension(
-      this.editorConfigForm.value.language as ILanguage,
+      this.codeEditorForm.value.language as ILanguage,
     );
 
     const themeExtension = this.getThemeExtension(
-      this.editorConfigForm.value.darkMode ? 'dark' : 'light',
+      this.codeEditorForm.value.darkMode ? 'dark' : 'light',
     );
 
     const highlightExtension = this.getHighlightExtension(
-      this.editorConfigForm.value.darkMode ? 'dark' : 'light',
+      this.codeEditorForm.value.darkMode ? 'dark' : 'light',
     );
 
     this.editor = new EditorView({

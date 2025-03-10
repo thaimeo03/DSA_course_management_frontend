@@ -1,0 +1,37 @@
+<section>
+  <form [formGroup]="codeEditorForm">
+    <div class="config-box">
+      <bidv-select
+        formControlName="language"
+        (ngModelChange)="handleLanguageChange($event)"
+        bidvTextfieldSize="s"
+        class="language-config"
+      >
+        <bidv-data-list-wrapper
+          *bidvDataList
+          [items]="languages"
+        ></bidv-data-list-wrapper>
+      </bidv-select>
+
+      <label class="theme-config">
+        <span class="bidv-text_label-1">Chế độ tối</span>
+        <input
+          bidvSwitch
+          formControlName="darkMode"
+          (ngModelChange)="handleThemeChange($event)"
+          size="s"
+          type="checkbox"
+        />
+      </label>
+    </div>
+
+    <!-- Code editor -->
+    <div #editorContainer class="editor-box"></div>
+
+    <div class="submit-box">
+      <button bidvButton iconLeft="bidvIconSaveOutline" size="s">
+        Nộp bài
+      </button>
+    </div>
+  </form>
+</section>

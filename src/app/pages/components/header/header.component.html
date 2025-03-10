@@ -1,9 +1,9 @@
 <header>
   <div bidvContainer="xxl" class="container navigation_container">
     <nav>
-      <span bidvNavigationLogo>
+      <a [routerLink]="['/']" bidvNavigationLogo>
         <img src="/b-one-logo.svg" />
-      </span>
+      </a>
 
       <ng-container *ngFor="let item of navLinks">
         <a

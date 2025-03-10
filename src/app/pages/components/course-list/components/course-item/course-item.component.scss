@@ -5,10 +5,17 @@
 }
 
 .image-box {
+  position: relative;
   height: 180px;
   border-top-left-radius: var(--corner-radius-m);
   border-top-right-radius: var(--corner-radius-m);
   overflow: hidden;
+
+  bidv-badge {
+    position: absolute;
+    top: 0.25rem;
+    right: 0.25rem;
+  }
 
   img {
     width: 100%;

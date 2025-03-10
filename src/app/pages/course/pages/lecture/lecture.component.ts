@@ -5,7 +5,7 @@ import {
   inject,
   OnInit,
 } from '@angular/core';
-import { BreadcrumbsComponent } from '../components/breadcrumbs/breadcrumbs.component';
+import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { DocumentItem, LinkItem } from '@app/models';
 import { ROUTES } from '@app/constants/routes';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -15,7 +15,7 @@ import {
   SafeResourceUrl,
   Title,
 } from '@angular/platform-browser';
-import { LectureListComponent } from '../components/lecture-list/lecture-list.component';
+import { LectureListComponent } from '@app/pages/components/lecture-list/lecture-list.component';
 import { BidvButtonModule, BidvSvgModule } from '@bidv-ui/core';
 import { DOC_ICONS } from '@app/constants/document';
 

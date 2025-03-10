@@ -2,6 +2,15 @@
   <a [routerLink]="['/course/1']">
     <div class="image-box">
       <img src="/thanh_truc.jpg" alt="course" />
+
+      <bidv-badge
+        *ngIf="purchasedIndex.includes(index)"
+        appearance="primary"
+        size="s"
+        shape="square"
+      >
+        Đã mua
+      </bidv-badge>
     </div>
     <bidv-card-content class="card_content">
       <bidv-line-clamp [content]="content" [linesLimit]="1"></bidv-line-clamp>
@@ -13,15 +22,6 @@
         <span class="bidv-text_body-1 price-text"
           >999.999.999 {{ 'VND' | bidvCurrency }}
         </span>
-        <button
-          *ngIf="purchasedIndex.includes(index)"
-          bidvButton
-          icon="bidvIconArrowCircleUpRightOutline"
-          size="s"
-          variant="filled"
-        >
-          Join
-        </button>
       </div>
     </bidv-card-content>
   </a>

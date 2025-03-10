@@ -35,14 +35,16 @@ export const pageRoutes: Route[] = [
       {
         path: 'course/:id/lecture',
         loadComponent: () =>
-          import('./lecture/lecture.component').then((m) => m.LectureComponent),
+          import('./course/pages/lecture/lecture.component').then(
+            (m) => m.LectureComponent,
+          ),
       },
       {
         path: 'course/:id/problem-repository',
         loadComponent: () =>
-          import('./problem-repository/problem-repository.component').then(
-            (m) => m.ProblemRepositoryComponent,
-          ),
+          import(
+            './course/pages/problem-repository/problem-repository.component'
+          ).then((m) => m.ProblemRepositoryComponent),
         title: 'Problems',
       },
       {

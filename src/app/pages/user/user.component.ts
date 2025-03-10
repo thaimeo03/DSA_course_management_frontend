@@ -24,7 +24,7 @@ import { Router, RouterOutlet } from '@angular/router';
   styleUrl: './user.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class UserComponent implements OnInit {
+export class UserComponent {
   private router = inject(Router);
 
   protected breadcrumbs: LinkItem[] = [
@@ -38,8 +38,6 @@ export class UserComponent implements OnInit {
     },
   ];
 
-  protected activeItemIndex = 0;
-
   protected tabLinks: LinkItem[] = [
     {
       label: 'Account',
@@ -50,8 +48,9 @@ export class UserComponent implements OnInit {
       link: ROUTES.order,
     },
   ];
+  protected activeItemIndex = 0;
 
-  ngOnInit(): void {
+  constructor() {
     // Set active tab
     this.router.events.subscribe(() => {
       this.activeItemIndex = this.tabLinks.findIndex(

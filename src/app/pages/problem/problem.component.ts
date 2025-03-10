@@ -1,9 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
-import { CodeMirrorEditorComponent } from './components/code-mirror-editor/code-mirror-editor.component';
-import { BreadcrumbsComponent } from '../components/breadcrumbs/breadcrumbs.component';
+import { CodeMirrorEditorComponent } from '../components/code-mirror-editor/code-mirror-editor.component';
 import { LinkItem } from '@app/models';
 import { ROUTES } from '@app/constants/routes';
+import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 
 @Component({
   selector: 'app-problem',
@@ -19,7 +19,7 @@ export class ProblemComponent {
       link: ROUTES.home,
     },
     {
-      label: 'problem',
+      label: 'Problem',
     },
   ];
 }

@@ -34,6 +34,7 @@
     "@codemirror/lang-python": "^6.1.7",
     "@codemirror/language": "^6.10.8",
     "@codemirror/view": "^6.36.4",
+    "@ngrx/store": "^19.0.1",
     "@tanstack/angular-query-experimental": "^5.66.0",
     "@types/three": "^0.173.0",
     "ag-grid-angular": "^33.1.1",
@@ -64,6 +65,7 @@
     "karma-jasmine": "~5.1.0",
     "karma-jasmine-html-reporter": "~2.1.0",
     "prettier": "^3.4.2",
-    "typescript": "~5.6.2"
+    "typescript": "~5.6.2",
+    "@ngrx/eslint-plugin": "^19.0.1"
   }
 }

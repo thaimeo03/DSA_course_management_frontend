@@ -29,11 +29,13 @@ import {
   BidvInputModule,
   BidvInputPasswordModule,
 } from '@bidv-ui/kit';
+import { Store } from '@ngrx/store';
 import { injectMutation } from '@tanstack/angular-query-experimental';
 import { lastValueFrom, of } from 'rxjs';
 import { ROUTES } from 'src/app/constants/routes';
 import { LoginBody, RegisterBody } from 'src/app/models/user.model';
 import { UserService } from 'src/app/services/user.service';
+import { setAuth } from 'stores/actions/auth.action';
 
 interface AuthItem {
   title: string;
@@ -96,10 +98,11 @@ function passwordMatchValidator(): ValidatorFn {
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AuthFormComponent implements OnInit {
+export class AuthFormComponent {
   private router = inject(Router);
   private userService = inject(UserService);
   private cdr = inject(ChangeDetectorRef);
+  #store = inject(Store);
 
   @Input({ required: true }) isLogin = true;
 
@@ -155,6 +158,7 @@ export class AuthFormComponent implements OnInit {
     mutationFn: (body: LoginBody) =>
       lastValueFrom(this.userService.login(body)),
     onSuccess: () => {
+      this.#store.dispatch(setAuth({ isAuthenticated: true }));
       this.router.navigate([ROUTES.home]);
     },
     onError: (err: any) => {
@@ -179,7 +183,7 @@ export class AuthFormComponent implements OnInit {
     },
   }));
 
-  ngOnInit(): void {
+  constructor() {
     this.loginForm.statusChanges.subscribe(() => {
       if (this.failed) this.failed = '';
     });

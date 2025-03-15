@@ -19,15 +19,19 @@ export class AuthInterceptor implements HttpInterceptor {
     req: HttpRequest<any>,
     next: HttpHandler,
   ): Observable<HttpEvent<any>> {
+    if (req.url.includes('/auth/refresh-token')) {
+      return next.handle(req);
+    }
+
     return next.handle(req).pipe(
       catchError((err: HttpErrorResponse) => {
         // Handle call api refresh token
         if (err.status === 401) {
           return this.authService.refreshToken().pipe(
             exhaustMap(() => next.handle(req)),
-            catchError(() => {
+            catchError((err: HttpErrorResponse) => {
               this.router.navigate([ROUTES.login]);
-              return throwError(() => new Error('Unauthorized'));
+              return throwError(() => err);
             }),
           );
         }

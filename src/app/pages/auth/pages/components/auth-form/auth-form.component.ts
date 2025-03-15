@@ -5,7 +5,6 @@ import {
   Component,
   inject,
   Input,
-  OnInit,
 } from '@angular/core';
 import {
   AbstractControl,
@@ -30,10 +29,9 @@ import {
   BidvInputPasswordModule,
 } from '@bidv-ui/kit';
 import { Store } from '@ngrx/store';
-import { injectMutation } from '@tanstack/angular-query-experimental';
-import { lastValueFrom, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ROUTES } from 'src/app/constants/routes';
-import { LoginBody, RegisterBody } from 'src/app/models/user.model';
+import { LoginBody, RegisterBody } from '@app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { setAuth } from 'stores/actions/auth.action';
 
@@ -154,34 +152,8 @@ export class AuthFormComponent {
 
   protected failed = '';
 
-  protected loginMutation = injectMutation(() => ({
-    mutationFn: (body: LoginBody) =>
-      lastValueFrom(this.userService.login(body)),
-    onSuccess: () => {
-      this.#store.dispatch(setAuth({ isAuthenticated: true }));
-      this.router.navigate([ROUTES.home]);
-    },
-    onError: (err: any) => {
-      if (err.status === 0 || err.status === 500) return;
-
-      this.failed = err.error.message;
-      this.cdr.markForCheck();
-    },
-  }));
-
-  protected registerMutation = injectMutation(() => ({
-    mutationFn: (body: RegisterBody) =>
-      lastValueFrom(this.userService.register(body)),
-    onSuccess: () => {
-      this.router.navigate([ROUTES.home]);
-    },
-    onError: (err: any) => {
-      if (err.status === 0 || err.status === 500) return;
-
-      this.failed = err.error.message;
-      this.cdr.markForCheck();
-    },
-  }));
+  protected loginMutation = this.userService.loginMutation();
+  protected registerMutation = this.userService.registerMutation();
 
   constructor() {
     this.loginForm.statusChanges.subscribe(() => {
@@ -199,11 +171,33 @@ export class AuthFormComponent {
 
       if (this.loginForm.invalid) return;
 
-      this.loginMutation.mutate(this.loginForm.value as LoginBody);
+      this.loginMutation.mutate(this.loginForm.value as LoginBody, {
+        onSuccess: () => {
+          this.#store.dispatch(setAuth({ isAuthenticated: true }));
+          this.router.navigate([ROUTES.home]);
+        },
+        onError: (err: any) => {
+          if (err.status === 0 || err.status === 500) return;
+
+          this.failed = err.error.message;
+          this.cdr.markForCheck();
+        },
+      });
     } else {
       if (this.registerForm.invalid) return;
 
-      this.registerMutation.mutate(this.registerForm.value as RegisterBody);
+      this.loginMutation.mutate(this.registerForm.value as RegisterBody, {
+        onSuccess: () => {
+          this.#store.dispatch(setAuth({ isAuthenticated: true }));
+          this.router.navigate([ROUTES.home]);
+        },
+        onError: (err: any) => {
+          if (err.status === 0 || err.status === 500) return;
+
+          this.failed = err.error.message;
+          this.cdr.markForCheck();
+        },
+      });
     }
   }
 }

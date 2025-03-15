@@ -1,5 +1,6 @@
 import { Routes } from '@angular/router';
 import { UserComponent } from './user.component';
+import { authGuard } from '@app/guards/auth.guard';
 
 export const userRoutes: Routes = [
   {
@@ -26,5 +27,6 @@ export const userRoutes: Routes = [
         pathMatch: 'full',
       },
     ],
+    canActivate: [authGuard],
   },
 ];

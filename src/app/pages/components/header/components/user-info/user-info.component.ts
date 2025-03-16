@@ -1,12 +1,16 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ROLES } from '@app/constants/user';
 import { MeData } from '@app/models/user';
+import { UserService } from '@app/services/user.service';
+import { injectMutation } from '@bidv-api/angular';
 import { BidvDropdownModule } from '@bidv-ui/core';
 import { BidvAvatarNavigationComponent } from '@bidv-ui/kit';
+import { Store } from '@ngrx/store';
 import { ROUTES } from 'src/app/constants/routes';
 import { LinkItem } from 'src/app/models';
+import { setAuth } from 'stores/actions/auth.action';
 
 @Component({
   selector: 'app-user-info',
@@ -20,6 +24,10 @@ import { LinkItem } from 'src/app/models';
   styleUrl: './user-info.component.scss',
 })
 export class UserInfoComponent {
+  #userService = inject(UserService);
+  #mutation = injectMutation();
+  #store = inject(Store);
+
   @Input({ required: true }) me: MeData | null = null;
 
   protected loginLink = ROUTES.login;
@@ -28,7 +36,6 @@ export class UserInfoComponent {
   protected authenticatedNavLinks: LinkItem[] = [
     { label: 'My account', link: ROUTES.account },
     { label: 'Order', link: ROUTES.order },
-    { label: 'Logout', link: ROUTES.login },
   ];
 
   protected anonymousNavLinks: LinkItem[] = [
@@ -38,5 +45,16 @@ export class UserInfoComponent {
 
   protected ROLES = ROLES;
 
-  constructor() {}
+  // Mutations
+  #logoutMutation = this.#mutation({
+    mutationFn: () => this.#userService.logout(),
+    onSuccess: () => {
+      this.me = null;
+      this.#store.dispatch(setAuth({ isAuthenticated: false, me: null })); // Update store
+    },
+  });
+
+  handleLogout() {
+    this.#logoutMutation.mutate(null);
+  }
 }

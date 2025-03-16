@@ -6,13 +6,10 @@ import {
   HttpRequest,
 } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { Router } from '@angular/router';
 import { catchError, exhaustMap, Observable, throwError } from 'rxjs';
 import { AuthService } from '../services/auth.service';
-import { ROUTES } from '../constants/routes';
 
 export class AuthInterceptor implements HttpInterceptor {
-  private router = inject(Router);
   private authService = inject(AuthService);
 
   intercept(
@@ -30,7 +27,6 @@ export class AuthInterceptor implements HttpInterceptor {
           return this.authService.refreshToken().pipe(
             exhaustMap(() => next.handle(req)),
             catchError((err: HttpErrorResponse) => {
-              this.router.navigate([ROUTES.login]);
               return throwError(() => err);
             }),
           );

@@ -20,6 +20,10 @@ export class UserService {
     );
   }
 
+  logout() {
+    return this.#httpClient.get<MessageResponse>('/users/logout');
+  }
+
   getMe() {
     return this.#httpClient.get<GetMeResponse>('/users/me');
   }

@@ -1,11 +1,9 @@
 <section>
   <div class="course-list-container">
     <ng-container *ngFor="let item of courseList; index as i">
-      <app-course-item
-        [purchasedIndex]="purchasedIndex"
-        [index]="i"
-        class="course-item-card"
-      />
+      <div class="course-item-card">
+        <app-course-item [course]="item" />
+      </div>
     </ng-container>
   </div>
 </section>

@@ -41,6 +41,7 @@ export class HeaderComponent {
   protected getMeQuery = this.#query({
     queryKey: ['me'],
     queryFn: () => this.#userService.getMe(),
+    retry: 0,
   });
 
   constructor() {

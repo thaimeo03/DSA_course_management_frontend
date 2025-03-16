@@ -6,9 +6,14 @@ import {
   BidvLineClampModule,
 } from '@bidv-ui/kit';
 import { BidvCardContentModule } from '@bidv-ui/layout';
-import { BidvCurrencyPipeModule } from '@bidv-ui/addon-commerce';
+import {
+  BidvAmountPipe,
+  BidvCurrencyPipeModule,
+} from '@bidv-ui/addon-commerce';
 import { BidvButtonModule } from '@bidv-ui/core';
 import { CommonModule } from '@angular/common';
+import { CourseData } from '@app/models/course';
+import { ROUTES } from '@app/constants/routes';
 
 @Component({
   selector: 'app-course-item',
@@ -21,11 +26,13 @@ import { CommonModule } from '@angular/common';
     BidvButtonModule,
     BidvLineClampModule,
     BidvBadgeModule,
+    BidvAmountPipe,
   ],
   templateUrl: './course-item.component.html',
   styleUrl: './course-item.component.scss',
 })
 export class CourseItemComponent {
-  @Input() purchasedIndex: number[] = [];
-  @Input() index: number = 0;
+  @Input({ required: true }) course!: CourseData;
+
+  protected detailCourseRoute = ROUTES.detailCourse;
 }

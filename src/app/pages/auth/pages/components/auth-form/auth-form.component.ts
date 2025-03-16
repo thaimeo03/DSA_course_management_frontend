@@ -29,11 +29,12 @@ import {
   BidvInputPasswordModule,
 } from '@bidv-ui/kit';
 import { Store } from '@ngrx/store';
-import { of } from 'rxjs';
+import { merge, of } from 'rxjs';
 import { ROUTES } from 'src/app/constants/routes';
 import { LoginBody, RegisterBody } from '@app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { setAuth } from 'stores/actions/auth.action';
+import { injectMutation } from '@bidv-api/angular';
 
 interface AuthItem {
   title: string;
@@ -101,6 +102,7 @@ export class AuthFormComponent {
   private userService = inject(UserService);
   private cdr = inject(ChangeDetectorRef);
   #store = inject(Store);
+  #mutation = injectMutation();
 
   @Input({ required: true }) isLogin = true;
 
@@ -152,8 +154,42 @@ export class AuthFormComponent {
 
   protected failed = '';
 
-  protected loginMutation = this.userService.loginMutation();
-  protected registerMutation = this.userService.registerMutation();
+  // Mutation
+  protected loginMutation = this.#mutation({
+    mutationFn: (body: LoginBody) => this.userService.login(body),
+    onSuccess: () => {
+      this.#store.dispatch(setAuth({ isAuthenticated: true }));
+      this.router.navigate([ROUTES.home]);
+    },
+    onError: (err: any) => {
+      if (err.status === 0 || err.status === 500) return;
+
+      this.failed = err.error.message;
+      this.cdr.markForCheck();
+    },
+  });
+
+  protected registerMutation = this.#mutation({
+    mutationFn: (body: RegisterBody) => this.userService.register(body),
+    onSuccess: () => {
+      this.#store.dispatch(setAuth({ isAuthenticated: true }));
+      this.router.navigate([ROUTES.home]);
+    },
+    onError: (err: any) => {
+      if (err.status === 0 || err.status === 500) return;
+
+      this.failed = err.error.message;
+      this.cdr.markForCheck();
+    },
+  });
+
+  // Mutation result
+  protected loginMutationRes$ = this.loginMutation.result$;
+  protected registerMutationRes$ = this.registerMutation.result$;
+  protected isPending$ = merge(
+    this.loginMutationRes$,
+    this.registerMutationRes$,
+  );
 
   constructor() {
     this.loginForm.statusChanges.subscribe(() => {
@@ -171,22 +207,11 @@ export class AuthFormComponent {
 
       if (this.loginForm.invalid) return;
 
-      this.loginMutation.mutate(this.loginForm.value as LoginBody, {
-        onSuccess: () => {
-          this.#store.dispatch(setAuth({ isAuthenticated: true }));
-          this.router.navigate([ROUTES.home]);
-        },
-        onError: (err: any) => {
-          if (err.status === 0 || err.status === 500) return;
-
-          this.failed = err.error.message;
-          this.cdr.markForCheck();
-        },
-      });
+      this.loginMutation.mutate(this.loginForm.value as LoginBody);
     } else {
       if (this.registerForm.invalid) return;
 
-      this.loginMutation.mutate(this.registerForm.value as RegisterBody, {
+      this.registerMutation.mutate(this.registerForm.value as RegisterBody, {
         onSuccess: () => {
           this.#store.dispatch(setAuth({ isAuthenticated: true }));
           this.router.navigate([ROUTES.home]);

@@ -69,8 +69,8 @@
     </label>
 
     <button
+      [loading]="(isPending$ | async)?.isPending || false"
       bidvButton
-      [loading]="loginMutation.isPending()"
       size="s"
       class="submit-btn"
     >

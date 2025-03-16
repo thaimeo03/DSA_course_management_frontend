@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
+import { ROLES } from '@app/constants/user';
+import { MeData } from '@app/models/user';
 import { BidvDropdownModule } from '@bidv-ui/core';
 import { BidvAvatarNavigationComponent } from '@bidv-ui/kit';
 import { ROUTES } from 'src/app/constants/routes';
@@ -18,7 +20,7 @@ import { LinkItem } from 'src/app/models';
   styleUrl: './user-info.component.scss',
 })
 export class UserInfoComponent {
-  @Input({ required: true }) isAuthenticated!: boolean;
+  @Input({ required: true }) me: MeData | null = null;
 
   protected loginLink = ROUTES.login;
   protected registerLink = ROUTES.register;
@@ -33,4 +35,8 @@ export class UserInfoComponent {
     { label: 'Login', link: ROUTES.login },
     { label: 'Register', link: ROUTES.register },
   ];
+
+  protected ROLES = ROLES;
+
+  constructor() {}
 }

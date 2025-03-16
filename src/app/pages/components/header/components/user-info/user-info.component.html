@@ -1,16 +1,16 @@
-<ng-container *ngIf="isAuthenticated; else anonymous">
+<ng-container *ngIf="me; else anonymous">
   <div bidvDropdownHover [bidvDropdown]="content">
     <bidv-avatar-navigation
-      src="/avatar.jpg"
-      titleName="Trần Hồng Thái"
+      [src]="me.avatar ?? '/avatar.jpg'"
+      [titleName]="me.fullName"
       class="_info"
-      [description]="['Student']"
+      [description]="[ROLES[me.role]]"
     />
   </div>
   <ng-template #content>
     <div class="dropdown-menu">
       <div class="user-info">
-        <p class="user-email">tran.hongthai&#64;xample.com</p>
+        <p class="user-email">{{ me.email }}</p>
       </div>
       <ul class="dropdown-list">
         <ng-container *ngFor="let item of authenticatedNavLinks">

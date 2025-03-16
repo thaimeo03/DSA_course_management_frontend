@@ -6,7 +6,10 @@ import { UserInfoComponent } from './components/user-info/user-info.component';
 import { CommonModule } from '@angular/common';
 import { LinkItem } from 'src/app/models';
 import { Store } from '@ngrx/store';
-import { selectAuthState } from 'stores/selectors/auth.selector';
+import { injectQuery } from '@bidv-api/angular';
+import { UserService } from '@app/services/user.service';
+import { setAuth } from 'stores/actions/auth.action';
+import { MeData } from '@app/models/user';
 
 @Component({
   selector: 'app-header',
@@ -21,8 +24,9 @@ import { selectAuthState } from 'stores/selectors/auth.selector';
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
-  protected isAuthenticated = false;
+  #userService = inject(UserService);
   #store = inject(Store);
+  #query = injectQuery();
 
   protected navLinks: LinkItem[] = [
     {
@@ -31,19 +35,35 @@ export class HeaderComponent {
     },
   ];
 
-  constructor() {
-    this.#store
-      .select(selectAuthState)
-      .subscribe((auth) => {
-        this.isAuthenticated = auth.isAuthenticated;
-      })
-      .unsubscribe();
+  protected me: MeData | null = null;
 
-    if (this.isAuthenticated) {
+  // Queries
+  protected getMeQuery = this.#query({
+    queryKey: ['me'],
+    queryFn: () => this.#userService.getMe(),
+  });
+
+  constructor() {
+    this.initData();
+  }
+
+  // Init data
+  private initData() {
+    this.getMeQuery.result$.subscribe((res) => {
+      const data = res.data;
+      if (!data) return;
+
+      const me = data.data;
+      this.me = me;
+
+      // Set user data to store
+      this.#store.dispatch(setAuth({ isAuthenticated: true, me: me }));
+
+      // Update nav links
       this.navLinks.push({
         label: 'Purchased course',
         link: ROUTES.purchasedCourse,
       });
-    }
+    });
   }
 }

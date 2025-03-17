@@ -1,4 +1,6 @@
-import { DataResponse } from '.';
+import { CourseSortBy } from '@app/enums/course';
+import { DataResponseWithPagination, PaginationParams } from '.';
+import { Order } from '@app/enums';
 
 export interface CourseData {
   id: string;
@@ -12,4 +14,9 @@ export interface CourseData {
   updatedAt: string;
 }
 
-export type GetActiveCourseResponse = DataResponse<CourseData[]>;
+export interface GetActiveCourseParams extends PaginationParams {
+  sortBy?: CourseSortBy;
+  order?: Order;
+}
+
+export type GetActiveCourseResponse = DataResponseWithPagination<CourseData[]>;

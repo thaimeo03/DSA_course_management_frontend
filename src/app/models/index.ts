@@ -37,10 +37,15 @@ export interface DataResponse<T> extends MessageResponse {
 // Pagination
 export interface IPagination {
   limit: number;
-  current_page: number;
-  total_page: number;
+  currentPage: number;
+  totalPage: number;
 }
 
 export interface DataResponseWithPagination<T> extends DataResponse<T> {
   pagination: IPagination;
+}
+
+export interface PaginationParams {
+  page?: number;
+  limit?: number;
 }

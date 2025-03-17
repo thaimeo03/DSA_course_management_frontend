@@ -6,4 +6,10 @@
       </div>
     </ng-container>
   </div>
+
+  <bidv-pagination
+    [length]="pageCount"
+    [index]="currentPageIndex"
+    (indexChange)="goToPage($event)"
+  ></bidv-pagination>
 </section>

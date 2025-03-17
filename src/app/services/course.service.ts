@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { GetActiveCourseResponse } from '@app/models/course';
+import {
+  GetActiveCourseParams,
+  GetActiveCourseResponse,
+} from '@app/models/course';
+import { getHttpParams } from '@app/utils/handle-api';
 
 @Injectable({
   providedIn: 'root',
@@ -8,7 +12,11 @@ import { GetActiveCourseResponse } from '@app/models/course';
 export class CourseService {
   readonly #httpClient = inject(HttpClient);
 
-  getAllActiveCourses() {
-    return this.#httpClient.get<GetActiveCourseResponse>('/courses/active');
+  getAllActiveCourses(params: GetActiveCourseParams) {
+    const httpParams = getHttpParams(params);
+
+    return this.#httpClient.get<GetActiveCourseResponse>('/courses/active', {
+      params: httpParams,
+    });
   }
 }

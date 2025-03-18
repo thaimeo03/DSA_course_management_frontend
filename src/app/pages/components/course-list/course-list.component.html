@@ -1,4 +1,9 @@
 <section>
+  <app-sorting
+    *ngIf="enableSorting"
+    (sortingChangeEvent)="handleSortingChange($event)"
+  />
+
   <div class="course-list-container">
     <ng-container *ngFor="let item of courseList; index as i">
       <div class="course-item-card">
@@ -8,6 +13,7 @@
   </div>
 
   <bidv-pagination
+    *ngIf="enablePagination"
     [length]="pageCount"
     [index]="currentPageIndex"
     (indexChange)="goToPage($event)"

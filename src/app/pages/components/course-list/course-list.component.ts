@@ -5,10 +5,19 @@ import { BidvPaginationModule } from '@bidv-ui/kit';
 import { CourseService } from '@app/services/course.service';
 import { CourseData, GetActiveCourseParams } from '@app/models/course';
 import { injectQuery, queryOptions } from '@bidv-api/angular';
+import {
+  SortingChangeEvent,
+  SortingComponent,
+} from './components/sorting/sorting.component';
 
 @Component({
   selector: 'app-course-list',
-  imports: [CommonModule, CourseItemComponent, BidvPaginationModule],
+  imports: [
+    CommonModule,
+    CourseItemComponent,
+    BidvPaginationModule,
+    SortingComponent,
+  ],
   templateUrl: './course-list.component.html',
   styleUrl: './course-list.component.scss',
 })
@@ -17,6 +26,8 @@ export class CourseListComponent implements OnInit {
   #query = injectQuery();
 
   @Input() isActive: boolean = true;
+  @Input() enableSorting: boolean = true;
+  @Input() enablePagination: boolean = true;
 
   protected courseList: CourseData[] = [];
 
@@ -32,6 +43,7 @@ export class CourseListComponent implements OnInit {
     return queryOptions({
       queryKey: ['active-courses', params],
       queryFn: () => this.#courseService.getAllActiveCourses(params),
+      refetchOnWindowFocus: false,
     });
   }
 
@@ -58,6 +70,18 @@ export class CourseListComponent implements OnInit {
     }
   }
 
+  // Sorting
+  protected handleSortingChange(sortingChangeEvent: SortingChangeEvent) {
+    this.#getActiveCoursesQuery.updateOptions(
+      this.getAllActiveCoursesOptions({
+        ...this.params,
+        sortBy: sortingChangeEvent.field,
+        order: sortingChangeEvent.order,
+      }),
+    );
+  }
+
+  // Pagination
   protected goToPage(pageIndex: number) {
     this.#getActiveCoursesQuery.updateOptions(
       this.getAllActiveCoursesOptions({

@@ -76,7 +76,9 @@ export class SortingComponent {
   ];
 
   protected sortingForm = new FormGroup({
-    sortByCreatedAt: new FormControl<SelectItem | null>(null),
+    sortByCreatedAt: new FormControl<SelectItem | null>(
+      this.sortByCreatedAts[0],
+    ),
     sortByPrice: new FormControl<SelectItem | null>(null),
   });
 

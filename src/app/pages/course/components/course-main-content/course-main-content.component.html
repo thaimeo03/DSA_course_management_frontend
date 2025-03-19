@@ -1,24 +1,32 @@
-<section>
-  <h1 class="bidv-text_display-3 title">NodeJs Super</h1>
+<section *ngIf="detailCourse">
+  <h1 class="bidv-text_display-3 title">
+    {{ detailCourse.title }}
+  </h1>
   <div class="sub-title">
     <span>By: Trần Hồng Thái</span>
-    <span>Updated at: 02/2025</span>
+    <span>Updated at: {{ detailCourse.updatedAt | date: 'dd/MM/yyyy' }}</span>
   </div>
 
   <div class="intro-container">
     <div class="video-box">
       <iframe
-        *ngIf="videoUrl"
+        *ngIf="videoUrl; else skeleton"
         [src]="videoUrl"
         width="100%"
         height="520"
         frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
         allowfullscreen
       ></iframe>
+      <ng-template #skeleton>
+        <div [bidvSkeleton]="true" style="width: 100%; height: 520px"></div>
+      </ng-template>
     </div>
     <div class="info-box">
       <div class="invited-info">
-        <h2 class="bidv-text_headline-2">1.590.000 ₫</h2>
+        <h2 class="bidv-text_headline-2">
+          {{ detailCourse.price | bidvAmount: 'VND' | async }}
+        </h2>
         <ul>
           <ng-container *ngFor="let item of invitedInfo">
             <li><bidv-svg [src]="item.icon" /> {{ item.title }}</li>
@@ -47,16 +55,7 @@
 
   <div class="description">
     <p class="bidv-text_headline-8">
-      Lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptas deserunt
-      nemo enim commodi fugiat fugit repellendus, odit officia optio repellat
-      minima ipsam, corporis architecto magnam. Dolorum eum repellendus cum
-      dolore! Iusto eveniet voluptatem deleniti, maxime doloribus totam
-      voluptatibus maiores itaque aliquam ut laboriosam culpa accusantium error
-      repudiandae aperiam, est aliquid provident corporis neque commodi ab
-      debitis! Debitis, dignissimos possimus. Modi. Magni explicabo possimus
-      recusandae aliquam magnam minus facilis ea, perspiciatis a, qui aut animi
-      omnis vel dignissimos voluptatum beatae dicta, accusantium quas quaerat
-      iste? Accusamus at aspernatur ex repellat placeat.
+      {{ detailCourse.description }}
     </p>
   </div>
 </section>

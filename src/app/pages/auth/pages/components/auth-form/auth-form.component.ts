@@ -184,12 +184,8 @@ export class AuthFormComponent {
   });
 
   // Mutation result
-  protected loginMutationRes$ = this.loginMutation.result$;
-  protected registerMutationRes$ = this.registerMutation.result$;
-  protected isPending$ = merge(
-    this.loginMutationRes$,
-    this.registerMutationRes$,
-  );
+  protected loginMutationResult = this.loginMutation.result;
+  protected registerMutationResult = this.registerMutation.result;
 
   constructor() {
     this.loginForm.statusChanges.subscribe(() => {

@@ -7,7 +7,7 @@ import { Store } from '@ngrx/store';
 import { setAuth } from 'stores/actions/auth.action';
 import { selectAuthState } from 'stores/selectors/auth.selector';
 
-export const authGuard: CanActivateFn = () => {
+export const authGuard: CanActivateFn = async () => {
   const router = inject(Router);
   const userService = inject(UserService);
   const store = inject(Store);
@@ -21,25 +21,20 @@ export const authGuard: CanActivateFn = () => {
 
   if (isAuthenticated) return true;
 
-  // Call api to check if user is authenticated
   const getMeQuery = query({
     queryKey: ['me'],
     queryFn: () => userService.getMe(),
     retry: 0,
   });
 
-  getMeQuery.result$.subscribe({
-    next: (res) => {
+  getMeQuery.result$.subscribe((res) => {
+    if (res.isSuccess) {
       const data = res.data;
-
-      if (data) {
-        // Set user data to store
-        store.dispatch(setAuth({ isAuthenticated: true, me: data.data }));
-      }
-    },
-    error: () => {
+      store.dispatch(setAuth({ isAuthenticated: true, me: data.data }));
+    }
+    if (res.isError) {
       router.navigate([ROUTES.login]);
-    },
+    }
   });
 
   return true;

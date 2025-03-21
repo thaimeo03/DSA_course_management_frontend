@@ -91,9 +91,11 @@
 
     <div class="lecture-list">
       <app-lecture-list
+        *ngIf="courseId"
+        (selectLectureEvent)="handleSelectLecture($event)"
+        [courseId]="courseId"
         [canInteract]="true"
         [scrollable]="true"
-        (selectLecture)="handleSelectLecture($event)"
       />
     </div>
   </section>

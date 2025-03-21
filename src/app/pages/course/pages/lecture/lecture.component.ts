@@ -18,6 +18,7 @@ import {
 import { LectureListComponent } from '@app/pages/components/lecture-list/lecture-list.component';
 import { BidvButtonModule, BidvSvgModule } from '@bidv-ui/core';
 import { DOC_ICONS } from '@app/constants/document';
+import { LectureData } from '@app/models/lecture';
 
 @Component({
   selector: 'app-lecture',
@@ -38,7 +39,7 @@ export class LectureComponent implements OnInit {
   private titleService = inject(Title);
   private sanitizer = inject(DomSanitizer);
 
-  private courseId = this.activatedRoute.snapshot.paramMap.get('id');
+  protected courseId = this.activatedRoute.snapshot.paramMap.get('id');
 
   protected breadcrumbs: LinkItem[] = [];
   protected videoUrl!: SafeResourceUrl;
@@ -110,7 +111,7 @@ export class LectureComponent implements OnInit {
     ]);
   }
 
-  protected handleSelectLecture(id: string) {
-    console.log(id);
+  protected handleSelectLecture(lectureData: LectureData) {
+    console.log(lectureData);
   }
 }

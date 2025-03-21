@@ -13,7 +13,11 @@
 
   <!-- Tab content -->
   <div *ngIf="activeItemIndex === 0">
-    <app-lecture-list />
+    <app-lecture-list
+      *ngIf="courseId"
+      [courseId]="courseId"
+      [scrollable]="false"
+    />
   </div>
 
   <div *ngIf="activeItemIndex === 1">
@@ -26,6 +30,6 @@
   </div>
 
   <div *ngIf="activeItemIndex === 2">
-    <app-course-list [enableSorting]="false" [enablePagination]="false" />
+    <app-course-list [enableSorting]="false" />
   </div>
 </section>

@@ -1,9 +1,10 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { CourseListComponent } from '@app/pages/components/course-list/course-list.component';
 import { BidvTabsModule } from '@bidv-ui/kit';
 import { LectureListComponent } from '@app/pages/components/lecture-list/lecture-list.component';
 import { ProblemTableComponent } from '@app/pages/components/problem-table/problem-table.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-course-sub-content',
@@ -19,5 +20,8 @@ import { ProblemTableComponent } from '@app/pages/components/problem-table/probl
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CourseSubContentComponent {
+  private activatedRoute = inject(ActivatedRoute);
+
+  protected courseId = this.activatedRoute.snapshot.paramMap.get('id');
   protected activeItemIndex = 0;
 }

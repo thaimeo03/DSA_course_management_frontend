@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
+import { LectureData } from '@app/models/lecture';
 import { BidvSvgModule } from '@bidv-ui/core';
 
 @Component({
@@ -9,4 +10,6 @@ import { BidvSvgModule } from '@bidv-ui/core';
   styleUrl: './lecture-item.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class LectureItemComponent {}
+export class LectureItemComponent {
+  @Input({ required: true }) lectureData!: LectureData;
+}

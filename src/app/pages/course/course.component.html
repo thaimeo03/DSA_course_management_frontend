@@ -1,7 +1,9 @@
 <div>
   <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
 
-  <app-course-main-content />
+  <app-course-main-content
+    (shareDetailCourseEvent)="handleDetailCourse($event)"
+  />
 
   <app-course-sub-content />
 </div>

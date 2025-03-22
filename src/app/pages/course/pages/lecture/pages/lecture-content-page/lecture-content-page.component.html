@@ -1,0 +1,56 @@
+<ng-container *ngIf="lectureData">
+  <div class="lecture-content">
+    <iframe
+      *ngIf="videoUrl"
+      [src]="videoUrl"
+      width="100%"
+      height="612"
+      frameborder="0"
+      allowfullscreen
+    ></iframe>
+
+    <div class="lecture-action">
+      <button
+        bidvButton
+        (click)="handleNavigateProblem()"
+        iconRight="bidvIconChevronRight"
+        variant="outlined"
+        size="s"
+      >
+        Thực hành
+      </button>
+      <button
+        *ngIf="!isLastLecture"
+        bidvButton
+        (click)="handleNavigateNextLecture()"
+        iconRight="bidvIconChevronRight"
+        variant="filled"
+        size="s"
+      >
+        Bài tiếp
+      </button>
+    </div>
+
+    <div class="bidv-text_headline-8 lecture-desc">
+      {{ lectureData.content }}
+    </div>
+
+    <div class="document-box">
+      <h2 class="bidv-text_title-1">Tài liệu</h2>
+
+      <div *ngIf="documents" class="document-list">
+        <ng-container *ngFor="let item of documents">
+          <a [href]="item.link" download class="document-item">
+            <img
+              class="document-icon"
+              [src]="item.iconSrc"
+              [alt]="item.label"
+            />
+
+            <div class="bidv-text_body-2">{{ item.label }}</div>
+          </a>
+        </ng-container>
+      </div>
+    </div>
+  </div>
+</ng-container>

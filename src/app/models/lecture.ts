@@ -1,5 +1,9 @@
 import { DataResponse } from '.';
 
+export interface LectureQueryParams {
+  no: number;
+}
+
 export type GetActiveLecturesResponse = DataResponse<LectureData[]>;
 
 export interface LectureData {

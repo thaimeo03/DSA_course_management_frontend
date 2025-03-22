@@ -2,7 +2,7 @@
   <bidv-scrollbar [ngClass]="scrollable ? 'scrollbar' : ''">
     <ng-container *ngFor="let item of lectureList; index as i">
       <app-lecture-item
-        (click)="canInteract && handleSelectLecture(item, i)"
+        (click)="canInteract && handleSelectLecture(i)"
         [lectureData]="item"
         [ngClass]="canInteract ? 'canInteract' : ''"
         [class.active]="canInteract && i === activeItemIndex"

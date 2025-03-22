@@ -19,6 +19,7 @@ import {
 } from '@tanstack/angular-query-experimental';
 import { provideStore } from '@ngrx/store';
 import { authReducer } from 'stores/reducers/auth.reducer';
+import { lectureReducer } from 'stores/reducers/lecture.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -29,6 +30,6 @@ export const appConfig: ApplicationConfig = {
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withInterceptorsFromDi()), // DI-based interceptors must be explicitly enabled.
     ...provideInterceptors,
-    provideStore({ auth: authReducer }),
+    provideStore({ auth: authReducer, lecture: lectureReducer }),
   ],
 };

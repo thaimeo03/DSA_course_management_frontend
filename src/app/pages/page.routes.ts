@@ -35,11 +35,10 @@ export const pageRoutes: Route[] = [
       },
       {
         path: 'course/:id/lecture',
-        loadComponent: () =>
-          import('./course/pages/lecture/lecture.component').then(
-            (m) => m.LectureComponent,
+        loadChildren: () =>
+          import('./course/pages/lecture/lecture.routes').then(
+            (m) => m.lectureRoutes,
           ),
-        canActivate: [authGuard],
       },
       {
         path: 'course/:id/problem-repository',
@@ -57,7 +56,6 @@ export const pageRoutes: Route[] = [
         canActivate: [authGuard],
       },
     ],
-    title: 'Home',
   },
   {
     path: 'auth',

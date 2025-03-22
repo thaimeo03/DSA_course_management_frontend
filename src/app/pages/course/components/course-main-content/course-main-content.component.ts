@@ -3,12 +3,15 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  EventEmitter,
   inject,
+  Output,
 } from '@angular/core';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
 import { DetailCourseData } from '@app/models/course';
+import { LectureQueryParams } from '@app/models/lecture';
 import { CourseService } from '@app/services/course.service';
 import { extractVideoId } from '@app/utils/extract-data';
 import { injectQuery } from '@bidv-api/angular';
@@ -36,6 +39,8 @@ export class CrouseMainContentComponent {
   private cdr = inject(ChangeDetectorRef);
   #courseService = inject(CourseService);
   #query = injectQuery();
+
+  @Output() shareDetailCourseEvent = new EventEmitter<DetailCourseData>();
 
   // Data
   private courseId = this.activatedRoute.snapshot.paramMap.get('id') as string;
@@ -87,9 +92,12 @@ export class CrouseMainContentComponent {
       if (!data) return;
 
       this.detailCourse = data.data;
+      this.shareDetailCourseEvent.emit(this.detailCourse);
+
       if (this.detailCourse.videoUrl) {
         this.videoUrl = this.initVideo(this.detailCourse.videoUrl);
       }
+
       this.cdr.markForCheck();
     });
   }
@@ -105,10 +113,12 @@ export class CrouseMainContentComponent {
   // Handlers
   protected handleAction() {
     if (this.isPurchased) {
+      const queryParams: LectureQueryParams = { no: 1 };
+
       this.router.navigate([ROUTES.lecture], {
         relativeTo: this.activatedRoute,
+        queryParams: queryParams,
       });
-    } else {
     }
   }
 

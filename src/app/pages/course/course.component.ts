@@ -12,6 +12,7 @@ import { ActivatedRoute } from '@angular/router';
 import { CrouseMainContentComponent } from './components/course-main-content/course-main-content.component';
 import { CourseSubContentComponent } from './components/course-sub-content/course-sub-content.component';
 import { Title } from '@angular/platform-browser';
+import { DetailCourseData } from '@app/models/course';
 @Component({
   selector: 'app-course',
   imports: [
@@ -24,8 +25,7 @@ import { Title } from '@angular/platform-browser';
   styleUrl: './course.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CourseComponent implements OnInit {
-  private activatedRoute = inject(ActivatedRoute);
+export class CourseComponent {
   private titleService = inject(Title);
 
   protected breadcrumbs: LinkItem[] = [
@@ -38,12 +38,8 @@ export class CourseComponent implements OnInit {
     },
   ];
 
-  constructor() {
-    // Id of course
-    console.log(this.activatedRoute.snapshot.paramMap.get('id'));
-  }
-
-  ngOnInit(): void {
-    this.titleService.setTitle('Course 1'); // Replace with actual title
+  // Handlers
+  protected handleDetailCourse(detailCourse: DetailCourseData) {
+    this.titleService.setTitle(detailCourse.title);
   }
 }

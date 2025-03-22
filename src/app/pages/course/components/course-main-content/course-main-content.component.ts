@@ -10,11 +10,14 @@ import {
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
+import { PaymentMethod } from '@app/enums/payment';
 import { DetailCourseData } from '@app/models/course';
 import { LectureQueryParams } from '@app/models/lecture';
+import { PayBody } from '@app/models/payment';
 import { CourseService } from '@app/services/course.service';
+import { PaymentService } from '@app/services/payment.service';
 import { extractVideoId } from '@app/utils/extract-data';
-import { injectQuery } from '@bidv-api/angular';
+import { injectMutation, injectQuery } from '@bidv-api/angular';
 import { BidvAmountPipe } from '@bidv-ui/addon-commerce';
 import { BidvButtonModule, BidvSvgModule } from '@bidv-ui/core';
 import { BidvSkeletonDirective } from '@bidv-ui/kit';
@@ -38,7 +41,9 @@ export class CrouseMainContentComponent {
   private sanitizer = inject(DomSanitizer);
   private cdr = inject(ChangeDetectorRef);
   #courseService = inject(CourseService);
+  #paymentService = inject(PaymentService);
   #query = injectQuery();
+  #mutation = injectMutation();
 
   @Output() shareDetailCourseEvent = new EventEmitter<DetailCourseData>();
 
@@ -81,6 +86,16 @@ export class CrouseMainContentComponent {
       this.#courseService.getDetailCourse(this.courseId, { isActive: '1' }),
   });
 
+  // Mutation
+  #payMutation = this.#mutation({
+    mutationFn: (body: PayBody) => this.#paymentService.pay(body),
+    onSuccess: (res) => {
+      const url = res.data.url;
+      window.location.replace(url);
+    },
+  });
+  protected payMutationResult = this.#payMutation.result;
+
   constructor() {
     this.initData();
   }
@@ -118,6 +133,11 @@ export class CrouseMainContentComponent {
       this.router.navigate([ROUTES.lecture], {
         relativeTo: this.activatedRoute,
         queryParams: queryParams,
+      });
+    } else {
+      this.#payMutation.mutate({
+        courseId: this.courseId,
+        method: PaymentMethod.Stripe, // Hard code
       });
     }
   }

@@ -29,7 +29,7 @@ import {
   BidvInputPasswordModule,
 } from '@bidv-ui/kit';
 import { Store } from '@ngrx/store';
-import { merge, of } from 'rxjs';
+import { of } from 'rxjs';
 import { ROUTES } from 'src/app/constants/routes';
 import { LoginBody, RegisterBody } from '@app/models/user';
 import { UserService } from 'src/app/services/user.service';

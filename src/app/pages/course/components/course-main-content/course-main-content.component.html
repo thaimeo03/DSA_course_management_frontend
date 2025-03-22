@@ -35,6 +35,7 @@
         <button
           bidvButton
           (click)="handleAction()"
+          [loading]="payMutationResult().isPending"
           variant="filled"
           class="action-btn"
         >

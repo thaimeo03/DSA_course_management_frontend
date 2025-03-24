@@ -20,6 +20,7 @@ import {
 import { provideStore } from '@ngrx/store';
 import { authReducer } from 'stores/reducers/auth.reducer';
 import { lectureReducer } from 'stores/reducers/lecture.reducer';
+import { courseReducer } from 'stores/reducers/course.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -30,6 +31,10 @@ export const appConfig: ApplicationConfig = {
     provideTanStackQuery(new QueryClient()),
     provideHttpClient(withInterceptorsFromDi()), // DI-based interceptors must be explicitly enabled.
     ...provideInterceptors,
-    provideStore({ auth: authReducer, lecture: lectureReducer }),
+    provideStore({
+      auth: authReducer,
+      lecture: lectureReducer,
+      course: courseReducer,
+    }),
   ],
 };

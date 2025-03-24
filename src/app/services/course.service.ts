@@ -5,6 +5,7 @@ import {
   GetActiveCourseResponse,
   GetDetailCourseParams,
   GetDetailCourseResponse,
+  IsPurchasedCourseResponse,
 } from '@app/models/course';
 import { getHttpParams } from '@app/utils/handle-api';
 
@@ -30,6 +31,12 @@ export class CourseService {
       {
         params: httpParams,
       },
+    );
+  }
+
+  isPurChasedCourse(id: string) {
+    return this.#httpClient.get<IsPurchasedCourseResponse>(
+      `/courses/is-purchase/${id}`,
     );
   }
 }

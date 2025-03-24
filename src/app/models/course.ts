@@ -2,6 +2,7 @@ import { CourseSortBy } from '@app/enums/course';
 import { DataResponse, DataResponseWithPagination, PaginationParams } from '.';
 import { Order } from '@app/enums';
 
+// Detail course
 export interface CourseData {
   id: string;
   title: string;
@@ -22,10 +23,15 @@ export interface GetDetailCourseParams {
   isActive: '1' | '0';
 }
 
+export type GetDetailCourseResponse = DataResponse<DetailCourseData>;
+
+// Active courses
 export interface GetActiveCourseParams extends PaginationParams {
   sortBy?: CourseSortBy;
   order?: Order;
 }
 
 export type GetActiveCourseResponse = DataResponseWithPagination<CourseData[]>;
-export type GetDetailCourseResponse = DataResponse<DetailCourseData>;
+
+// Is purchased course
+export type IsPurchasedCourseResponse = DataResponse<boolean>;

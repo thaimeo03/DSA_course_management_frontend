@@ -21,6 +21,8 @@ import { injectMutation, injectQuery } from '@bidv-api/angular';
 import { BidvAmountPipe } from '@bidv-ui/addon-commerce';
 import { BidvButtonModule, BidvSvgModule } from '@bidv-ui/core';
 import { BidvSkeletonDirective } from '@bidv-ui/kit';
+import { Store } from '@ngrx/store';
+import { setCourseData } from 'stores/actions/course.action';
 
 @Component({
   selector: 'app-course-main-content',
@@ -44,13 +46,14 @@ export class CrouseMainContentComponent {
   #paymentService = inject(PaymentService);
   #query = injectQuery();
   #mutation = injectMutation();
+  #store = inject(Store);
 
   @Output() shareDetailCourseEvent = new EventEmitter<DetailCourseData>();
 
   // Data
   private courseId = this.activatedRoute.snapshot.paramMap.get('id') as string;
   protected videoUrl: SafeResourceUrl | null = null;
-  protected isPurchased = true;
+  protected isPurchased = false;
   protected detailCourse: DetailCourseData | null = null;
   protected invitedInfo = [
     {
@@ -86,6 +89,13 @@ export class CrouseMainContentComponent {
       this.#courseService.getDetailCourse(this.courseId, { isActive: '1' }),
   });
 
+  #isPurchasedQuery = this.#query({
+    queryKey: ['is-purchased'],
+    queryFn: () => this.#courseService.isPurChasedCourse(this.courseId),
+  });
+
+  protected isPurchaseQueryResult = this.#isPurchasedQuery.result;
+
   // Mutation
   #payMutation = this.#mutation({
     mutationFn: (body: PayBody) => this.#paymentService.pay(body),
@@ -112,6 +122,16 @@ export class CrouseMainContentComponent {
       if (this.detailCourse.videoUrl) {
         this.videoUrl = this.initVideo(this.detailCourse.videoUrl);
       }
+
+      this.cdr.markForCheck();
+    });
+
+    this.#isPurchasedQuery.result$.subscribe((res) => {
+      const data = res.data;
+      if (!data) return;
+
+      this.isPurchased = data.data;
+      this.#store.dispatch(setCourseData({ isPurchased: this.isPurchased }));
 
       this.cdr.markForCheck();
     });

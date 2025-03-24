@@ -1,5 +1,6 @@
 import { Route } from '@angular/router';
 import { authGuard } from '@app/guards/auth.guard';
+import { courseGuard } from '@app/guards/course.guard';
 
 export const pageRoutes: Route[] = [
   {
@@ -47,13 +48,13 @@ export const pageRoutes: Route[] = [
             './course/pages/problem-repository/problem-repository.component'
           ).then((m) => m.ProblemRepositoryComponent),
         title: 'Problems',
-        canActivate: [authGuard],
+        canActivate: [authGuard, courseGuard],
       },
       {
         path: 'problem/:problemId',
         loadComponent: () =>
           import('./problem/problem.component').then((m) => m.ProblemComponent),
-        canActivate: [authGuard],
+        canActivate: [authGuard, courseGuard],
       },
     ],
   },

@@ -22,6 +22,7 @@
 
   <div *ngIf="activeItemIndex === 1">
     <app-problem-table
+      [courseId]="courseId"
       [hideStatus]="true"
       [hidePagination]="true"
       [clickableRow]="false"
@@ -30,6 +31,6 @@
   </div>
 
   <div *ngIf="activeItemIndex === 2">
-    <app-course-list [enableSorting]="false" />
+    <app-course-list [enableSorting]="false" [enablePagination]="false" />
   </div>
 </section>

@@ -8,5 +8,5 @@ export const ROUTES = {
   detailCourse: '/course',
   lecture: 'lecture',
   problemRepository: 'problem-repository',
-  problem: '/problem',
+  problem: 'problem',
 } as const;

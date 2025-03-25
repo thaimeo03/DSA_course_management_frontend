@@ -22,7 +22,7 @@ import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcru
 export class ProblemRepositoryComponent {
   private activatedRoute = inject(ActivatedRoute);
 
-  private courseId = this.activatedRoute.snapshot.paramMap.get('id');
+  protected courseId = this.activatedRoute.snapshot.paramMap.get('id');
 
   protected breadcrumbs: LinkItem[] = [];
 

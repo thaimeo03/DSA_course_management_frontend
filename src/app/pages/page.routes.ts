@@ -51,7 +51,7 @@ export const pageRoutes: Route[] = [
         canActivate: [authGuard, courseGuard],
       },
       {
-        path: 'problem/:problemId',
+        path: 'course/:id/problem/:problemId',
         loadComponent: () =>
           import('./problem/problem.component').then((m) => m.ProblemComponent),
         canActivate: [authGuard, courseGuard],

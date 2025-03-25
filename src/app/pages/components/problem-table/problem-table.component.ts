@@ -43,6 +43,7 @@ import { ROUTES } from '@app/constants/routes';
 export class ProblemTableComponent implements OnInit {
   private router = inject(Router);
 
+  @Input({ required: true }) courseId!: string | null;
   @Input() hidePagination = false;
   @Input() hideStatus = false;
   @Input() clickableRow = false;
@@ -192,6 +193,11 @@ export class ProblemTableComponent implements OnInit {
     if (!this.clickableRow) return;
 
     const problemId = event.data.id;
-    this.router.navigate([ROUTES.problem, problemId]);
+    this.router.navigate([
+      ROUTES.detailCourse,
+      this.courseId,
+      ROUTES.problem,
+      problemId,
+    ]);
   }
 }

@@ -2,9 +2,39 @@
   <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
 
   <div class="problem-container">
-    <div class="content-box">Content box</div>
-    <div class="code-editor-box">
-      <app-code-mirror-editor />
+    <div class="content-container">
+      <bidv-tabs [(activeItemIndex)]="activeItemIndex" [underline]="false">
+        <button bidvTab iconLeft="bidvIconDocumentDataOutline" class="tab-item">
+          Nội dung bài toán
+        </button>
+        <button bidvTab iconLeft="bidvIconHistoryOutline" class="tab-item">
+          Lịch sử nộp bài
+        </button>
+      </bidv-tabs>
+
+      <!-- Tab content -->
+      <div class="content-box">
+        <ng-container *ngIf="activeItemIndex === 0">
+          <bidv-scrollbar> Nội dung bài toán </bidv-scrollbar>
+        </ng-container>
+
+        <ng-container *ngIf="activeItemIndex === 1">
+          Lịch sử nộp bài
+        </ng-container>
+      </div>
     </div>
+    <div class="code-editor-box">
+      <app-code-mirror-editor [code]="code" />
+    </div>
+  </div>
+  <div class="submit-box">
+    <button
+      bidvButton
+      (click)="handleSubmit()"
+      iconLeft="bidvIconSaveOutline"
+      size="s"
+    >
+      Nộp bài
+    </button>
   </div>
 </div>

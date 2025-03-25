@@ -16,11 +16,11 @@ import { java } from '@codemirror/lang-java';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   BidvDataListWrapperModule,
+  bidvItemsHandlersProvider,
   BidvSelectModule,
   BidvSwitchComponent,
 } from '@bidv-ui/kit';
 import {
-  BidvButtonModule,
   BidvDataListModule,
   BidvTextfieldControllerModule,
 } from '@bidv-ui/core';
@@ -30,8 +30,10 @@ import {
   syntaxHighlighting,
 } from '@codemirror/language';
 import { tags as t } from '@lezer/highlight';
+import { PROGRAMMING_LANGUAGE } from '@app/constants';
+import { ProgrammingLanguage } from '@app/enums';
+import { SelectItem } from '@app/models';
 
-type ILanguage = 'Javascript' | 'Python' | 'Java';
 type ITheme = 'light' | 'dark';
 
 @Component({
@@ -44,11 +46,15 @@ type ITheme = 'light' | 'dark';
     BidvDataListWrapperModule,
     BidvSwitchComponent,
     BidvTextfieldControllerModule,
-    BidvButtonModule,
   ],
   templateUrl: './code-mirror-editor.component.html',
   styleUrl: './code-mirror-editor.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    bidvItemsHandlersProvider({
+      stringify: (item: SelectItem) => `${item.label}`,
+    }),
+  ],
 })
 export class CodeMirrorEditorComponent implements OnInit {
   @ViewChild('editorContainer', { static: true }) editorContainer!: ElementRef;
@@ -60,9 +66,22 @@ export class CodeMirrorEditorComponent implements OnInit {
   private themeConfig = new Compartment();
   private highlightConfig = new Compartment();
 
-  protected languages: ILanguage[] = ['Javascript', 'Python', 'Java'];
+  protected languages: SelectItem[] = [
+    {
+      label: PROGRAMMING_LANGUAGE[ProgrammingLanguage.Javascript],
+      value: ProgrammingLanguage.Javascript,
+    },
+    {
+      label: PROGRAMMING_LANGUAGE[ProgrammingLanguage.Python],
+      value: ProgrammingLanguage.Python,
+    },
+    {
+      label: PROGRAMMING_LANGUAGE[ProgrammingLanguage.Java],
+      value: ProgrammingLanguage,
+    },
+  ];
 
-  protected codeEditorForm = new FormGroup({
+  codeEditorForm = new FormGroup({
     language: new FormControl(this.languages[0]),
     darkMode: new FormControl(false),
   });
@@ -74,7 +93,7 @@ export class CodeMirrorEditorComponent implements OnInit {
   // Config editor
   private loadEditor() {
     const langExtension = this.getLanguageExtension(
-      this.codeEditorForm.value.language as ILanguage,
+      PROGRAMMING_LANGUAGE[ProgrammingLanguage.Javascript],
     );
 
     const themeExtension = this.getThemeExtension(
@@ -100,7 +119,7 @@ export class CodeMirrorEditorComponent implements OnInit {
     });
   }
 
-  private getLanguageExtension(language: ILanguage) {
+  private getLanguageExtension(language: keyof typeof PROGRAMMING_LANGUAGE) {
     switch (language) {
       case 'Python':
         return python();
@@ -221,7 +240,7 @@ export class CodeMirrorEditorComponent implements OnInit {
   }
 
   // Handle config change
-  protected handleLanguageChange(value: ILanguage) {
+  protected handleLanguageChange(value: keyof typeof PROGRAMMING_LANGUAGE) {
     this.editor.dispatch({
       effects: [this.langConfig.reconfigure(this.getLanguageExtension(value))],
     });

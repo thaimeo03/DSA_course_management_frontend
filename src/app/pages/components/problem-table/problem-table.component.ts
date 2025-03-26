@@ -17,13 +17,22 @@ import { StatusComponent } from './status/status.component';
 import { DifficultyComponent } from './difficulty/difficulty.component';
 import { SelectItem } from '@app/models';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { BidvDataListWrapperModule, BidvSelectModule } from '@bidv-ui/kit';
+import {
+  BidvDataListWrapperModule,
+  BidvInputModule,
+  BidvSelectModule,
+} from '@bidv-ui/kit';
 import {
   BidvDataListModule,
   BidvTextfieldControllerModule,
 } from '@bidv-ui/core';
 import { Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
+import { ProblemService } from '@app/services/problem.service';
+import { debounceTime, Observable, throttleTime } from 'rxjs';
+import { BidvDay } from '@bidv-ui/cdk';
+import { GetProblemRepositoryParams } from '@app/models/problem';
+import { Difficulty } from '@app/enums/problem';
 
 @Component({
   selector: 'app-problem-table',
@@ -35,6 +44,7 @@ import { ROUTES } from '@app/constants/routes';
     BidvDataListModule,
     BidvDataListWrapperModule,
     BidvTextfieldControllerModule,
+    BidvInputModule,
   ],
   templateUrl: './problem-table.component.html',
   styleUrl: './problem-table.component.scss',
@@ -42,6 +52,7 @@ import { ROUTES } from '@app/constants/routes';
 })
 export class ProblemTableComponent implements OnInit {
   private router = inject(Router);
+  #problemService = inject(ProblemService);
 
   @Input({ required: true }) courseId!: string | null;
   @Input() hidePagination = false;
@@ -61,52 +72,49 @@ export class ProblemTableComponent implements OnInit {
   };
   protected rowData: any[] = [];
 
-  // Filter
-  protected filterByDifficulties: SelectItem[] = [
-    {
-      label: 'Dễ',
-      value: 'easy',
-    },
-    {
-      label: 'Trung bình',
-      value: 'medium',
-    },
-    {
-      label: 'Khó',
-      value: 'hard',
-    },
-  ];
-
-  protected filterByStatuses: SelectItem[] = [
-    {
-      label: 'Chưa làm',
-      value: 'todo',
-    },
-    {
-      label: 'Đang làm',
-      value: 'pending',
-    },
-    {
-      label: 'Đã xong',
-      value: 'done',
-    },
-    {
-      label: 'Lỗi',
-      value: 'failed',
-    },
-  ];
-
   protected filterForm = new FormGroup({
-    difficulty: new FormControl(null),
-    status: new FormControl(null),
+    search: new FormControl(''),
   });
+
+  // Query
+  protected params: GetProblemRepositoryParams = {
+    page: 1,
+    limit: 10,
+  };
+
+  protected getActiveProblemsApi = (id: string, params: any) =>
+    this.#problemService.getActiveProblems(id, params);
 
   constructor() {
     this.createColumnDefs();
-    this.createRowData();
   }
 
   ngOnInit(): void {
+    this.initData();
+    this.initTableStyle();
+  }
+
+  // Init data
+  private initData() {
+    this.filterForm
+      .get('search')
+      ?.valueChanges.pipe(debounceTime(200))
+      .subscribe((value) => {
+        if (value === null) return;
+
+        if (value.length === 0) {
+          delete this.params.search;
+          this.params = { ...this.params };
+        } else {
+          this.params = {
+            ...this.params,
+            search: value,
+          };
+        }
+      });
+  }
+
+  private initTableStyle() {
     // Set grid options
     this.gridOptions.rowStyle = this.clickableRow
       ? { cursor: 'pointer' }
@@ -131,7 +139,7 @@ export class ProblemTableComponent implements OnInit {
       },
       {
         headerName: '#',
-        field: 'num',
+        field: 'no',
         width: 80,
         pinned: true,
       },
@@ -163,30 +171,18 @@ export class ProblemTableComponent implements OnInit {
       {
         headerName: 'Updated At',
         field: 'updatedAt',
+        valueGetter: (params) => {
+          const updatedAt = params.data.updatedAt;
+
+          return BidvDay.fromUtcNativeDate(new Date(updatedAt)).getFormattedDay(
+            'DMY',
+            '/',
+          );
+        },
         sortable: true,
         width: 150,
       },
     ];
-  }
-
-  private createRowData() {
-    const rowData = [];
-
-    for (let i = 0; i < 13; i++) {
-      const index = i + 1;
-
-      rowData.push({
-        id: `id-${index}`,
-        num: index,
-        status: Math.floor(Math.random() * 4),
-        title: `Title ${index}`,
-        point: `Point ${index}`,
-        difficulty: Math.floor(Math.random() * 3),
-        updatedAt: `Updated At ${index}`,
-      });
-    }
-
-    this.rowData = rowData;
   }
 
   private onRowClicked(event: RowClickedEvent) {

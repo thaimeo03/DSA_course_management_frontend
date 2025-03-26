@@ -1,9 +1,7 @@
-.filter-box {
-  margin-bottom: 1rem;
-  display: flex;
-  column-gap: 0.5rem;
+form {
+  margin: 1rem 0;
 
-  .item-select {
-    width: 150px;
+  .search-input {
+    width: 450px;
   }
 }

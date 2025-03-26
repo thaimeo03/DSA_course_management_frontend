@@ -39,6 +39,7 @@ export interface IPagination {
   limit: number;
   currentPage: number;
   totalPage: number;
+  totalElements: number;
 }
 
 export interface DataResponseWithPagination<T> extends DataResponse<T> {

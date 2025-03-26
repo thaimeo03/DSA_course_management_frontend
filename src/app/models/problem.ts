@@ -1,0 +1,27 @@
+import { Difficulty, SortBy } from '@app/enums/problem';
+import { SubmissionStatus } from '@app/enums/submission';
+import { DataResponseWithPagination, PaginationParams } from '.';
+import { Order } from '@app/enums';
+
+export type ProblemRepositoryResponse = DataResponseWithPagination<
+  ProblemRepositoryData[]
+>;
+
+export interface ProblemRepositoryData {
+  id: string;
+  title: string;
+  content: string;
+  point: number;
+  difficulty: Difficulty;
+  isActive: boolean;
+  isArchived: boolean;
+  createdAt: string;
+  updatedAt: string;
+  status: SubmissionStatus;
+}
+
+export interface GetProblemRepositoryParams extends PaginationParams {
+  sortBy?: SortBy;
+  order?: Order;
+  search?: string;
+}

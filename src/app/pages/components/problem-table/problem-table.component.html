@@ -1,37 +1,23 @@
-<div>
-  <form *ngIf="!hideFilter" [formGroup]="filterForm" class="filter-box">
-    <bidv-select
-      formControlName="difficulty"
-      bidvTextfieldSize="s"
+<section>
+  <form *ngIf="!hideFilter" [formGroup]="filterForm">
+    <bidv-input
+      class="search-input"
+      bidvTextfieldIconLeft="bidvIconSearch"
+      formControlName="search"
       [bidvTextfieldCleaner]="true"
-      class="item-select"
     >
-      Độ khó
-      <bidv-data-list-wrapper
-        *bidvDataList
-        [items]="filterByDifficulties"
-      ></bidv-data-list-wrapper>
-    </bidv-select>
-
-    <bidv-select
-      formControlName="status"
-      bidvTextfieldSize="s"
-      [bidvTextfieldCleaner]="true"
-      class="item-select"
-    >
-      Status
-      <bidv-data-list-wrapper
-        *bidvDataList
-        [items]="filterByStatuses"
-      ></bidv-data-list-wrapper>
-    </bidv-select>
+      Tìm kiếm bài toán
+    </bidv-input>
   </form>
 
-  <base-table
-    class="identifier-table"
-    [colDefs]="columnDefs"
+  <app-base-table
+    *ngIf="courseId"
+    queryKey="problem-repository"
+    [columnDefs]="columnDefs"
+    [paramId]="courseId"
+    [params]="params"
+    [api]="getActiveProblemsApi"
     [gridOptions]="gridOptions"
-    [rowData]="rowData"
-    [hidePagination]="hidePagination"
+    [hiddenPagination]="hidePagination"
   />
-</div>
+</section>

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { Difficulty } from '@app/enums/problem';
 import { BadgeItem } from '@app/models';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
 import { ICellRendererParams } from 'ag-grid-community';
@@ -15,17 +16,17 @@ export class DifficultyComponent implements ICellRendererAngularComp {
   private difficultyItems: BadgeItem[] = [
     {
       label: 'Easy',
-      value: 0,
+      value: Difficulty.Easy,
       class: 'text-green',
     },
     {
       label: 'Medium',
-      value: 1,
+      value: Difficulty.Medium,
       class: 'text-orange',
     },
     {
       label: 'Hard',
-      value: 2,
+      value: Difficulty.Hard,
       class: 'text-red',
     },
   ];
@@ -33,18 +34,15 @@ export class DifficultyComponent implements ICellRendererAngularComp {
   protected curDifficultyItem: BadgeItem = this.difficultyItems[0];
 
   agInit(params: ICellRendererParams<any, any, any>): void {
-    switch (params.value) {
-      case 0:
+    switch (params.value as Difficulty) {
+      case Difficulty.Easy:
         this.curDifficultyItem = this.difficultyItems[0];
         break;
-      case 1:
+      case Difficulty.Medium:
         this.curDifficultyItem = this.difficultyItems[1];
         break;
-      case 2:
+      case Difficulty.Hard:
         this.curDifficultyItem = this.difficultyItems[2];
-        break;
-      default:
-        this.curDifficultyItem = this.difficultyItems[0];
         break;
     }
   }

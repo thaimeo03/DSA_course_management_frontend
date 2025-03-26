@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { SubmissionStatus } from '@app/enums/submission';
 import { BadgeItem } from '@app/models';
 import { BidvBadgeModule } from '@bidv-ui/kit';
 import { ICellRendererAngularComp } from 'ag-grid-angular';
@@ -16,25 +17,19 @@ export class StatusComponent implements ICellRendererAngularComp {
   private statusItems: BadgeItem[] = [
     {
       label: 'Todo',
-      value: 0,
+      value: SubmissionStatus.Todo,
       icon: 'bidvIconCircleOutline',
       class: 'badge-gray',
     },
     {
-      label: 'Pending',
-      value: 1,
-      icon: 'bidvIconClock',
-      class: 'badge-orange',
-    },
-    {
       label: 'Failed',
-      value: 2,
+      value: SubmissionStatus.Failed,
       icon: 'bidvIconDismissCircle',
       class: 'badge-red',
     },
     {
       label: 'Done',
-      value: 3,
+      value: SubmissionStatus.Passed,
       icon: 'bidvIconCheckmarkCircle',
       class: 'badge-green',
     },
@@ -43,21 +38,15 @@ export class StatusComponent implements ICellRendererAngularComp {
   protected curStatusItem: BadgeItem = this.statusItems[0];
 
   agInit(params: ICellRendererParams<any, any, any>): void {
-    switch (params.value) {
-      case 0:
+    switch (params.value as SubmissionStatus) {
+      case SubmissionStatus.Failed:
         this.curStatusItem = this.statusItems[0];
         break;
-      case 1:
+      case SubmissionStatus.Passed:
         this.curStatusItem = this.statusItems[1];
         break;
-      case 2:
+      case SubmissionStatus.Todo:
         this.curStatusItem = this.statusItems[2];
-        break;
-      case 3:
-        this.curStatusItem = this.statusItems[3];
-        break;
-      default:
-        this.curStatusItem = this.statusItems[0];
         break;
     }
   }

@@ -15,7 +15,6 @@ import {
 import { BaseTableComponent } from '../base-table/base-table.component';
 import { StatusComponent } from './status/status.component';
 import { DifficultyComponent } from './difficulty/difficulty.component';
-import { SelectItem } from '@app/models';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
 import {
   BidvDataListWrapperModule,
@@ -29,10 +28,9 @@ import {
 import { Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
 import { ProblemService } from '@app/services/problem.service';
-import { debounceTime, Observable, throttleTime } from 'rxjs';
+import { debounceTime, Observable, of } from 'rxjs';
 import { BidvDay } from '@bidv-ui/cdk';
 import { GetProblemRepositoryParams } from '@app/models/problem';
-import { Difficulty } from '@app/enums/problem';
 
 @Component({
   selector: 'app-problem-table',
@@ -70,7 +68,6 @@ export class ProblemTableComponent implements OnInit {
     rowStyle: this.clickableRow ? { cursor: 'pointer' } : undefined,
     onRowClicked: this.onRowClicked.bind(this),
   };
-  protected rowData: any[] = [];
 
   protected filterForm = new FormGroup({
     search: new FormControl(''),
@@ -82,8 +79,8 @@ export class ProblemTableComponent implements OnInit {
     limit: 10,
   };
 
-  protected getActiveProblemsApi = (id: string, params: any) =>
-    this.#problemService.getActiveProblems(id, params);
+  protected getActiveProblemsApi: (params: any) => Observable<any> = () =>
+    of(null);
 
   constructor() {
     this.createColumnDefs();
@@ -96,6 +93,16 @@ export class ProblemTableComponent implements OnInit {
 
   // Init data
   private initData() {
+    // Set api
+    if (!this.courseId) return;
+    this.getActiveProblemsApi = (params: any) => {
+      return this.#problemService.getActiveProblems(
+        this.courseId as string,
+        params,
+      );
+    };
+
+    // Search
     this.filterForm
       .get('search')
       ?.valueChanges.pipe(debounceTime(200))

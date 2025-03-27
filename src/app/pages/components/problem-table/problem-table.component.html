@@ -11,12 +11,10 @@
   </form>
 
   <app-base-table
-    *ngIf="courseId"
     queryKey="problem-repository"
     [columnDefs]="columnDefs"
-    [paramId]="courseId"
     [params]="params"
-    [api]="getActiveProblemsApi"
+    [api]="getActiveProblemsApi.bind(this)"
     [gridOptions]="gridOptions"
     [hiddenPagination]="hidePagination"
   />

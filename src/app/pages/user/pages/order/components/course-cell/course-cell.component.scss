@@ -1,0 +1,11 @@
+.course-cell {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+
+  img {
+    width: 48px;
+    height: 48px;
+    border-radius: var(--corner-radius-m);
+  }
+}

@@ -54,7 +54,7 @@ ModuleRegistry.registerModules([AllCommunityModule]);
   styleUrls: ['./base-table.component.scss'],
   encapsulation: ViewEncapsulation.None,
 })
-export class BaseTableComponent implements OnInit, OnChanges {
+export class BaseTableComponent implements OnChanges {
   // Dependencies
   private cdr = inject(ChangeDetectorRef);
   private destroyedRef = inject(DestroyRef);
@@ -62,7 +62,6 @@ export class BaseTableComponent implements OnInit, OnChanges {
   private readonly queryClient = injectQueryClient();
 
   // Inputs and Outputs
-  @Input({ required: true }) paramId!: string;
   @Input() renderedRowData!: any[]; // Only used for fake data or show empty data
   @Input() tableIconSrc = '';
   @Input() tableTitle = '';
@@ -75,11 +74,8 @@ export class BaseTableComponent implements OnInit, OnChanges {
   };
   @Input() gridOptions: GridOptions = {};
   @Input() rowHeight = 50;
-  @Input({ required: true }) queryKey = '';
-  @Input({ required: true }) api!: (
-    id: string,
-    params: any,
-  ) => Observable<any> | null;
+  @Input() queryKey = '';
+  @Input() api!: (params: any) => Observable<any>;
   @Input() params: any = null;
   @Input() itemPages: Array<{ value: number; label: string }> = [
     { value: 10, label: '10 / trang' },
@@ -110,13 +106,6 @@ export class BaseTableComponent implements OnInit, OnChanges {
   #featureQuery!: Result<QueryObserverResult<any, Error>>;
   protected featureQueryResult$!: Observable<QueryObserverResult<any, Error>>;
 
-  ngOnInit(): void {
-    // Fake row data
-    if (this.renderedRowData) {
-      this.rowData = this.renderedRowData;
-    }
-  }
-
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['params'] && this.params) {
       this.updateParams(this.params);
@@ -126,6 +115,9 @@ export class BaseTableComponent implements OnInit, OnChanges {
       } else {
         this.fetchData();
       }
+    }
+    if (changes['renderedRowData'] && this.renderedRowData) {
+      this.rowData = this.renderedRowData;
     }
   }
 
@@ -182,7 +174,7 @@ export class BaseTableComponent implements OnInit, OnChanges {
       refetchOnWindowFocus: false,
       retry: 0,
       queryFn: () => {
-        return this.api(this.paramId, params);
+        return this.api(params);
       },
     });
   }

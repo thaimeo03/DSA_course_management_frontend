@@ -1,10 +1,5 @@
 import { CommonModule } from '@angular/common';
-import {
-  ChangeDetectionStrategy,
-  Component,
-  inject,
-  OnInit,
-} from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { BidvDividerDirective, BidvTabsModule } from '@bidv-ui/kit';
 import { BreadcrumbsComponent } from '../components/breadcrumbs/breadcrumbs.component';
 import { LinkItem } from 'src/app/models';
@@ -52,11 +47,9 @@ export class UserComponent {
 
   constructor() {
     // Set active tab
-    this.router.events.subscribe(() => {
-      this.activeItemIndex = this.tabLinks.findIndex(
-        (item) => item.link === this.router.url,
-      );
-    });
+    this.activeItemIndex = this.tabLinks.findIndex(
+      (item) => item.link === this.router.url,
+    );
   }
 
   protected onTabClick(link: any) {

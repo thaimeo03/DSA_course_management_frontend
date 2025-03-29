@@ -2,40 +2,28 @@ import { inject } from '@angular/core';
 import { Router, type CanActivateFn } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
 import { UserService } from '@app/services/user.service';
-import { injectQuery } from '@bidv-api/angular';
 import { Store } from '@ngrx/store';
 import { setAuth } from 'stores/actions/auth.action';
 import { selectAuthState } from 'stores/selectors/auth.selector';
+import { firstValueFrom } from 'rxjs';
 
-export const authGuard: CanActivateFn = () => {
+export const authGuard: CanActivateFn = async () => {
   const router = inject(Router);
   const userService = inject(UserService);
   const store = inject(Store);
-  const query = injectQuery();
 
-  let isAuthenticated = false;
+  const authState = await firstValueFrom(store.select(selectAuthState));
 
-  store.select(selectAuthState).subscribe((auth) => {
-    isAuthenticated = auth.isAuthenticated;
-  });
+  if (authState.isAuthenticated) return true;
 
-  if (isAuthenticated) return true;
+  try {
+    const res = await firstValueFrom(userService.getMe());
+    const me = res.data;
 
-  const getMeQuery = query({
-    queryKey: ['me'],
-    queryFn: () => userService.getMe(),
-    retry: 0,
-  });
-
-  getMeQuery.result$.subscribe((res) => {
-    if (res.isSuccess) {
-      const data = res.data;
-      store.dispatch(setAuth({ isAuthenticated: true, me: data.data }));
-    }
-    if (res.isError) {
-      router.navigate([ROUTES.login]);
-    }
-  });
-
+    store.dispatch(setAuth({ isAuthenticated: true, me }));
+  } catch (error) {
+    router.navigate([ROUTES.login]);
+    return false;
+  }
   return true;
 };

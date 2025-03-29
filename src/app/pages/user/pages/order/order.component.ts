@@ -6,7 +6,6 @@ import {
   inject,
 } from '@angular/core';
 import { PaymentService } from '@app/services/payment.service';
-import { BidvDay, BidvTime } from '@bidv-ui/cdk';
 import { ColDef, ColGroupDef, GridOptions } from 'ag-grid-community';
 import { BaseTableComponent } from '@app/pages/components/base-table/base-table.component';
 import { injectQuery } from '@bidv-api/angular';

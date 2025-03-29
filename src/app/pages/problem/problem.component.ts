@@ -11,11 +11,11 @@ import { ROUTES } from '@app/constants/routes';
 import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { BidvTabsModule } from '@bidv-ui/kit';
 import { BidvButtonModule, BidvScrollbarComponent } from '@bidv-ui/core';
-import { ProgrammingLanguage } from '@app/enums';
 import { injectMutation } from '@bidv-api/angular';
-import { ExecuteCodeBody } from '@app/models/submission';
+import { ExecuteCodeBody, SubmissionHistoryData } from '@app/models/submission';
 import { SubmissionService } from '@app/services/submission.service';
 import { ActivatedRoute } from '@angular/router';
+import { SubmissionHistoryComponent } from './components/submission-history/submission-history.component';
 
 @Component({
   selector: 'app-problem',
@@ -26,6 +26,7 @@ import { ActivatedRoute } from '@angular/router';
     BidvTabsModule,
     BidvButtonModule,
     BidvScrollbarComponent,
+    SubmissionHistoryComponent,
   ],
   templateUrl: './problem.component.html',
   styleUrl: './problem.component.scss',
@@ -52,7 +53,7 @@ export class ProblemComponent {
   protected activeItemIndex = 0;
 
   // Data
-  private problemId!: string;
+  protected problemId!: string;
   protected code = '';
 
   // Mutation
@@ -91,5 +92,9 @@ export class ProblemComponent {
       language: language.value,
       problemId: '2f7a4c15-a2ad-41a4-922e-603fed97688d', // Hardcoded
     });
+  }
+
+  protected handleSubmissionHistory(data: SubmissionHistoryData) {
+    this.code = data.sourceCode.code;
   }
 }

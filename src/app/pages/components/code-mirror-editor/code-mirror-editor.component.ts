@@ -4,7 +4,9 @@ import {
   Component,
   ElementRef,
   Input,
+  OnChanges,
   OnInit,
+  SimpleChanges,
   ViewChild,
 } from '@angular/core';
 import { basicSetup } from 'codemirror';
@@ -56,7 +58,7 @@ type ITheme = 'light' | 'dark';
     }),
   ],
 })
-export class CodeMirrorEditorComponent implements OnInit {
+export class CodeMirrorEditorComponent implements OnInit, OnChanges {
   @ViewChild('editorContainer', { static: true }) editorContainer!: ElementRef;
 
   @Input() code: string = '';
@@ -90,6 +92,18 @@ export class CodeMirrorEditorComponent implements OnInit {
     this.loadEditor();
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['code']) {
+      this.editor.dispatch({
+        changes: {
+          from: 0,
+          to: this.editor.state.doc.length,
+          insert: this.code,
+        },
+      });
+    }
+  }
+
   // Config editor
   private loadEditor() {
     const langExtension = this.getLanguageExtension(
@@ -109,6 +123,7 @@ export class CodeMirrorEditorComponent implements OnInit {
         doc: this.code,
         extensions: [
           basicSetup,
+          EditorView.lineWrapping,
           this.langConfig.of(langExtension),
           this.themeConfig.of(themeExtension),
           this.highlightConfig.of(highlightExtension),
@@ -145,20 +160,16 @@ export class CodeMirrorEditorComponent implements OnInit {
             fontFamily: 'Fira Code, monospace',
             padding: '10px',
           },
-          '&.cm-focused': {
-            borderColor: 'var(--colors-primary-600)',
-          },
           '.cm-scroller': {
-            overflow: 'auto', // Bật thanh cuộn khi cần
-            minHeight: '100%',
-            maxHeight: '100%',
+            overflowY: 'auto',
+            maxHeight: '600px',
           },
           '&.cm-focused .cm-cursor': {
-            borderLeftColor: '#ffffff', // Màu con trỏ
+            borderLeftColor: '#ffffff',
             borderLeftWidth: '2px',
           },
           '&.cm-focused .cm-selectionBackground': {
-            backgroundColor: '#3e4451', // Màu bôi đen
+            backgroundColor: '#3e4451',
           },
         },
         { dark: true },
@@ -180,9 +191,8 @@ export class CodeMirrorEditorComponent implements OnInit {
           padding: '12px',
         },
         '.cm-scroller': {
-          overflow: 'auto',
-          minHeight: '100%',
-          maxHeight: '100%',
+          overflowY: 'auto',
+          maxHeight: '600px',
         },
         '&.cm-focused .cm-cursor': {
           borderLeftColor: '#0078D7',

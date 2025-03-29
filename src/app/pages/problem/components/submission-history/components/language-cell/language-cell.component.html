@@ -1,0 +1,9 @@
+<bidv-badge
+  *ngIf="curLanguageItem"
+  [iconLeft]="curLanguageItem.icon"
+  shape="circle"
+  size="m"
+  [ngClass]="curLanguageItem.class"
+>
+  {{ curLanguageItem.label }}
+</bidv-badge>

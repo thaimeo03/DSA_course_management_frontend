@@ -19,7 +19,12 @@
         </ng-container>
 
         <ng-container *ngIf="activeItemIndex === 1">
-          Lịch sử nộp bài
+          <bidv-scrollbar>
+            <app-submission-history
+              (selectedRowDataEvent)="handleSubmissionHistory($event)"
+              [problemId]="problemId"
+            />
+          </bidv-scrollbar>
         </ng-container>
       </div>
     </div>

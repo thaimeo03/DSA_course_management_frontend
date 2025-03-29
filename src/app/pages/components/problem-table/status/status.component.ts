@@ -14,39 +14,39 @@ import { ICellRendererParams } from 'ag-grid-community';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusComponent implements ICellRendererAngularComp {
-  private statusItems: BadgeItem[] = [
-    {
-      label: 'Todo',
-      value: SubmissionStatus.Todo,
-      icon: 'bidvIconCircleOutline',
-      class: 'badge-gray',
-    },
-    {
-      label: 'Failed',
-      value: SubmissionStatus.Failed,
-      icon: 'bidvIconDismissCircle',
-      class: 'badge-red',
-    },
-    {
-      label: 'Done',
-      value: SubmissionStatus.Passed,
-      icon: 'bidvIconCheckmarkCircle',
-      class: 'badge-green',
-    },
-  ];
+  private todoStatusItem: BadgeItem = {
+    label: 'Todo',
+    value: SubmissionStatus.Todo,
+    icon: 'bidvIconCircleOutline',
+    class: 'badge-gray',
+  };
 
-  protected curStatusItem: BadgeItem = this.statusItems[0];
+  private failedStatusItem: BadgeItem = {
+    label: 'Failed',
+    value: SubmissionStatus.Failed,
+    icon: 'bidvIconDismissCircle',
+    class: 'badge-red',
+  };
+
+  private passedStatusItem: BadgeItem = {
+    label: 'Passed',
+    value: SubmissionStatus.Passed,
+    icon: 'bidvIconCheckmarkCircle',
+    class: 'badge-green',
+  };
+
+  protected curStatusItem: BadgeItem | null = null;
 
   agInit(params: ICellRendererParams<any, any, any>): void {
     switch (params.value as SubmissionStatus) {
+      case SubmissionStatus.Todo:
+        this.curStatusItem = this.todoStatusItem;
+        break;
       case SubmissionStatus.Failed:
-        this.curStatusItem = this.statusItems[0];
+        this.curStatusItem = this.failedStatusItem;
         break;
       case SubmissionStatus.Passed:
-        this.curStatusItem = this.statusItems[1];
-        break;
-      case SubmissionStatus.Todo:
-        this.curStatusItem = this.statusItems[2];
+        this.curStatusItem = this.passedStatusItem;
         break;
     }
   }

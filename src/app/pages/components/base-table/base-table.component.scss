@@ -49,3 +49,12 @@
   display: flex;
   align-items: center;
 }
+
+.ag-cell:focus {
+  outline: none !important;
+  border: none !important;
+}
+
+.ag-row-focus {
+  background-color: var(--colors-primary-50) !important;
+}

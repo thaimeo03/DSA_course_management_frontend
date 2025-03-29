@@ -1,6 +1,10 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { ExecuteCodeBody, ExecuteCodeResponse } from '@app/models/submission';
+import {
+  ExecuteCodeBody,
+  ExecuteCodeResponse,
+  GetSubmissionHistoryResponse,
+} from '@app/models/submission';
 
 @Injectable({
   providedIn: 'root',
@@ -12,6 +16,12 @@ export class SubmissionService {
     return this.#httpClient.post<ExecuteCodeResponse>(
       '/submissions/execute-code',
       body,
+    );
+  }
+
+  getSubmissionHistory(problemId: string) {
+    return this.#httpClient.get<GetSubmissionHistoryResponse>(
+      `/submissions/me/history/${problemId}`,
     );
   }
 }

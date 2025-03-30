@@ -23,6 +23,8 @@ import { SubmissionHistoryComponent } from './components/submission-history/subm
 import { SubmissionStatus } from '@app/enums/submission';
 import { HttpErrorResponse } from '@angular/common/http';
 import { ProgrammingLanguage } from '@app/enums';
+import { Store } from '@ngrx/store';
+import { selectProblemData } from 'stores/selectors/problem.selector';
 
 @Component({
   selector: 'app-problem',
@@ -45,19 +47,12 @@ export class ProblemComponent {
   #dialogs = inject(BidvDialogService);
   #mutation = injectMutation();
   #queryClient = injectQueryClient();
+  #store = inject(Store);
 
   @ViewChild(CodeMirrorEditorComponent, { static: true })
   codeMirrorEditor!: CodeMirrorEditorComponent;
 
-  protected breadcrumbs: LinkItem[] = [
-    {
-      label: 'Home',
-      link: ROUTES.home,
-    },
-    {
-      label: 'Problem',
-    },
-  ];
+  protected breadcrumbs: LinkItem[] = [];
 
   protected activeItemIndex = 0;
 
@@ -65,6 +60,7 @@ export class ProblemComponent {
   protected problemId!: string;
   protected code = '';
   protected language: ProgrammingLanguage = ProgrammingLanguage.Javascript;
+  protected content = '';
 
   // Mutation
   #executeCodeMutation = this.#mutation({
@@ -99,15 +95,46 @@ export class ProblemComponent {
     },
   });
 
+  protected executeCodeResult = this.#executeCodeMutation.result;
+
   constructor() {
     this.initData();
   }
 
   // Init data
   private initData() {
+    // Parse params from route
     this.#activatedRoute.params.subscribe((params) => {
       this.problemId = params['problemId'];
+
+      const courseId = params['id'];
+      this.breadcrumbs = this.initBreadcrumbs(courseId);
     });
+
+    // Get problem data from store
+    this.#store.select(selectProblemData).subscribe((data) => {
+      const problemData = data.problemData;
+      if (!problemData) return;
+
+      this.content = problemData.content;
+    });
+  }
+
+  // Init breadcrumbs
+  private initBreadcrumbs(courseId: string) {
+    return [
+      {
+        label: 'Home',
+        link: ROUTES.home,
+      },
+      {
+        label: 'Problems',
+        link: [ROUTES.detailCourse, courseId, ROUTES.problemRepository],
+      },
+      {
+        label: 'Problem',
+      },
+    ];
   }
 
   // Handlers

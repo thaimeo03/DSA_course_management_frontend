@@ -21,6 +21,7 @@ import { provideStore } from '@ngrx/store';
 import { authReducer } from 'stores/reducers/auth.reducer';
 import { lectureReducer } from 'stores/reducers/lecture.reducer';
 import { courseReducer } from 'stores/reducers/course.reducer';
+import { problemReducer } from 'stores/reducers/problem.reducer';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -35,6 +36,7 @@ export const appConfig: ApplicationConfig = {
       auth: authReducer,
       lecture: lectureReducer,
       course: courseReducer,
+      problem: problemReducer,
     }),
   ],
 };

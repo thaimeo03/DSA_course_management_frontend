@@ -17,5 +17,6 @@
     [api]="getActiveProblemsApi.bind(this)"
     [gridOptions]="gridOptions"
     [hiddenPagination]="hidePagination"
+    (dataReturn)="handleDataReturn($event)"
   />
 </section>

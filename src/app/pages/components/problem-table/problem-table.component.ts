@@ -30,7 +30,12 @@ import { ROUTES } from '@app/constants/routes';
 import { ProblemService } from '@app/services/problem.service';
 import { debounceTime, Observable, of } from 'rxjs';
 import { BidvDay } from '@bidv-ui/cdk';
-import { GetProblemRepositoryParams } from '@app/models/problem';
+import {
+  GetProblemRepositoryParams,
+  ProblemRepositoryData,
+} from '@app/models/problem';
+import { Store } from '@ngrx/store';
+import { setProblemData } from 'stores/actions/problem.action';
 
 @Component({
   selector: 'app-problem-table',
@@ -51,6 +56,7 @@ import { GetProblemRepositoryParams } from '@app/models/problem';
 export class ProblemTableComponent implements OnInit {
   private router = inject(Router);
   #problemService = inject(ProblemService);
+  #store = inject(Store);
 
   @Input({ required: true }) courseId!: string | null;
   @Input() hidePagination = false;
@@ -72,6 +78,8 @@ export class ProblemTableComponent implements OnInit {
   protected filterForm = new FormGroup({
     search: new FormControl(''),
   });
+
+  private problemRepositoryData: ProblemRepositoryData[] = [];
 
   // Query
   protected params: GetProblemRepositoryParams = {
@@ -192,15 +200,30 @@ export class ProblemTableComponent implements OnInit {
     ];
   }
 
+  // Hand
   private onRowClicked(event: RowClickedEvent) {
     if (!this.clickableRow) return;
 
     const problemId = event.data.id;
+
+    // Store problem
+    const clickedProblemData = this.problemRepositoryData.find(
+      (problem) => problem.id === problemId,
+    );
+
+    if (clickedProblemData) {
+      this.#store.dispatch(setProblemData({ problemData: clickedProblemData }));
+    }
+
     this.router.navigate([
       ROUTES.detailCourse,
       this.courseId,
       ROUTES.problem,
       problemId,
     ]);
+  }
+
+  protected handleDataReturn(data: ProblemRepositoryData[]) {
+    this.problemRepositoryData = data;
   }
 }

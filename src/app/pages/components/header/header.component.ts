@@ -61,10 +61,16 @@ export class HeaderComponent {
       this.#store.dispatch(setAuth({ isAuthenticated: true, me: me }));
 
       // Update nav links
-      this.navLinks.push({
-        label: 'Purchased course',
-        link: ROUTES.purchasedCourse,
-      });
+      this.navLinks = [
+        {
+          label: 'Home',
+          link: ROUTES.home,
+        },
+        {
+          label: 'Purchased course',
+          link: ROUTES.purchasedCourse,
+        },
+      ];
     });
   }
 }

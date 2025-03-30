@@ -100,7 +100,7 @@ export class SubmissionHistoryComponent implements OnInit {
   // Init data
   private initData() {
     this.#getSubmissionHistoryQuery = this.#query({
-      queryKey: ['getSuccessOrderHistory'],
+      queryKey: ['submission-history', this.problemId],
       queryFn: () =>
         this.#submissionService.getSubmissionHistory(this.problemId),
     });

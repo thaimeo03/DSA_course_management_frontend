@@ -62,6 +62,7 @@ export class CodeMirrorEditorComponent implements OnInit, OnChanges {
   @ViewChild('editorContainer', { static: true }) editorContainer!: ElementRef;
 
   @Input() code: string = '';
+  @Input() language: ProgrammingLanguage = ProgrammingLanguage.Javascript;
 
   private editor!: EditorView;
   private langConfig = new Compartment();
@@ -94,13 +95,20 @@ export class CodeMirrorEditorComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['code']) {
-      this.editor.dispatch({
+      this.editor?.dispatch({
         changes: {
           from: 0,
           to: this.editor.state.doc.length,
           insert: this.code,
         },
       });
+    }
+
+    for (const lang of this.languages) {
+      if (lang.value === this.language) {
+        this.codeEditorForm.get('language')?.setValue(lang);
+        break;
+      }
     }
   }
 
@@ -250,9 +258,11 @@ export class CodeMirrorEditorComponent implements OnInit, OnChanges {
   }
 
   // Handle config change
-  protected handleLanguageChange(value: keyof typeof PROGRAMMING_LANGUAGE) {
+  protected handleLanguageChange(value: SelectItem) {
     this.editor.dispatch({
-      effects: [this.langConfig.reconfigure(this.getLanguageExtension(value))],
+      effects: [
+        this.langConfig.reconfigure(this.getLanguageExtension(value.label)),
+      ],
     });
   }
 

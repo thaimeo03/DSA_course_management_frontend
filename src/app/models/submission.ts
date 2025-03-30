@@ -11,7 +11,7 @@ export interface ExecuteCodeBody {
 
 interface ExecuteCodeData {
   message: string;
-  status: 1 | 0;
+  status: SubmissionStatus;
 }
 
 export type ExecuteCodeResponse = DataResponse<ExecuteCodeData>;

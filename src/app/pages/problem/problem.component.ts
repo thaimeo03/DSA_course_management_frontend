@@ -121,7 +121,7 @@ export class ProblemComponent {
     this.#executeCodeMutation.mutate({
       code: code,
       language: language.value,
-      problemId: '2f7a4c15-a2ad-41a4-922e-603fed97688d', // Hardcoded
+      problemId: this.problemId,
     });
   }
 

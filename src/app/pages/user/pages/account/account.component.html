@@ -6,7 +6,11 @@
     >
   </div>
   <bidv-divider />
-  <form [formGroup]="userInfoForm">
+  <form
+    (ngSubmit)="handleUpdateProfile()"
+    *ngIf="me"
+    [formGroup]="userInfoForm"
+  >
     <div class="grid grid-cols-12">
       <div class="col-span-8 left">
         <label class="bidv-text_label-1">
@@ -81,11 +85,19 @@
           </ng-template>
         </div>
 
-        <button bidvButton class="submit-btn">Update</button>
+        <button
+          bidvButton
+          [loading]="updateProfileResult().isPending || isUploading"
+          class="submit-btn"
+        >
+          Cập nhật
+        </button>
       </div>
       <div class="col-span-4">
         <div class="avatar-box">
-          <bidv-avatar src="/avatar.jpg" size="120">Trần Hồng Thái</bidv-avatar>
+          <bidv-avatar [src]="avatarSrc" size="120">{{
+            me.fullName
+          }}</bidv-avatar>
           <label *ngIf="!avatarControl?.value" bidvInputFiles>
             <input
               accept="image/*"

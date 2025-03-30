@@ -18,9 +18,18 @@ export interface MeData {
   fullName: string;
   email: string;
   role: Role;
+  phoneNumber: string | null;
   avatar: string | null;
   dateOfBirth: string | null;
   verified: boolean;
 }
 
 export type GetMeResponse = DataResponse<MeData>;
+
+// Update profile
+export interface UpdateProfileBody {
+  fullName?: string;
+  phoneNumber?: string;
+  dateOfBirth?: string;
+  avatar?: string;
+}

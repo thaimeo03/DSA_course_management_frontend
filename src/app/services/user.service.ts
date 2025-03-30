@@ -1,6 +1,11 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { GetMeResponse, LoginBody, RegisterBody } from '../models/user';
+import {
+  GetMeResponse,
+  LoginBody,
+  RegisterBody,
+  UpdateProfileBody,
+} from '../models/user';
 import { MessageResponse } from '../models';
 
 @Injectable({
@@ -26,5 +31,12 @@ export class UserService {
 
   getMe() {
     return this.#httpClient.get<GetMeResponse>('/users/me');
+  }
+
+  updateProfile(body: UpdateProfileBody) {
+    return this.#httpClient.patch<MessageResponse>(
+      '/users/update/profile',
+      body,
+    );
   }
 }

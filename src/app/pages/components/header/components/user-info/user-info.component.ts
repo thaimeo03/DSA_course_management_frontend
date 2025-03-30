@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component, inject, Input } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
+import { RouterLink } from '@angular/router';
 import { ROLES } from '@app/constants/user';
 import { MeData } from '@app/models/user';
 import { UserService } from '@app/services/user.service';

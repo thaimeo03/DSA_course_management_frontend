@@ -406,6 +406,14 @@ bidv-pagination .t-button .t-wrapper {
   font-weight: 500;
 }
 
+bidv-notification {
+  align-items: center;
+
+  .t-icon.t-inline-before {
+    margin-top: 0 !important;
+  }
+}
+
 @media (min-width: 1400px) {
   .container {
     max-width: 1400px !important;

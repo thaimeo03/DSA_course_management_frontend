@@ -1,13 +1,13 @@
 <section class="sorting-container">
   <form [formGroup]="sortingForm">
-    <span class="bidv-text_label-1 bidv-space_right-4">Sort by</span>
+    <span class="bidv-text_label-1 bidv-space_right-4">Sắp xếp theo</span>
 
     <bidv-select
       formControlName="sortByCreatedAt"
       bidvTextfieldSize="s"
       class="item-select"
     >
-      Created at
+      Ngày tạo
       <bidv-data-list-wrapper
         *bidvDataList
         [items]="sortByCreatedAts"
@@ -19,7 +19,7 @@
       bidvTextfieldSize="s"
       class="item-select price"
     >
-      Price
+      Giá
       <bidv-data-list-wrapper
         *bidvDataList
         [items]="sortByPrices"

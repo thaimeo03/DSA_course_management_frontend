@@ -124,15 +124,15 @@ export class ProblemComponent {
   private initBreadcrumbs(courseId: string) {
     return [
       {
-        label: 'Home',
+        label: 'Trang chủ',
         link: ROUTES.home,
       },
       {
-        label: 'Problems',
+        label: 'Bài tập',
         link: [ROUTES.detailCourse, courseId, ROUTES.problemRepository],
       },
       {
-        label: 'Problem',
+        label: 'Chi tiết bài tập',
       },
     ];
   }

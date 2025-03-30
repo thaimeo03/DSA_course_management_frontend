@@ -85,13 +85,13 @@ function passwordMatchValidator(): ValidatorFn {
     {
       provide: BIDV_VALIDATION_ERRORS,
       useValue: {
-        required: 'This field is required',
-        email: 'Please enter a valid email',
+        required: 'Trường này là bắt buộc',
+        email: 'Vui lòng nhập email hợp lệ',
         minlength: ({ requiredLength }: { requiredLength: string }) =>
-          of(`Minimum length — ${requiredLength}`),
+          of(`Độ dài tối thiểu — ${requiredLength}`),
         maxLength: ({ requiredLength }: { requiredLength: string }) =>
-          of(`Maximum length — ${requiredLength}`),
-        passwordMismatch: 'Confirm password do not match',
+          of(`Độ dài tối đa — ${requiredLength}`),
+        passwordMismatch: 'Mật khẩu xác nhận không khớp',
       },
     },
   ],
@@ -107,19 +107,19 @@ export class AuthFormComponent {
   @Input({ required: true }) isLogin = true;
 
   protected loginItem: AuthItem = {
-    title: 'Login',
-    desc: 'Enter your email below to login to your account',
-    switchText: "Don't have an account?",
+    title: 'Đăng nhập',
+    desc: 'Nhập email của bạn để đăng nhập vào tài khoản',
+    switchText: 'Chưa có tài khoản?',
     switchLink: ROUTES.register,
-    switchDesc: 'Sign up',
+    switchDesc: 'Đăng ký',
   };
 
   protected registerItem: AuthItem = {
-    title: 'Register',
-    desc: 'Enter your information to create your account',
-    switchText: 'Already have an account?',
+    title: 'Đăng ký',
+    desc: 'Nhập thông tin của bạn để tạo tài khoản',
+    switchText: 'Đã có tài khoản?',
     switchLink: ROUTES.login,
-    switchDesc: 'Login',
+    switchDesc: 'Đăng nhập',
   };
 
   protected loginForm = new FormGroup({

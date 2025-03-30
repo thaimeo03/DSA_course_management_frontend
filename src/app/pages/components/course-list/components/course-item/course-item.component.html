@@ -3,9 +3,14 @@
     <div class="image-box">
       <img [src]="course.thumbnail" [alt]="course.title" />
 
-      <!-- <bidv-badge appearance="primary" size="s" shape="square">
+      <bidv-badge
+        *ngIf="isPurchased"
+        appearance="primary"
+        size="s"
+        shape="square"
+      >
         Đã mua
-      </bidv-badge> -->
+      </bidv-badge>
     </div>
     <bidv-card-content class="card_content">
       <bidv-line-clamp [content]="content" [linesLimit]="1"></bidv-line-clamp>

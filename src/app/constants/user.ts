@@ -1,7 +1,7 @@
 import { Role } from '@app/enums/user';
 
 export const ROLES: Record<Role, string> = {
-  [Role.Student]: 'Student',
-  [Role.Admin]: 'Admin',
-  [Role.Banned]: 'Banned',
+  [Role.Student]: 'Học viên',
+  [Role.Admin]: 'Quản trị viên',
+  [Role.Banned]: 'Bị cấm',
 } as const;

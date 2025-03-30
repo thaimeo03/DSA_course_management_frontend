@@ -35,7 +35,6 @@ import {
 } from '@bidv-ui/kit';
 import { Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { setAuth } from 'stores/actions/auth.action';
 import { selectAuthState } from 'stores/selectors/auth.selector';
 
 function phoneNumberValidator(): ValidatorFn {
@@ -70,12 +69,12 @@ function phoneNumberValidator(): ValidatorFn {
     {
       provide: BIDV_VALIDATION_ERRORS,
       useValue: {
-        required: 'This field is required',
+        required: 'Trường này là bắt buộc',
         minlength: ({ requiredLength }: { requiredLength: string }) =>
-          of(`Minimum length — ${requiredLength}`),
+          of(`Độ dài tối thiểu — ${requiredLength}`),
         maxLength: ({ requiredLength }: { requiredLength: string }) =>
-          of(`Maximum length — ${requiredLength}`),
-        invalidPhoneNumber: 'Phone number must be 10 digits',
+          of(`Độ dài tối đa — ${requiredLength}`),
+        invalidPhoneNumber: 'Số điện thoại phải có 10 chữ số',
       },
     },
   ],

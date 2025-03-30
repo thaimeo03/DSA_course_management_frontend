@@ -24,22 +24,22 @@ export class UserComponent {
 
   protected breadcrumbs: LinkItem[] = [
     {
-      label: 'Home',
+      label: 'Trang chủ',
       link: ROUTES.home,
     },
     {
-      label: 'My account',
+      label: 'Tài khoản của tôi',
       link: ROUTES.account,
     },
   ];
 
   protected tabLinks: LinkItem[] = [
     {
-      label: 'Account',
+      label: 'Tài khoản',
       link: ROUTES.account,
     },
     {
-      label: 'Order',
+      label: 'Đơn hàng',
       link: ROUTES.order,
     },
   ];

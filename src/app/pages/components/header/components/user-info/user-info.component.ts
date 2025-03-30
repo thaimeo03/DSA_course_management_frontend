@@ -34,13 +34,13 @@ export class UserInfoComponent {
   protected registerLink = ROUTES.register;
 
   protected authenticatedNavLinks: LinkItem[] = [
-    { label: 'My account', link: ROUTES.account },
-    { label: 'Order', link: ROUTES.order },
+    { label: 'Tài khoản của tôi', link: ROUTES.account },
+    { label: 'Đơn hàng', link: ROUTES.order },
   ];
 
   protected anonymousNavLinks: LinkItem[] = [
-    { label: 'Login', link: ROUTES.login },
-    { label: 'Register', link: ROUTES.register },
+    { label: 'Đăng nhập', link: ROUTES.login },
+    { label: 'Đăng ký', link: ROUTES.register },
   ];
 
   protected ROLES = ROLES;

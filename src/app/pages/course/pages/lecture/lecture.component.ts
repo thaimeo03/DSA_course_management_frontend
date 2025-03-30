@@ -26,7 +26,19 @@ export class LectureComponent {
   protected courseId = this.activatedRoute.snapshot.paramMap.get('id');
   protected lectureData: LectureData | null = null;
 
-  protected breadcrumbs: LinkItem[] = [];
+  protected breadcrumbs: LinkItem[] = [
+    {
+      label: 'Trang chủ',
+      link: ROUTES.home,
+    },
+    {
+      label: 'Chi tiết khóa học',
+      link: [ROUTES.detailCourse, this.courseId],
+    },
+    {
+      label: 'Bài giảng',
+    },
+  ];
 
   constructor() {
     this.initBreadcrumbs();
@@ -37,15 +49,15 @@ export class LectureComponent {
     if (this.courseId) {
       this.breadcrumbs = [
         {
-          label: 'Home',
+          label: 'Trang chủ',
           link: ROUTES.home,
         },
         {
-          label: 'Detail course',
+          label: 'Chi tiết khóa học',
           link: [ROUTES.detailCourse, this.courseId],
         },
         {
-          label: 'Lecture',
+          label: 'Bài giảng',
         },
       ];
     }

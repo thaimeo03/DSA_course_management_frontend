@@ -15,17 +15,17 @@ import { ICellRendererParams } from 'ag-grid-community';
 export class DifficultyComponent implements ICellRendererAngularComp {
   private difficultyItems: BadgeItem[] = [
     {
-      label: 'Easy',
+      label: 'Dễ',
       value: Difficulty.Easy,
       class: 'text-green',
     },
     {
-      label: 'Medium',
+      label: 'Trung bình',
       value: Difficulty.Medium,
       class: 'text-orange',
     },
     {
-      label: 'Hard',
+      label: 'Khó',
       value: Difficulty.Hard,
       class: 'text-red',
     },

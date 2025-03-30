@@ -30,7 +30,7 @@ export class HeaderComponent {
 
   protected navLinks: LinkItem[] = [
     {
-      label: 'Home',
+      label: 'Trang chủ',
       link: ROUTES.home,
     },
   ];
@@ -63,11 +63,11 @@ export class HeaderComponent {
       // Update nav links
       this.navLinks = [
         {
-          label: 'Home',
+          label: 'Trang chủ',
           link: ROUTES.home,
         },
         {
-          label: 'Purchased course',
+          label: 'Khóa học của tôi',
           link: ROUTES.purchasedCourse,
         },
       ];

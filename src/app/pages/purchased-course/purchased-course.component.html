@@ -1,3 +1,7 @@
 <div>
-  <app-course-list />
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <h1 class="bidv-text_headline-4 title">Danh sách khóa học đã mua</h1>
+
+  <app-course-list [type]="activeType" />
 </div>

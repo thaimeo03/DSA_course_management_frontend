@@ -1,13 +1,13 @@
 <section class="sub-content-container">
   <bidv-tabs [(activeItemIndex)]="activeItemIndex">
     <button bidvTab iconLeft="bidvIconVideo" class="tab-item">
-      Course lecture content
+      Nội dung bài giảng
     </button>
     <button bidvTab iconLeft="bidvIconDocumentFlowchart" class="tab-item">
-      Problems
+      Bài tập
     </button>
     <button bidvTab iconLeft="bidvIconHeart" class="tab-item">
-      Related courses
+      Khóa học liên quan
     </button>
   </bidv-tabs>
 
@@ -31,6 +31,10 @@
   </div>
 
   <div *ngIf="activeItemIndex === 2">
-    <app-course-list [enableSorting]="false" [enablePagination]="false" />
+    <app-course-list
+      [type]="activeType"
+      [enableSorting]="false"
+      [enablePagination]="false"
+    />
   </div>
 </section>

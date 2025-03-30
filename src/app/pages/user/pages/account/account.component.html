@@ -1,8 +1,8 @@
 <div>
   <div class="title-box">
-    <h2 class="bidv-text_headline-5">Account information</h2>
+    <h2 class="bidv-text_headline-5">Thông tin tài khoản</h2>
     <span class="bidv-text_body-2"
-      >You can change your account information here</span
+      >Bạn có thể thay đổi thông tin tài khoản tại đây</span
     >
   </div>
   <bidv-divider />
@@ -14,7 +14,7 @@
     <div class="grid grid-cols-12">
       <div class="col-span-8 left">
         <label class="bidv-text_label-1">
-          Full name
+          Họ và tên
           <bidv-input formControlName="fullName" bidvTextfieldSize="s">
             <input bidvTextfield placeholder="Trần Hồng Thái" />
           </bidv-input>
@@ -36,10 +36,9 @@
         </label>
 
         <label class="bidv-text_label-1">
-          Phone number
+          Số điện thoại
           <bidv-input formControlName="phoneNumber" bidvTextfieldSize="s">
-            Phone number
-            <input bidvTextfield placeholder="Trần Hồng Thái" />
+            <input bidvTextfield placeholder="Nhập số điện thoại" />
           </bidv-input>
           <bidv-error
             formControlName="phoneNumber"
@@ -48,12 +47,12 @@
         </label>
 
         <label class="bidv-text_label-1">
-          Date of birth
+          Ngày sinh
           <bidv-input-date
-            bidvUnfinishedValidator="Finish filling the field"
+            bidvUnfinishedValidator="Hoàn thành việc điền trường này"
             formControlName="dob"
           >
-            Choose a date
+            Chọn ngày
           </bidv-input-date>
           <bidv-error
             formControlName="dob"
@@ -62,13 +61,13 @@
         </label>
 
         <div class="account-status">
-          <span class="bidv-text_label-1">Account status </span>
+          <span class="bidv-text_label-1">Trạng thái tài khoản</span>
 
           <ng-container *ngIf="verified; else unverified">
             <bidv-badge
               iconLeft="bidvIconCheckmarkStarburst"
               appearance="primary"
-              >Verified
+              >Đã xác minh
             </bidv-badge>
           </ng-container>
 
@@ -77,10 +76,10 @@
               class="badge-red"
               iconLeft="bidvIconErrorCircle"
               appearance="danger"
-              >Unverified</bidv-badge
+              >Chưa xác minh</bidv-badge
             >
             <button bidvButton type="button" size="s" variant="outlined">
-              Send mail to verify
+              Gửi email để xác minh
             </button>
           </ng-template>
         </div>
@@ -102,7 +101,7 @@
             <input
               accept="image/*"
               bidvInputFiles
-              title="Choose files (no limits)"
+              title="Chọn tệp (không giới hạn)"
               [formControl]="avatarControl"
             />
           </label>

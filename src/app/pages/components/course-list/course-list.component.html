@@ -7,7 +7,7 @@
   <div class="course-list-container">
     <ng-container *ngFor="let item of courseList; index as i">
       <div class="course-item-card">
-        <app-course-item [course]="item" />
+        <app-course-item [isPurchased]="isPurchased" [course]="item" />
       </div>
     </ng-container>
   </div>

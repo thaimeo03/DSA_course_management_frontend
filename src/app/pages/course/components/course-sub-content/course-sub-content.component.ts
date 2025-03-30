@@ -5,6 +5,7 @@ import { BidvTabsModule } from '@bidv-ui/kit';
 import { LectureListComponent } from '@app/pages/components/lecture-list/lecture-list.component';
 import { ProblemTableComponent } from '@app/pages/components/problem-table/problem-table.component';
 import { ActivatedRoute } from '@angular/router';
+import { CourseType } from '@app/enums/course';
 
 @Component({
   selector: 'app-course-sub-content',
@@ -24,4 +25,5 @@ export class CourseSubContentComponent {
 
   protected courseId = this.activatedRoute.snapshot.paramMap.get('id');
   protected activeItemIndex = 0;
+  protected activeType = CourseType.ACTIVE;
 }

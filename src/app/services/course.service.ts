@@ -5,6 +5,7 @@ import {
   GetActiveCourseResponse,
   GetDetailCourseParams,
   GetDetailCourseResponse,
+  GetPurchasedCoursesParams,
   IsPurchasedCourseResponse,
 } from '@app/models/course';
 import { getHttpParams } from '@app/utils/handle-api';
@@ -21,6 +22,17 @@ export class CourseService {
     return this.#httpClient.get<GetActiveCourseResponse>('/courses/active', {
       params: httpParams,
     });
+  }
+
+  getPurchasedCourses(params: GetPurchasedCoursesParams) {
+    const httpParams = getHttpParams(params);
+
+    return this.#httpClient.get<GetActiveCourseResponse>(
+      '/courses/active/purchased',
+      {
+        params: httpParams,
+      },
+    );
   }
 
   getDetailCourse(id: string, params: GetDetailCourseParams) {

@@ -35,15 +35,15 @@ export class ProblemRepositoryComponent {
     if (this.courseId) {
       this.breadcrumbs = [
         {
-          label: 'Home',
+          label: 'Trang chủ',
           link: ROUTES.home,
         },
         {
-          label: 'Detail course',
+          label: 'Chi tiết khóa học',
           link: [ROUTES.detailCourse, this.courseId],
         },
         {
-          label: 'Problems',
+          label: 'Bài tập',
         },
       ];
     }

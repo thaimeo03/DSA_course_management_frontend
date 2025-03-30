@@ -153,38 +153,38 @@ export class ProblemTableComponent implements OnInit {
         hide: true,
       },
       {
-        headerName: '#',
+        headerName: 'STT',
         field: 'no',
         width: 80,
         pinned: true,
       },
       {
-        headerName: 'Title',
+        headerName: 'Tiêu đề',
         field: 'title',
         flex: 1,
       },
       {
-        headerName: 'Status',
+        headerName: 'Trạng thái',
         field: 'status',
         cellRenderer: StatusComponent,
         sortable: true,
         width: 150,
       },
       {
-        headerName: 'Point',
+        headerName: 'Điểm',
         field: 'point',
         sortable: true,
         width: 150,
       },
       {
-        headerName: 'Difficulty',
+        headerName: 'Độ khó',
         field: 'difficulty',
         cellRenderer: DifficultyComponent,
         sortable: true,
         width: 150,
       },
       {
-        headerName: 'Updated At',
+        headerName: 'Cập nhật lúc',
         field: 'updatedAt',
         valueGetter: (params) => {
           const updatedAt = params.data.updatedAt;

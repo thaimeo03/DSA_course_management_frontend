@@ -35,3 +35,9 @@ export type GetActiveCourseResponse = DataResponseWithPagination<CourseData[]>;
 
 // Is purchased course
 export type IsPurchasedCourseResponse = DataResponse<boolean>;
+
+// Get purchased courses
+export type GetPurchasedCoursesParams = GetActiveCourseParams;
+export type GetPurchasedCoursesResponse = DataResponseWithPagination<
+  CourseData[]
+>;

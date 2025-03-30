@@ -33,6 +33,7 @@ import { ROUTES } from '@app/constants/routes';
 })
 export class CourseItemComponent {
   @Input({ required: true }) course!: CourseData;
+  @Input() isPurchased: boolean = false;
 
   protected detailCourseRoute = ROUTES.detailCourse;
 }

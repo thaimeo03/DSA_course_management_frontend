@@ -3,6 +3,7 @@ import { CourseListComponent } from '../components/course-list/course-list.compo
 import { LinkItem } from 'src/app/models';
 import { BreadcrumbsComponent } from '../components/breadcrumbs/breadcrumbs.component';
 import { ROUTES } from 'src/app/constants/routes';
+import { CourseType } from '@app/enums/course';
 
 @Component({
   selector: 'app-home',
@@ -13,8 +14,10 @@ import { ROUTES } from 'src/app/constants/routes';
 export class HomeComponent {
   protected breadcrumbs: LinkItem[] = [
     {
-      label: 'Home',
+      label: 'Trang chủ',
       link: ROUTES.home,
     },
   ];
+
+  protected activeType = CourseType.ACTIVE;
 }

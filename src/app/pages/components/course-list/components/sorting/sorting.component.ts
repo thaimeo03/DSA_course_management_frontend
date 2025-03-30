@@ -43,14 +43,14 @@ export class SortingComponent {
 
   protected sortByCreatedAts: SelectItem[] = [
     {
-      label: 'Newest',
+      label: 'Mới nhất',
       value: {
         field: CourseSortBy.CREATED_AT,
         order: Order.Desc,
       },
     },
     {
-      label: 'Oldest',
+      label: 'Cũ nhất',
       value: {
         field: CourseSortBy.CREATED_AT,
         order: Order.Asc,
@@ -60,14 +60,14 @@ export class SortingComponent {
 
   protected sortByPrices: SelectItem[] = [
     {
-      label: 'Price: Low to high',
+      label: 'Giá: Thấp đến cao',
       value: {
         field: 'price',
         order: 'asc',
       },
     },
     {
-      label: 'Price: High to low',
+      label: 'Giá: Cao đến thấp',
       value: {
         field: 'price',
         order: 'desc',

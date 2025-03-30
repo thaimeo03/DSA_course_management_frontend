@@ -57,27 +57,27 @@ export class CrouseMainContentComponent {
   protected detailCourse: DetailCourseData | null = null;
   protected invitedInfo = [
     {
-      title: 'Buy once, learn for life',
+      title: 'Mua một lần, học trọn đời',
       icon: 'bidvIconCheckmark',
     },
     {
-      title: 'Continuous course updates',
+      title: 'Cập nhật khóa học liên tục',
       icon: 'bidvIconCheckmark',
     },
     {
-      title: 'Video quality 1080p, 1440p',
+      title: 'Chất lượng video 1080p, 1440p',
       icon: 'bidvIconCheckmark',
     },
     {
-      title: 'Diverse exercise system',
+      title: 'Hệ thống bài tập đa dạng',
       icon: 'bidvIconCheckmark',
     },
     {
-      title: 'Support to fix bugs while studying',
+      title: 'Hỗ trợ sửa lỗi trong quá trình học',
       icon: 'bidvIconCheckmark',
     },
     {
-      title: 'Provide complete documentation and Github source code',
+      title: 'Cung cấp tài liệu đầy đủ và mã nguồn Github',
       icon: 'bidvIconCheckmark',
     },
   ];

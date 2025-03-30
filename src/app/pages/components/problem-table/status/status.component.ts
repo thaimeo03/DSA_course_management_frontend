@@ -15,21 +15,21 @@ import { ICellRendererParams } from 'ag-grid-community';
 })
 export class StatusComponent implements ICellRendererAngularComp {
   private todoStatusItem: BadgeItem = {
-    label: 'Todo',
+    label: 'Chưa làm',
     value: SubmissionStatus.Todo,
     icon: 'bidvIconCircleOutline',
     class: 'badge-gray',
   };
 
   private failedStatusItem: BadgeItem = {
-    label: 'Failed',
+    label: 'Thất bại',
     value: SubmissionStatus.Failed,
     icon: 'bidvIconDismissCircle',
     class: 'badge-red',
   };
 
   private passedStatusItem: BadgeItem = {
-    label: 'Passed',
+    label: 'Thành công',
     value: SubmissionStatus.Passed,
     icon: 'bidvIconCheckmarkCircle',
     class: 'badge-green',

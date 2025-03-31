@@ -11,6 +11,7 @@ export interface PayData {
 export interface PayBody {
   courseId: string;
   method: PaymentMethod;
+  code?: string;
 }
 
 // Get order history

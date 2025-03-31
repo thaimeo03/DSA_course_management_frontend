@@ -49,3 +49,14 @@
 .description {
   margin-top: 2rem;
 }
+
+.coupon-box {
+  display: flex;
+  flex-direction: column;
+  row-gap: 1rem;
+
+  .coupon-btn {
+    display: flex;
+    justify-content: end;
+  }
+}

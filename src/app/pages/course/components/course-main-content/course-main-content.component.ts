@@ -7,6 +7,12 @@ import {
   inject,
   Output,
 } from '@angular/core';
+import {
+  FormControl,
+  FormGroup,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
@@ -19,9 +25,22 @@ import { PaymentService } from '@app/services/payment.service';
 import { extractVideoId } from '@app/utils/extract-data';
 import { injectMutation, injectQuery } from '@bidv-api/angular';
 import { BidvAmountPipe } from '@bidv-ui/addon-commerce';
-import { BidvButtonModule, BidvSvgModule } from '@bidv-ui/core';
-import { BidvSkeletonDirective } from '@bidv-ui/kit';
+import {
+  BidvAlertService,
+  BidvButtonModule,
+  BidvDialogModule,
+  BidvErrorModule,
+  BidvSvgModule,
+  BidvTextfieldControllerModule,
+} from '@bidv-ui/core';
+import {
+  BIDV_VALIDATION_ERRORS,
+  BidvFieldErrorPipeModule,
+  BidvInputModule,
+  BidvSkeletonDirective,
+} from '@bidv-ui/kit';
 import { Store } from '@ngrx/store';
+import { of } from 'rxjs';
 import { setCourseData } from 'stores/actions/course.action';
 
 @Component({
@@ -32,10 +51,27 @@ import { setCourseData } from 'stores/actions/course.action';
     BidvButtonModule,
     BidvAmountPipe,
     BidvSkeletonDirective,
+    BidvDialogModule,
+    BidvInputModule,
+    ReactiveFormsModule,
+    BidvErrorModule,
+    BidvFieldErrorPipeModule,
+    BidvTextfieldControllerModule,
   ],
   templateUrl: './course-main-content.component.html',
   styleUrl: './course-main-content.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
+  providers: [
+    {
+      provide: BIDV_VALIDATION_ERRORS,
+      useValue: {
+        minlength: ({ requiredLength }: { requiredLength: string }) =>
+          of(`Độ dài tối thiểu — ${requiredLength}`),
+        maxLength: ({ requiredLength }: { requiredLength: string }) =>
+          of(`Độ dài tối đa — ${requiredLength}`),
+      },
+    },
+  ],
 })
 export class CrouseMainContentComponent {
   private router = inject(Router);
@@ -47,6 +83,7 @@ export class CrouseMainContentComponent {
   #query = injectQuery();
   #mutation = injectMutation();
   #store = inject(Store);
+  #alerts = inject(BidvAlertService);
 
   @Output() shareDetailCourseEvent = new EventEmitter<DetailCourseData>();
 
@@ -82,6 +119,15 @@ export class CrouseMainContentComponent {
     },
   ];
 
+  protected open = false; // Use for dialog when user click buy course
+
+  protected couponForm = new FormGroup({
+    code: new FormControl('', [
+      Validators.minLength(1),
+      Validators.maxLength(100),
+    ]),
+  });
+
   // Query
   #getDetailCourseQuery = this.#query({
     queryKey: ['detail-course', this.courseId],
@@ -102,6 +148,14 @@ export class CrouseMainContentComponent {
     onSuccess: (res) => {
       const url = res.data.url;
       window.location.replace(url);
+    },
+    onError: (err) => {
+      this.#alerts
+        .open(err.message, {
+          status: 'error',
+          label: 'Có lỗi xảy ra',
+        })
+        .subscribe();
     },
   });
   protected payMutationResult = this.#payMutation.result;
@@ -155,11 +209,23 @@ export class CrouseMainContentComponent {
         queryParams: queryParams,
       });
     } else {
-      this.#payMutation.mutate({
-        courseId: this.courseId,
-        method: PaymentMethod.Stripe, // Hard code
-      });
+      this.open = true;
     }
+  }
+
+  protected handleBuyCourse() {
+    const couponCode = this.couponForm.get('code')?.value;
+
+    const payBody: PayBody = {
+      courseId: this.courseId,
+      method: PaymentMethod.Stripe, // Hard code
+    };
+
+    if (couponCode) {
+      payBody.code = couponCode;
+    }
+
+    this.#payMutation.mutate(payBody);
   }
 
   protected handleNavigateProblem() {
@@ -168,5 +234,9 @@ export class CrouseMainContentComponent {
         relativeTo: this.activatedRoute,
       });
     }
+  }
+
+  protected showDialog(): void {
+    this.open = true;
   }
 }

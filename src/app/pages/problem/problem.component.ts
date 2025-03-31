@@ -68,6 +68,10 @@ export class ProblemComponent {
       this.#submissionService.executeCode(body),
     onSuccess: (res) => {
       if (res.data.status === SubmissionStatus.Passed) {
+        this.#queryClient.invalidateQueries({
+          queryKey: ['my-point'],
+        });
+
         this.#dialogs
           .success('', {
             label: 'Chúc mừng bạn đã hoàn thành bài toán',

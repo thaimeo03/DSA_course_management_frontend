@@ -16,6 +16,19 @@
       </ng-container>
     </nav>
 
-    <app-user-info [me]="me" />
+    <div class="user-info-box">
+      <bidv-badge
+        *ngIf="myPointData"
+        iconLeft="bidvIconRibbonStarOutline"
+        shape="circle"
+        size="m"
+        class="badge-orange"
+        bidvHint="Điểm thưởng"
+      >
+        {{ myPointData.value }}
+      </bidv-badge>
+
+      <app-user-info [me]="me" />
+    </div>
   </div>
 </header>

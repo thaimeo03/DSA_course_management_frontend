@@ -10,6 +10,10 @@ import { injectQuery } from '@bidv-api/angular';
 import { UserService } from '@app/services/user.service';
 import { setAuth } from 'stores/actions/auth.action';
 import { MeData } from '@app/models/user';
+import { BidvBadgeModule } from '@bidv-ui/kit';
+import { BidvHintModule } from '@bidv-ui/core';
+import { PointService } from '@app/services/point.service';
+import { PointData } from '@app/models/point';
 
 @Component({
   selector: 'app-header',
@@ -19,12 +23,15 @@ import { MeData } from '@app/models/user';
     RouterLink,
     UserInfoComponent,
     RouterLinkActive,
+    BidvBadgeModule,
+    BidvHintModule,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.scss',
 })
 export class HeaderComponent {
   #userService = inject(UserService);
+  #pointService = inject(PointService);
   #store = inject(Store);
   #query = injectQuery();
 
@@ -36,11 +43,18 @@ export class HeaderComponent {
   ];
 
   protected me: MeData | null = null;
+  protected myPointData: PointData | null = null;
 
   // Queries
   protected getMeQuery = this.#query({
     queryKey: ['me'],
     queryFn: () => this.#userService.getMe(),
+    retry: 0,
+  });
+
+  protected getMyPointQuery = this.#query({
+    queryKey: ['my-point'],
+    queryFn: () => this.#pointService.getMyPoint(),
     retry: 0,
   });
 
@@ -50,6 +64,7 @@ export class HeaderComponent {
 
   // Init data
   private initData() {
+    // Get me
     this.getMeQuery.result$.subscribe((res) => {
       const data = res.data;
       if (!data) return;
@@ -71,6 +86,14 @@ export class HeaderComponent {
           link: ROUTES.purchasedCourse,
         },
       ];
+    });
+
+    // Get point
+    this.getMyPointQuery.result$.subscribe((res) => {
+      const data = res.data;
+      if (!data) return;
+
+      this.myPointData = data.data;
     });
   }
 }

@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { ChangeDetectorRef, Component, inject } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { BidvContainerDirective } from '@bidv-ui/layout';
 import { ROUTES } from 'src/app/constants/routes';
@@ -34,6 +34,7 @@ export class HeaderComponent {
   #pointService = inject(PointService);
   #store = inject(Store);
   #query = injectQuery();
+  #cdr = inject(ChangeDetectorRef);
 
   protected navLinks: LinkItem[] = [
     {
@@ -86,6 +87,8 @@ export class HeaderComponent {
           link: ROUTES.purchasedCourse,
         },
       ];
+
+      this.#cdr.markForCheck();
     });
 
     // Get point
@@ -94,6 +97,8 @@ export class HeaderComponent {
       if (!data) return;
 
       this.myPointData = data.data;
+
+      this.#cdr.markForCheck();
     });
   }
 }

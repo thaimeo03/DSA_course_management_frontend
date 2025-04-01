@@ -63,6 +63,12 @@ export const pageRoutes: Route[] = [
     loadChildren: () => import('./auth/auth.routes').then((m) => m.authRoutes),
   },
   {
+    path: 'admin',
+    loadChildren: () =>
+      import('./admin/admin.routes').then((m) => m.adminRoutes),
+    canActivate: [authGuard],
+  },
+  {
     path: '**',
     redirectTo: '',
   },

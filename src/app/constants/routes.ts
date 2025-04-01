@@ -9,4 +9,7 @@ export const ROUTES = {
   lecture: 'lecture',
   problemRepository: 'problem-repository',
   problem: 'problem',
+  admin: '/admin',
+  adminCourse: '/admin/course',
+  adminLecture: '/admin/lecture',
 } as const;

@@ -1,7 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, inject, Input } from '@angular/core';
+import {
+  Component,
+  inject,
+  Input,
+  OnChanges,
+  SimpleChanges,
+} from '@angular/core';
 import { RouterLink } from '@angular/router';
 import { ROLES } from '@app/constants/user';
+import { Role } from '@app/enums/user';
 import { MeData } from '@app/models/user';
 import { UserService } from '@app/services/user.service';
 import { injectMutation } from '@bidv-api/angular';
@@ -23,7 +30,7 @@ import { setAuth } from 'stores/actions/auth.action';
   templateUrl: './user-info.component.html',
   styleUrl: './user-info.component.scss',
 })
-export class UserInfoComponent {
+export class UserInfoComponent implements OnChanges {
   #userService = inject(UserService);
   #mutation = injectMutation();
   #store = inject(Store);
@@ -53,6 +60,17 @@ export class UserInfoComponent {
       window.location.reload(); // Reload page to update UI
     },
   });
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['me'] && this.me) {
+      if (this.me && this.me.role === Role.Admin) {
+        this.authenticatedNavLinks.unshift({
+          label: 'Trang quản trị',
+          link: ROUTES.admin,
+        });
+      }
+    }
+  }
 
   handleLogout() {
     this.#logoutMutation.mutate(null);

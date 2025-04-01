@@ -1,0 +1,29 @@
+<header bidvNavigationHeader class="navbar-button-header">
+  <div class="button-header">
+    <button [bidvAsideItem]="false" (click)="onExpended()">
+      <bidv-svg
+        [src]="
+          expanded ? 'bidvIconSideBarCollapseOutline' : 'bidvIconSideBarExpand'
+        "
+      />
+    </button>
+  </div>
+  <app-header />
+</header>
+
+<div class="main-content">
+  <bidv-navigation-aside
+    [activeAsideDrawerItem]="activeAsideDrawerItem"
+    [activeAsideItem]="activeAside"
+    [asideItems]="asideItems"
+    [expanded]="expanded"
+    (changeActiveAsideDrawerItem)="getFirstLeaf($event, asideItems)"
+    (changeActiveAsideItem)="onSelectMenu($event)"
+    style="height: 100%"
+  >
+  </bidv-navigation-aside>
+
+  <main bidvNavigationMain>
+    <router-outlet></router-outlet>
+  </main>
+</div>

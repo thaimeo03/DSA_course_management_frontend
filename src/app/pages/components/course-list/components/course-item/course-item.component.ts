@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 import { RouterLink } from '@angular/router';
 import {
   BidvBadgeModule,
@@ -30,6 +30,7 @@ import { ROUTES } from '@app/constants/routes';
   ],
   templateUrl: './course-item.component.html',
   styleUrl: './course-item.component.scss',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class CourseItemComponent {
   @Input({ required: true }) course!: CourseData;

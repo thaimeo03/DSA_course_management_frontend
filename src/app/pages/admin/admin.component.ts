@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { BidvIconComponent, BidvSvgModule } from '@bidv-ui/core';
 import {
+  BidvContainerDirective,
   BidvNavigationAsideComponent,
   BidvNavigationNode,
 } from '@bidv-ui/layout';
@@ -19,6 +20,7 @@ import { ROUTES } from '@app/constants/routes';
     BidvSvgModule,
     HeaderComponent,
     RouterOutlet,
+    BidvContainerDirective,
   ],
   templateUrl: './admin.component.html',
   styleUrl: './admin.component.scss',
@@ -40,10 +42,10 @@ export class AdminComponent {
     },
   ];
 
-  activeAside: BidvNavigationNode | undefined = this.asideItems[1];
-  activeAsideDrawerItem: BidvNavigationNode | undefined = this.asideItems[1]
+  activeAside: BidvNavigationNode | undefined = this.asideItems[0];
+  activeAsideDrawerItem: BidvNavigationNode | undefined = this.asideItems[0]
     ?.subItems
-    ? this.asideItems[1]?.subItems[0]
+    ? this.asideItems[0]?.subItems[0]
     : undefined;
 
   expanded = false;

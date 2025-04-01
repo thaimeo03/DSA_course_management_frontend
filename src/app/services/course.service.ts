@@ -3,6 +3,8 @@ import { inject, Injectable } from '@angular/core';
 import {
   GetActiveCourseParams,
   GetActiveCourseResponse,
+  GetAllCoursesParams,
+  GetAllCoursesResponse,
   GetDetailCourseParams,
   GetDetailCourseResponse,
   GetPurchasedCoursesParams,
@@ -15,6 +17,14 @@ import { getHttpParams } from '@app/utils/handle-api';
 })
 export class CourseService {
   readonly #httpClient = inject(HttpClient);
+
+  getAllCourses(params: GetAllCoursesParams) {
+    const httpParams = getHttpParams(params);
+
+    return this.#httpClient.get<GetAllCoursesResponse>('/courses', {
+      params: httpParams,
+    });
+  }
 
   getAllActiveCourses(params: GetActiveCourseParams) {
     const httpParams = getHttpParams(params);

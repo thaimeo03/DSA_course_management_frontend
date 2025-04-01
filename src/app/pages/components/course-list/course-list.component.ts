@@ -20,6 +20,11 @@ import {
   SortingComponent,
 } from './components/sorting/sorting.component';
 import { CourseType } from '@app/enums/course';
+import { MeData } from '@app/models/user';
+import { Store } from '@ngrx/store';
+import { selectAuthState } from 'stores/selectors/auth.selector';
+import { Role } from '@app/enums/user';
+import { AdminCourseItemComponent } from './components/admin-course-item/admin-course-item.component';
 
 @Component({
   selector: 'app-course-list',
@@ -28,6 +33,7 @@ import { CourseType } from '@app/enums/course';
     CourseItemComponent,
     BidvPaginationModule,
     SortingComponent,
+    AdminCourseItemComponent,
   ],
   templateUrl: './course-list.component.html',
   styleUrl: './course-list.component.scss',
@@ -36,11 +42,15 @@ export class CourseListComponent implements OnInit {
   #courseService = inject(CourseService);
   #cdr = inject(ChangeDetectorRef);
   #query = injectQuery();
+  #store = inject(Store);
 
   @Input({ required: true }) type!: CourseType;
+  @Input() userView: boolean = true;
   @Input() enableSorting: boolean = true;
   @Input() enablePagination: boolean = true;
 
+  protected me: MeData | null = null;
+  protected role = Role;
   protected courseList: CourseData[] = [];
   protected isPurchased: boolean = false;
 
@@ -52,6 +62,14 @@ export class CourseListComponent implements OnInit {
   protected currentPageIndex = 0;
 
   // Query Options
+  private getAllCoursesOptions(params: GetActiveCourseParams) {
+    return queryOptions({
+      queryKey: ['all-courses', params],
+      queryFn: () => this.#courseService.getAllCourses(params),
+      refetchOnWindowFocus: false,
+    });
+  }
+
   private getAllActiveCoursesOptions(params: GetActiveCourseParams) {
     return queryOptions({
       queryKey: ['active-courses', params],
@@ -62,7 +80,7 @@ export class CourseListComponent implements OnInit {
 
   private getPurChasedCoursesOptions(params: GetPurchasedCoursesParams) {
     return queryOptions({
-      queryKey: ['active-courses', params],
+      queryKey: ['purchased-courses', params],
       queryFn: () => this.#courseService.getPurchasedCourses(params),
       refetchOnWindowFocus: false,
     });
@@ -77,6 +95,8 @@ export class CourseListComponent implements OnInit {
     this.getPurChasedCoursesOptions(this.params),
   );
 
+  #getAllCoursesQuery = this.#query(this.getAllCoursesOptions(this.params));
+
   private courseTypeHandlers: Record<CourseType, any> = {
     [CourseType.ACTIVE]: {
       query: this.#getActiveCoursesQuery,
@@ -89,17 +109,29 @@ export class CourseListComponent implements OnInit {
         this.getPurChasedCoursesOptions(params),
     },
     [CourseType.ALL]: {
-      query: this.#getActiveCoursesQuery,
+      query: this.#getAllCoursesQuery,
       getOptions: (params: GetActiveCourseParams) =>
-        this.getAllActiveCoursesOptions(params),
+        this.getAllCoursesOptions(params),
     },
   };
+
+  constructor() {
+    this.trackMe();
+  }
 
   ngOnInit(): void {
     this.initData();
   }
 
   // Init Data
+  private trackMe() {
+    this.#store.select(selectAuthState).subscribe((state) => {
+      if (!state.me) return;
+
+      this.me = state.me;
+    });
+  }
+
   private initData() {
     const handler = this.courseTypeHandlers[this.type];
     if (!handler) return;

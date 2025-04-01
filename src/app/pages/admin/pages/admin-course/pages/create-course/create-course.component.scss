@@ -1,0 +1,143 @@
+.course-form-container {
+  padding: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.title-box {
+  margin-bottom: 1.5rem;
+
+  .title {
+    margin-bottom: 0.5rem;
+    color: var(--bidv-color-primary-700);
+  }
+}
+
+.form-container {
+  margin-top: 2rem;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+  padding: 2rem;
+}
+
+.section-title {
+  margin-bottom: 1.5rem;
+  color: var(--bidv-color-primary-600);
+  font-weight: 600;
+  border-bottom: 1px solid var(--bidv-color-neutral-200);
+  padding-bottom: 0.75rem;
+}
+
+.grid-layout {
+  display: grid;
+  grid-template-columns: 3fr 2fr;
+  gap: 2rem;
+  margin-bottom: 2rem;
+
+  @media (max-width: 992px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.form-section {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-controls {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.thumbnail-container {
+  .thumbnail-box {
+    border: 1px solid var(--bidv-color-neutral-200);
+    border-radius: 8px;
+    padding: 1.5rem;
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+
+    h2 {
+      margin-bottom: 1rem;
+    }
+  }
+
+  .thumbnail-preview {
+    background-color: var(--bidv-color-neutral-50);
+    border-radius: 8px;
+    overflow: hidden;
+    margin-bottom: 1.5rem;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+    position: relative;
+
+    img {
+      width: 100%;
+      height: 250px;
+      object-fit: contain;
+      display: block;
+    }
+  }
+
+  .upload-controls {
+    display: flex;
+    flex-direction: column;
+
+    &.no-thumbnail {
+      margin-top: 1rem;
+    }
+
+    .upload-method {
+      flex: 1;
+
+      .file-upload {
+        label[bidvInputFiles] {
+          cursor: pointer;
+          padding: 1.5rem;
+          border: 2px dashed var(--bidv-color-neutral-300);
+          border-radius: 8px;
+          width: 100%;
+          display: flex;
+          flex-direction: column;
+          align-items: center;
+          justify-content: center;
+          transition: all 0.2s ease;
+          min-height: 140px;
+
+          &:hover {
+            border-color: var(--bidv-color-primary-400);
+            background-color: var(--bidv-color-neutral-50);
+          }
+
+          &::before {
+            content: 'Kéo thả file hoặc click để chọn';
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--bidv-color-primary-500);
+          }
+
+          &::after {
+            content: '';
+            display: block;
+            width: 36px;
+            height: 36px;
+            background-image: url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHZpZXdCb3g9IjAgMCAyNCAyNCIgZmlsbD0ibm9uZSIgc3Ryb2tlPSIjMDM2NEZGIiBzdHJva2Utd2lkdGg9IjIiIHN0cm9rZS1saW5lY2FwPSJyb3VuZCIgc3Ryb2tlLWxpbmVqb2luPSJyb3VuZCIgY2xhc3M9ImZlYXRoZXIgZmVhdGhlci11cGxvYWQiPjxwYXRoIGQ9Ik0yMSAxNXY0YTIgMiAwIDAgMS0yIDJINWEyIDIgMCAwIDEtMi0ydi00Ij48L3BhdGg+PHBvbHlsaW5lIHBvaW50cz0iMTcgOCAxMiAzIDcgOCI+PC9wb2x5bGluZT48bGluZSB4MT0iMTIiIHkxPSIzIiB4Mj0iMTIiIHkyPSIxNSI+PC9saW5lPjwvc3ZnPg==');
+            background-size: contain;
+            background-repeat: no-repeat;
+            margin-top: 0.5rem;
+          }
+        }
+      }
+    }
+  }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 1rem;
+  margin-top: 2rem;
+}

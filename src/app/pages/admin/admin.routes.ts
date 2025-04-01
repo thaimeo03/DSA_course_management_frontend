@@ -8,9 +8,9 @@ export const adminRoutes: Route[] = [
     children: [
       {
         path: 'course',
-        loadComponent: () =>
-          import('./pages/admin-course/admin-course.component').then(
-            (m) => m.AdminCourseComponent,
+        loadChildren: () =>
+          import('./pages/admin-course/admin-course.routes').then(
+            (m) => m.adminCourseRoutes,
           ),
         title: 'Quản lý khóa học',
       },

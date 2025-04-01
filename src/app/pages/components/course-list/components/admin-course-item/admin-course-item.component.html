@@ -1,0 +1,19 @@
+<bidv-card-layout class="card_layout">
+  <div>
+    <div class="image-box">
+      <img [src]="course.thumbnail" [alt]="course.title" />
+    </div>
+    <bidv-card-content class="card_content">
+      <bidv-line-clamp [content]="content" [linesLimit]="1"></bidv-line-clamp>
+      <ng-template #content>
+        <p class="bidv-text_title-1">{{ course.title }}</p>
+      </ng-template>
+
+      <div class="card_info">
+        <span class="bidv-text_body-1 price-text"
+          >{{ course.price | bidvAmount: 'VND' | async }}
+        </span>
+      </div>
+    </bidv-card-content>
+  </div>
+</bidv-card-layout>

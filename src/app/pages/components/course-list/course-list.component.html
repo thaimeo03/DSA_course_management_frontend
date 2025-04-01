@@ -7,7 +7,15 @@
   <div class="course-list-container">
     <ng-container *ngFor="let item of courseList; index as i">
       <div class="course-item-card">
-        <app-course-item [isPurchased]="isPurchased" [course]="item" />
+        <ng-container
+          *ngIf="me && me.role === role.Admin && !userView; else notAdmin"
+        >
+          <app-admin-course-item [course]="item" />
+        </ng-container>
+
+        <ng-template #notAdmin>
+          <app-course-item [isPurchased]="isPurchased" [course]="item" />
+        </ng-template>
       </div>
     </ng-container>
   </div>

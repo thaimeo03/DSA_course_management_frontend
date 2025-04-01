@@ -41,3 +41,7 @@ export type GetPurchasedCoursesParams = GetActiveCourseParams;
 export type GetPurchasedCoursesResponse = DataResponseWithPagination<
   CourseData[]
 >;
+
+// Get all courses
+export type GetAllCoursesParams = GetActiveCourseParams;
+export type GetAllCoursesResponse = DataResponseWithPagination<CourseData[]>;

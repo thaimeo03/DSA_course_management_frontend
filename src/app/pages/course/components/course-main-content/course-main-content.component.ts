@@ -13,7 +13,11 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
+import {
+  DomSanitizer,
+  SafeHtml,
+  SafeResourceUrl,
+} from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
 import { PaymentMethod } from '@app/enums/payment';
@@ -238,5 +242,13 @@ export class CrouseMainContentComponent {
 
   protected showDialog(): void {
     this.open = true;
+  }
+
+  // Getters
+  protected get sanitizedDescription(): SafeHtml | null {
+    if (!this.detailCourse?.description) return null;
+    return this.sanitizer.bypassSecurityTrustHtml(
+      this.detailCourse.description,
+    );
   }
 }

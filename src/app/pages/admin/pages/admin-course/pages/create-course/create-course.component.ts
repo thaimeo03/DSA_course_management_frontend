@@ -3,6 +3,8 @@ import {
   ChangeDetectionStrategy,
   Component,
   inject,
+  Injector,
+  INJECTOR,
   OnDestroy,
 } from '@angular/core';
 import {
@@ -19,6 +21,8 @@ import { CourseService } from '@app/services/course.service';
 import { ImageService } from '@app/services/image.service';
 import { of } from 'rxjs';
 import {
+  BIDV_SANITIZER,
+  BidvAlertService,
   BidvButtonModule,
   BidvErrorModule,
   BidvTextfieldControllerModule,
@@ -31,6 +35,18 @@ import {
   BidvFilesModule,
   BidvInputModule,
 } from '@bidv-ui/kit';
+import { SingleFileUploadComponent } from '@app/pages/components/single-file-upload/single-file-upload.component';
+import {
+  BidvEditorModule,
+  BIDV_EDITOR_EXTENSIONS,
+  BIDV_EDITOR_DEFAULT_EXTENSIONS,
+  BidvEditorTool,
+} from '@bidv-ui/addon-editor';
+import { NgDompurifySanitizer } from '@tinkoff/ng-dompurify';
+import { validateYoutubeUrl } from '@app/utils/form-handling';
+import { CreateCourseBody } from '@app/models/course';
+import { ROUTES } from '@app/constants/routes';
+import { ImageFolder } from '@app/enums/image';
 
 @Component({
   selector: 'app-create-course',
@@ -46,6 +62,8 @@ import {
     BidvTextfieldControllerModule,
     BidvDividerDirective,
     BidvFilesModule,
+    SingleFileUploadComponent,
+    BidvEditorModule,
   ],
   templateUrl: './create-course.component.html',
   styleUrl: './create-course.component.scss',
@@ -60,19 +78,40 @@ import {
         maxLength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Độ dài tối đa — ${requiredLength}`),
         min: ({ min }: { min: string }) => of(`Giá trị tối thiểu — ${min}`),
+        invalidYoutubeUrl: 'URL không đúng định dạng YouTube',
       },
+    },
+    {
+      provide: BIDV_SANITIZER,
+      useClass: NgDompurifySanitizer,
+    },
+    {
+      provide: BIDV_EDITOR_EXTENSIONS,
+      deps: [INJECTOR],
+      useFactory: (injector: Injector) => [
+        ...BIDV_EDITOR_DEFAULT_EXTENSIONS,
+        import('@bidv-ui/addon-editor/extensions/image-editor').then(
+          ({ bidvCreateImageEditorExtension }) =>
+            bidvCreateImageEditorExtension({ injector }),
+        ),
+      ],
     },
   ],
 })
 export class CreateCourseComponent implements OnDestroy {
-  private router = inject(Router);
-  private courseService = inject(CourseService);
-  private imageService = inject(ImageService);
-  private mutation = injectMutation();
+  #router = inject(Router);
+  #courseService = inject(CourseService);
+  #imageService = inject(ImageService);
+  #mutation = injectMutation();
+  #alerts = inject(BidvAlertService);
 
   protected isUploading = false;
+  protected maxMBFileSize = 5; // MB
+  protected acceptedFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
   protected thumbnailSrc: string | null = null;
   protected thumbnailObjectUrl: string | null = null;
+
+  readonly tools = Object.values(BidvEditorTool);
 
   protected breadcrumbs: LinkItem[] = [
     {
@@ -87,32 +126,72 @@ export class CreateCourseComponent implements OnDestroy {
   protected courseForm = new FormGroup({
     title: new FormControl('', [
       Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(100),
+      Validators.minLength(1),
+      Validators.maxLength(200),
     ]),
-    description: new FormControl('', [
-      Validators.required,
-      Validators.minLength(10),
-    ]),
+    description: new FormControl(''),
     price: new FormControl<number | null>(null, [
       Validators.required,
-      Validators.min(0),
+      Validators.min(15000),
     ]),
-    videoUrl: new FormControl('', [Validators.required]),
-    thumbnail: new FormControl<BidvFileLike | null>(null),
+    videoUrl: new FormControl('', [Validators.required, validateYoutubeUrl]),
+    thumbnail: new FormControl<BidvFileLike | null>(null, [
+      Validators.required,
+    ]),
   });
 
-  protected thumbnailControl = this.courseForm.get('thumbnail') as FormControl;
+  // Base course creation mutation
+  #createCourseMutation = this.#mutation({
+    mutationFn: (body: CreateCourseBody) =>
+      this.#courseService.createCourse(body),
+    onSuccess: () => {
+      this.#alerts
+        .open('', {
+          status: 'success',
+          label: 'Tạo khóa học thành công',
+        })
+        .subscribe();
 
-  // Create course mutation
-  // protected createCourseMutation = this.mutation({
-  //   mutationFn: (body: any) => this.courseService.createCourse(body),
-  //   onSuccess: () => {
-  //     this.router.navigate(['/admin/course']);
-  //   }
-  // });
+      this.#router.navigate([ROUTES.adminCourse]);
+    },
+    onError: () => {
+      this.#alerts
+        .open('', {
+          status: 'error',
+          label: 'Tạo khóa học thất bại',
+        })
+        .subscribe();
+    },
+  });
 
-  // protected createCourseResult = this.createCourseMutation.result;
+  // Upload thumbnail first, then create course
+  #createCourseWithThumbnailMutation = (courseData: CreateCourseBody) =>
+    this.#mutation({
+      mutationFn: (files: BidvFileLike[]) =>
+        this.#imageService.uploadImages(files as File[], ImageFolder.Course),
+      onSuccess: (res) => {
+        this.isUploading = false;
+        const thumbnailUrl = res.data[0];
+
+        // Create course with thumbnail URL
+        this.#createCourseMutation.mutate({
+          ...courseData,
+          thumbnail: thumbnailUrl,
+        });
+      },
+      onError: (error) => {
+        this.isUploading = false;
+
+        this.#alerts
+          .open('', {
+            status: 'error',
+            label: 'Tải ảnh thumbnail thất bại',
+          })
+          .subscribe();
+      },
+    });
+
+  protected createCourseResult = this.#createCourseMutation.result;
 
   constructor() {
     this.trackThumbnail();
@@ -125,8 +204,9 @@ export class CreateCourseComponent implements OnDestroy {
     }
   }
 
+  // Handlers
   private trackThumbnail() {
-    this.thumbnailControl.valueChanges.subscribe((file) => {
+    this.thumbnail.valueChanges.subscribe((file) => {
       if (!file) {
         this.thumbnailSrc = null;
         if (this.thumbnailObjectUrl) {
@@ -146,52 +226,36 @@ export class CreateCourseComponent implements OnDestroy {
     });
   }
 
-  protected removeThumbnail() {
-    this.thumbnailControl.setValue(null);
-  }
-
   protected async handleCreateCourse() {
+    // Mark all fields as touched for validation
+    this.courseForm.markAllAsTouched();
+
     if (this.courseForm.invalid) {
-      this.courseForm.markAllAsTouched();
       return;
     }
 
     const formValue = this.courseForm.value;
     const thumbnail = formValue.thumbnail;
 
-    // try {
-    //   if (thumbnail) {
-    //     this.isUploading = true;
-    //     const formData = new FormData();
-    //     formData.append('file', thumbnail);
+    const courseData: CreateCourseBody = {
+      title: formValue.title as string,
+      thumbnail: '', // Placeholder, will be updated after thumbnail upload
+      description: formValue.description as string,
+      price: Number.parseInt(formValue.price as any),
+      videoUrl: formValue.videoUrl as string,
+    };
 
-    //     // Upload thumbnail image
-    //     const response = await this.imageService.upload(formData).toPromise();
+    this.#createCourseWithThumbnailMutation(courseData).mutate([
+      thumbnail as File,
+    ]);
+  }
 
-    //     if (response && response.data) {
-    //       // Create course with thumbnail URL
-    //       this.createCourseMutation.mutate({
-    //         title: formValue.title,
-    //         description: formValue.description,
-    //         price: formValue.price,
-    //         videoUrl: formValue.videoUrl,
-    //         thumbnail: response.data.url
-    //       });
-    //     }
+  protected handleCancel() {
+    this.#router.navigate([ROUTES.adminCourse]);
+  }
 
-    //     this.isUploading = false;
-    //   } else {
-    //     // Create course without thumbnail
-    //     this.createCourseMutation.mutate({
-    //       title: formValue.title,
-    //       description: formValue.description,
-    //       price: formValue.price,
-    //       videoUrl: formValue.videoUrl
-    //     });
-    //   }
-    // } catch (error) {
-    //   this.isUploading = false;
-    //   console.error('Error creating course:', error);
-    // }
+  // Getters
+  protected get thumbnail() {
+    return this.courseForm.get('thumbnail') as FormControl;
   }
 }

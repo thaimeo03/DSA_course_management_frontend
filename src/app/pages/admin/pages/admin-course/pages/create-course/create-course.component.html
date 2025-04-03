@@ -1,4 +1,4 @@
-<div class="course-form-container">
+<div>
   <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
 
   <div class="title-box">
@@ -14,13 +14,11 @@
   >
     <div class="grid-layout">
       <div class="form-section">
-        <h2 class="bidv-text_headline-5 section-title">Thông tin cơ bản</h2>
-
         <div class="form-controls">
           <!-- Title -->
           <label class="bidv-text_label-1">
             Tên khóa học
-            <bidv-input formControlName="title" bidvTextfieldSize="s">
+            <bidv-input formControlName="title">
               <input bidvTextfield placeholder="Nhập tên khóa học" />
             </bidv-input>
             <bidv-error
@@ -29,26 +27,10 @@
             ></bidv-error>
           </label>
 
-          <!-- Description -->
-          <label class="bidv-text_label-1">
-            Mô tả
-            <bidv-input formControlName="description" bidvTextfieldSize="s">
-              <textarea
-                rows="5"
-                bidvTextfield
-                placeholder="Nhập mô tả khóa học"
-              ></textarea>
-            </bidv-input>
-            <bidv-error
-              formControlName="description"
-              [error]="[] | bidvFieldError | async"
-            ></bidv-error>
-          </label>
-
           <!-- Price -->
           <label class="bidv-text_label-1">
             Giá tiền
-            <bidv-input formControlName="price" bidvTextfieldSize="s">
+            <bidv-input formControlName="price">
               <input
                 type="number"
                 min="0"
@@ -65,7 +47,7 @@
           <!-- Video URL -->
           <label class="bidv-text_label-1">
             URL Video
-            <bidv-input formControlName="videoUrl" bidvTextfieldSize="s">
+            <bidv-input formControlName="videoUrl">
               <input bidvTextfield placeholder="Nhập URL video khóa học" />
             </bidv-input>
             <bidv-error
@@ -79,42 +61,43 @@
       <!-- Thumbnail -->
       <div class="thumbnail-container">
         <div class="thumbnail-box">
-          <h2 class="bidv-text_headline-5 section-title">Ảnh thumbnail</h2>
+          <h2 class="bidv-text_title-1">Ảnh thumbnail</h2>
 
           <div class="thumbnail-preview" *ngIf="thumbnailSrc">
             <img [src]="thumbnailSrc" alt="Thumbnail preview" />
           </div>
 
-          <div class="upload-controls" [class.no-thumbnail]="!thumbnailSrc">
-            <div class="upload-method">
-              <div class="file-upload">
-                <label *ngIf="!thumbnailControl?.value" bidvInputFiles>
-                  <input
-                    accept="image/*"
-                    bidvInputFiles
-                    title="Chọn ảnh thumbnail"
-                    [formControl]="thumbnailControl"
-                  />
-                </label>
-
-                <bidv-files class="bidv-space_top-1">
-                  <bidv-file
-                    *ngIf="thumbnailControl.valueChanges | async as file"
-                    [file]="file"
-                    (remove)="removeThumbnail()"
-                  />
-                </bidv-files>
-              </div>
-            </div>
-          </div>
+          <app-single-file-upload
+            [fileControl]="thumbnail"
+            [maxMBFileSize]="maxMBFileSize"
+            [acceptedFileTypes]="acceptedFileTypes"
+          />
         </div>
       </div>
     </div>
 
-    <div class="actions">
-      <button bidvButton type="button" variant="outlined">Hủy</button>
+    <!-- Description -->
+    <bidv-editor formControlName="description" [tools]="tools">
+      Mô tả
+    </bidv-editor>
 
-      <button bidvButton variant="filled">Tạo khóa học</button>
+    <div class="actions">
+      <button
+        bidvButton
+        (click)="handleCancel()"
+        type="button"
+        variant="outlined"
+      >
+        Hủy
+      </button>
+
+      <button
+        bidvButton
+        [loading]="createCourseResult().isPending || isUploading"
+        variant="filled"
+      >
+        Tạo khóa học
+      </button>
     </div>
   </form>
 </div>

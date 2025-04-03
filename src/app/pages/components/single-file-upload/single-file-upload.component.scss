@@ -1,0 +1,84 @@
+.file-label {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .file-info-text {
+    display: flex;
+    align-items: center;
+    column-gap: 0.25rem;
+    color: var(--colors-primary-600);
+  }
+}
+
+.file-content {
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 0.25rem;
+
+  .cloud-icon {
+    color: #ccc;
+    width: 32px;
+    height: 32px;
+  }
+
+  .select {
+    color: var(--colors-primary-600);
+    text-decoration: underline;
+  }
+}
+
+.progress-box {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  column-gap: 0.25rem;
+}
+
+.file-state {
+  margin-bottom: 0.5rem !important;
+  border-radius: var(--t-radius) !important;
+}
+
+.file-state .t-wrapper {
+  width: 100%;
+}
+
+.t-type {
+  display: none;
+}
+
+.file-info-box {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  .file-info-content {
+    display: flex;
+    align-items: center;
+    column-gap: 4px;
+
+    bidv-badge {
+      min-width: fit-content;
+    }
+  }
+
+  .action-group {
+    display: flex;
+    align-items: center;
+    column-gap: 2px;
+  }
+
+  .action-icon {
+    padding: 2px;
+    cursor: pointer;
+
+    &:hover bidv-svg {
+      color: var(--foreground-semantic-negative-intermediate);
+    }
+  }
+}

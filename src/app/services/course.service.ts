@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
+  CreateCourseBody,
+  CreateCourseResponse,
   GetActiveCourseParams,
   GetActiveCourseResponse,
   GetAllCoursesParams,
@@ -60,5 +62,9 @@ export class CourseService {
     return this.#httpClient.get<IsPurchasedCourseResponse>(
       `/courses/is-purchase/${id}`,
     );
+  }
+
+  createCourse(body: CreateCourseBody) {
+    return this.#httpClient.post<CreateCourseResponse>('/courses', body);
   }
 }

@@ -1,0 +1,88 @@
+<div>
+  <label *ngIf="!fileControl.value" bidvInputFiles>
+    <input bidvInputFiles [formControl]="fileControl" />
+    <ng-template>
+      <div class="file-content">
+        <bidv-svg
+          src="bidvIconCloudArrowUpOutline"
+          class="cloud-icon"
+        ></bidv-svg>
+        <div class="bidv-text_body-1">
+          Kéo/thả hoặc <span class="select">chọn tài liệu</span> từ máy tính
+        </div>
+        <span class="bidv-text_body-3"
+          >Dung lượng tài liệu không quá {{ maxMBFileSize }}MB</span
+        >
+      </div>
+    </ng-template>
+  </label>
+  <bidv-files class="bidv-space_top-1">
+    <bidv-file
+      *ngIf="loadedFiles$ | async as file"
+      size="l"
+      [leftContent]="icon"
+      class="file-state"
+    >
+      <div class="file-info-box">
+        <div style="width: 80%">
+          <bidv-line-clamp
+            [content]="content"
+            [linesLimit]="1"
+          ></bidv-line-clamp>
+          <ng-template #content>
+            <div class="bidv-text_title-1">{{ getNameFile(file) }}</div>
+          </ng-template>
+
+          <div class="file-info-content">
+            <div class="bidv-text_body-2">
+              {{ getTypeFile(file) }} - {{ getFileSize(file) }}
+            </div>
+          </div>
+        </div>
+
+        <div class="action-group">
+          <div *ngIf="enableRemove" (click)="removeFile()">
+            <bidv-svg src="bidvIconDeleteOutline" class="action-icon" />
+          </div>
+        </div>
+      </div>
+    </bidv-file>
+
+    <bidv-file
+      *ngIf="loadingFiles$ | async as file"
+      size="l"
+      state="loading"
+      [leftContent]="icon"
+      class="file-state"
+    >
+      <div class="file-info-box">
+        <div style="width: 80%">
+          <bidv-line-clamp
+            [content]="content"
+            [linesLimit]="1"
+          ></bidv-line-clamp>
+          <ng-template #content>
+            <div class="bidv-text_title-1">{{ getNameFile(file) }}</div>
+          </ng-template>
+          <div class="file-info-content">
+            <div class="bidv-text_body-2">
+              {{ getTypeFile(file) }} - {{ getFileSize(file) }}
+            </div>
+          </div>
+        </div>
+
+        <div class="action-group">
+          <div *ngIf="enableRemove" (click)="removeFile()">
+            <bidv-svg src="bidvIconDeleteOutline" class="action-icon" />
+          </div>
+        </div>
+      </div>
+    </bidv-file>
+
+    <bidv-error [error]="errorMessage$ | async" />
+  </bidv-files>
+</div>
+
+<ng-template #icon>
+  <img [src]="iconSrc" alt="" />
+</ng-template>

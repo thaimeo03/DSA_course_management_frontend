@@ -45,3 +45,14 @@ export type GetPurchasedCoursesResponse = DataResponseWithPagination<
 // Get all courses
 export type GetAllCoursesParams = GetActiveCourseParams;
 export type GetAllCoursesResponse = DataResponseWithPagination<CourseData[]>;
+
+// Create course
+export interface CreateCourseBody {
+  title: string;
+  description?: string;
+  thumbnail: string;
+  videoUrl: string;
+  price: number;
+}
+
+export type CreateCourseResponse = DataResponse<CourseData>;

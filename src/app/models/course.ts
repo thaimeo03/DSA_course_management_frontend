@@ -56,3 +56,8 @@ export interface CreateCourseBody {
 }
 
 export type CreateCourseResponse = DataResponse<CourseData>;
+
+// Update course
+export interface UpdateCourseBody extends Partial<CreateCourseBody> {}
+
+export type UpdateCourseResponse = DataResponse<CourseData>;

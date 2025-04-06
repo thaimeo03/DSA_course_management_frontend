@@ -30,6 +30,13 @@ export const adminCourseRoutes: Route[] = [
           ).then((m) => m.AdminCourseDetailComponent),
       },
       {
+        path: ':id/edit',
+        loadComponent: () =>
+          import('./pages/admin-course-edit/admin-course-edit.component').then(
+            (m) => m.AdminCourseEditComponent,
+          ),
+      },
+      {
         path: '*',
         pathMatch: 'full',
         redirectTo: '',

@@ -37,6 +37,17 @@
           <button
             *ngIf="!isActive"
             bidvButton
+            (click)="handleNavigate()"
+            variant="filled"
+            appearance="gray"
+            class="action-btn"
+          >
+            Cập nhật
+          </button>
+
+          <button
+            *ngIf="!isActive"
+            bidvButton
             (click)="handleActivateCourse()"
             [loading]="activeCourseResult().isPending"
             variant="filled"

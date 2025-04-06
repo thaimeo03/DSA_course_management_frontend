@@ -10,7 +10,11 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
 import { BadgeItem, LinkItem } from '@app/models';
-import { CourseData, GetDetailCourseParams } from '@app/models/course';
+import {
+  CourseData,
+  DetailCourseData,
+  GetDetailCourseParams,
+} from '@app/models/course';
 import { CourseService } from '@app/services/course.service';
 import { extractVideoId } from '@app/utils/extract-data';
 import { injectMutation, injectQuery, queryOptions } from '@bidv-api/angular';
@@ -76,7 +80,7 @@ export class AdminCourseDetailComponent implements OnInit {
     'id',
   ) as string;
   protected videoUrl: SafeResourceUrl | null = null;
-  protected detailCourse: CourseData | null = null;
+  protected detailCourse: DetailCourseData | null = null;
   protected isActive!: boolean;
 
   protected badgeItems: { [key: string]: BadgeItem } = {
@@ -245,7 +249,7 @@ export class AdminCourseDetailComponent implements OnInit {
         const data = res.data;
         if (!data) return;
 
-        this.detailCourse = data.data as CourseData;
+        this.detailCourse = data.data;
 
         this.titleService.setTitle(this.detailCourse.title);
 
@@ -317,6 +321,16 @@ export class AdminCourseDetailComponent implements OnInit {
 
         this.#archiveCourseMutation.mutate(null);
       });
+  }
+
+  protected handleNavigate() {
+    this.router.navigate(
+      [ROUTES.adminCourseEdit.replace(':id', this.courseId)],
+      {
+        relativeTo: this.activatedRoute,
+        queryParamsHandling: 'merge',
+      },
+    );
   }
 
   // Getters

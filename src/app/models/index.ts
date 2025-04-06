@@ -1,4 +1,4 @@
-import { UrlTree } from '@angular/router';
+import { Params, UrlTree } from '@angular/router';
 
 // Common model
 export interface SelectItem {
@@ -9,6 +9,7 @@ export interface SelectItem {
 export interface LinkItem {
   label: string;
   link?: string | any[] | UrlTree | undefined;
+  queryParams?: Params | null;
 }
 
 export interface DocumentItem {

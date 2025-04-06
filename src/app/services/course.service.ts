@@ -11,6 +11,8 @@ import {
   GetDetailCourseResponse,
   GetPurchasedCoursesParams,
   IsPurchasedCourseResponse,
+  UpdateCourseBody,
+  UpdateCourseResponse,
 } from '@app/models/course';
 import { getHttpParams } from '@app/utils/handle-api';
 
@@ -66,6 +68,10 @@ export class CourseService {
 
   createCourse(body: CreateCourseBody) {
     return this.#httpClient.post<CreateCourseResponse>('/courses', body);
+  }
+
+  updateCourse(id: string, body: UpdateCourseBody) {
+    return this.#httpClient.patch<UpdateCourseResponse>(`/courses/${id}`, body);
   }
 
   deleteCourse(id: string) {

@@ -1,6 +1,11 @@
 <bidv-breadcrumbs>
   <ng-container *ngFor="let item of breadcrumbs; index as i">
-    <a *bidvItem bidvLink [routerLink]="item.link">
+    <a
+      *bidvItem
+      bidvLink
+      [routerLink]="item.link"
+      [queryParams]="item.queryParams"
+    >
       <bidv-svg
         *ngIf="i === 0"
         src="bidvIconHome"

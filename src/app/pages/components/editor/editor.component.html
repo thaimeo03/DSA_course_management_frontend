@@ -1,0 +1,8 @@
+<bidv-editor
+  [tools]="tools"
+  [(ngModel)]="value"
+  (ngModelChange)="updateValue($event)"
+  (blur)="onBlur()"
+>
+  <ng-content></ng-content>
+</bidv-editor>

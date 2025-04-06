@@ -67,4 +67,20 @@ export class CourseService {
   createCourse(body: CreateCourseBody) {
     return this.#httpClient.post<CreateCourseResponse>('/courses', body);
   }
+
+  deleteCourse(id: string) {
+    return this.#httpClient.delete(`/courses/${id}`);
+  }
+
+  activeCourse(id: string) {
+    return this.#httpClient.patch(`/courses/active/${id}`, null);
+  }
+
+  inactiveCourse(id: string) {
+    return this.#httpClient.patch(`/courses/inactive/${id}`, null);
+  }
+
+  archiveCourse(id: string) {
+    return this.#httpClient.patch(`/courses/archive/${id}`, null);
+  }
 }

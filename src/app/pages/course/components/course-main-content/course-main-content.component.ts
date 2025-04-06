@@ -20,6 +20,7 @@ import {
 } from '@angular/platform-browser';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
+import { ActiveStatus } from '@app/enums';
 import { PaymentMethod } from '@app/enums/payment';
 import { DetailCourseData } from '@app/models/course';
 import { LectureQueryParams } from '@app/models/lecture';
@@ -136,7 +137,9 @@ export class CrouseMainContentComponent {
   #getDetailCourseQuery = this.#query({
     queryKey: ['detail-course', this.courseId],
     queryFn: () =>
-      this.#courseService.getDetailCourse(this.courseId, { isActive: '1' }),
+      this.#courseService.getDetailCourse(this.courseId, {
+        isActive: ActiveStatus.Active,
+      }),
   });
 
   #isPurchasedQuery = this.#query({

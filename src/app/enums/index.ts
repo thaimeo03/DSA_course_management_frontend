@@ -8,3 +8,8 @@ export enum ProgrammingLanguage {
   Python = 2,
   Java = 3,
 }
+
+export enum ActiveStatus {
+  Active = '1',
+  Inactive = '0',
+}

@@ -47,9 +47,10 @@ import { validateYoutubeUrl } from '@app/utils/form-handling';
 import { CreateCourseBody } from '@app/models/course';
 import { ROUTES } from '@app/constants/routes';
 import { ImageFolder } from '@app/enums/image';
+import { DialogService } from '@app/services/share/dialog.service';
 
 @Component({
-  selector: 'app-create-course',
+  selector: 'app-admin-course-create',
   standalone: true,
   imports: [
     CommonModule,
@@ -65,8 +66,8 @@ import { ImageFolder } from '@app/enums/image';
     SingleFileUploadComponent,
     BidvEditorModule,
   ],
-  templateUrl: './create-course.component.html',
-  styleUrl: './create-course.component.scss',
+  templateUrl: './admin-course-create.component.html',
+  styleUrl: './admin-course-create.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     {
@@ -98,12 +99,13 @@ import { ImageFolder } from '@app/enums/image';
     },
   ],
 })
-export class CreateCourseComponent implements OnDestroy {
+export class AdminCourseCreateComponent implements OnDestroy {
   #router = inject(Router);
   #courseService = inject(CourseService);
   #imageService = inject(ImageService);
   #mutation = injectMutation();
   #alerts = inject(BidvAlertService);
+  #dialogs = inject(DialogService);
 
   protected isUploading = false;
   protected maxMBFileSize = 5; // MB
@@ -116,7 +118,7 @@ export class CreateCourseComponent implements OnDestroy {
   protected breadcrumbs: LinkItem[] = [
     {
       label: 'Danh sách khóa học',
-      link: '/admin/course',
+      link: ROUTES.adminCourse,
     },
     {
       label: 'Tạo mới khóa học',
@@ -234,20 +236,26 @@ export class CreateCourseComponent implements OnDestroy {
       return;
     }
 
-    const formValue = this.courseForm.value;
-    const thumbnail = formValue.thumbnail;
+    this.#dialogs
+      .openConfirmDialog('Bạn có chắc chắn muốn tạo khóa học này?')
+      .subscribe((status: any) => {
+        if (!status) return;
 
-    const courseData: CreateCourseBody = {
-      title: formValue.title as string,
-      thumbnail: '', // Placeholder, will be updated after thumbnail upload
-      description: formValue.description as string,
-      price: Number.parseInt(formValue.price as any),
-      videoUrl: formValue.videoUrl as string,
-    };
+        const formValue = this.courseForm.value;
+        const thumbnail = formValue.thumbnail;
 
-    this.#createCourseWithThumbnailMutation(courseData).mutate([
-      thumbnail as File,
-    ]);
+        const courseData: CreateCourseBody = {
+          title: formValue.title as string,
+          thumbnail: '', // Placeholder, will be updated after thumbnail upload
+          description: formValue.description as string,
+          price: Number.parseInt(formValue.price as any),
+          videoUrl: formValue.videoUrl as string,
+        };
+
+        this.#createCourseWithThumbnailMutation(courseData).mutate([
+          thumbnail as File,
+        ]);
+      });
   }
 
   protected handleCancel() {

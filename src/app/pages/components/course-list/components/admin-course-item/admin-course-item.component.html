@@ -1,5 +1,5 @@
 <bidv-card-layout class="card_layout">
-  <div>
+  <a [routerLink]="[detailCourseRoute, course.id]" [queryParams]="queryParams">
     <div class="image-box">
       <img [src]="course.thumbnail" [alt]="course.title" />
     </div>
@@ -15,5 +15,5 @@
         </span>
       </div>
     </bidv-card-content>
-  </div>
+  </a>
 </bidv-card-layout>

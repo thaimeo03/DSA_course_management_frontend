@@ -1,0 +1,116 @@
+<app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+
+<section *ngIf="detailCourse">
+  <div class="course-header">
+    <h1 class="bidv-text_display-3 title">
+      {{ detailCourse.title }}
+    </h1>
+    <div class="sub-title">
+      <span>ID: {{ detailCourse.id }}</span>
+      <span>Cập nhật: {{ detailCourse.updatedAt | date: 'dd/MM/yyyy' }}</span>
+      <span class="bidv-text_title-1"
+        >Giá: {{ detailCourse.price | bidvAmount: 'VND' | async }}</span
+      >
+    </div>
+  </div>
+
+  <div class="intro-container">
+    <div class="video-box">
+      <iframe
+        *ngIf="videoUrl; else skeleton"
+        [src]="videoUrl"
+        width="100%"
+        height="520"
+        frameborder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowfullscreen
+      ></iframe>
+      <ng-template #skeleton>
+        <div [bidvSkeleton]="true" style="width: 100%; height: 520px"></div>
+      </ng-template>
+    </div>
+    <div class="admin-actions">
+      <div class="action-box">
+        <h2 class="bidv-text_headline-4">Quản trị khóa học</h2>
+
+        <div class="actions-container">
+          <button
+            *ngIf="!isActive"
+            bidvButton
+            (click)="handleActivateCourse()"
+            [loading]="activeCourseResult().isPending"
+            variant="filled"
+            class="action-btn"
+          >
+            Kích hoạt khóa học
+          </button>
+
+          <button
+            *ngIf="isActive"
+            bidvButton
+            (click)="handleDeactivateCourse()"
+            [loading]="inactiveCourseResult().isPending"
+            variant="filled"
+            class="action-btn"
+          >
+            Hủy kích hoạt
+          </button>
+
+          <button
+            bidvButton
+            (click)="handleArchiveCourse()"
+            [loading]="archiveCourseResult().isPending"
+            variant="outlined"
+            class="action-btn"
+          >
+            Lưu trữ khóa học
+          </button>
+
+          <button
+            bidvButton
+            (click)="handleDeleteCourse()"
+            [loading]="deleteCourseResult().isPending"
+            variant="outlined"
+            appearance="negative"
+            class="action-btn delete-btn"
+          >
+            Xóa khóa học
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="admin-details">
+    <div class="section">
+      <h3 class="bidv-text_headline-5">Chi tiết khóa học</h3>
+      <div class="details-grid">
+        <div class="detail-item">
+          <span class="label">Ngày tạo:</span>
+          <span class="value">{{
+            detailCourse.createdAt | date: 'dd/MM/yyyy'
+          }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Ngày cập nhật:</span>
+          <span class="value">{{
+            detailCourse.updatedAt | date: 'dd/MM/yyyy'
+          }}</span>
+        </div>
+        <div class="detail-item">
+          <span class="label">Trạng thái:</span>
+          <span>
+            <bidv-badge size="m" shape="square" [class]="badgeItem.class">
+              {{ badgeItem.label }}
+            </bidv-badge>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="description">
+    <h3 class="bidv-text_headline-5">Mô tả khóa học</h3>
+    <div class="bidv-text_body-1" [innerHTML]="sanitizedDescription"></div>
+  </div>
+</section>

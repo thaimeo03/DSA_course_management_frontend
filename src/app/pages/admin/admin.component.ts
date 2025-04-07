@@ -42,7 +42,9 @@ export class AdminComponent {
     },
   ];
 
-  activeAside: BidvNavigationNode | undefined = this.asideItems[0];
+  activeAside: BidvNavigationNode | undefined = this.asideItems.find((item) =>
+    this.#router.url.includes(item.link as string),
+  );
   activeAsideDrawerItem: BidvNavigationNode | undefined = this.asideItems[0]
     ?.subItems
     ? this.asideItems[0]?.subItems[0]

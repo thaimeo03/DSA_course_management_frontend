@@ -60,6 +60,10 @@ export class CourseService {
     );
   }
 
+  getCourse(id: string) {
+    return this.#httpClient.get<GetDetailCourseResponse>(`/courses/${id}`);
+  }
+
   isPurChasedCourse(id: string) {
     return this.#httpClient.get<IsPurchasedCourseResponse>(
       `/courses/is-purchase/${id}`,

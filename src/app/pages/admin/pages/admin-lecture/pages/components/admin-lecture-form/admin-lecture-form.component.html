@@ -1,0 +1,77 @@
+<div>
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <div class="title-box">
+    <h1 class="bidv-text_headline-4 title">{{ title }}</h1>
+    <bidv-divider />
+  </div>
+
+  <form
+    [formGroup]="lectureForm"
+    (ngSubmit)="handleSubmit()"
+    class="form-container"
+  >
+    <div class="form-controls">
+      <label>
+        <span class="bidv-text_label-1">Tiêu đề bài giảng *</span>
+        <bidv-input
+          formControlName="title"
+          placeholder="Nhập tiêu đề"
+        ></bidv-input>
+        <bidv-error
+          formControlName="title"
+          [error]="[] | bidvFieldError | async"
+        ></bidv-error>
+      </label>
+
+      <label>
+        <span class="bidv-text_label-1">Số thứ tự *</span>
+        <bidv-input
+          type="number"
+          formControlName="no"
+          placeholder="Nhập số thứ tự"
+        ></bidv-input>
+        <bidv-error
+          formControlName="no"
+          [error]="[] | bidvFieldError | async"
+        ></bidv-error>
+      </label>
+
+      <label class="video-url">
+        <span class="bidv-text_label-1">URL Video Youtube *</span>
+        <bidv-input
+          formControlName="videoUrl"
+          placeholder="Nhập URL video Youtube"
+        ></bidv-input>
+        <bidv-error
+          formControlName="videoUrl"
+          [error]="[] | bidvFieldError | async"
+        ></bidv-error>
+      </label>
+
+      <label class="content">
+        <span class="bidv-text_label-1">Nội dung bài giảng</span>
+        <textarea
+          class="content-textarea"
+          formControlName="content"
+          placeholder="Nhập nội dung bài giảng (HTML được hỗ trợ)"
+          rows="10"
+        ></textarea>
+      </label>
+    </div>
+
+    <div class="actions">
+      <button
+        bidvButton
+        variant="outlined"
+        type="button"
+        (click)="handleCancel()"
+      >
+        Hủy
+      </button>
+      <button bidvButton variant="filled" type="submit" [disabled]="isLoading">
+        {{ lectureData ? 'Cập nhật' : 'Tạo mới' }}
+      </button>
+    </div>
+  </form>
+</div>

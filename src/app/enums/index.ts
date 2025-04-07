@@ -3,6 +3,11 @@ export enum Order {
   Asc = 'asc',
 }
 
+export enum HavePagination {
+  Y = 'Y',
+  N = 'N',
+}
+
 export enum ProgrammingLanguage {
   Javascript = 0,
   Python = 2,

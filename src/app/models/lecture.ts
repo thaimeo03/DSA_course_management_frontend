@@ -5,6 +5,7 @@ export interface LectureQueryParams {
 }
 
 export type GetActiveLecturesResponse = DataResponse<LectureData[]>;
+export type GetAllLecturesResponse = DataResponse<LectureData[]>;
 
 export interface LectureData {
   id: string;

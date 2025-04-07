@@ -16,9 +16,9 @@ export const adminRoutes: Route[] = [
       },
       {
         path: 'lecture',
-        loadComponent: () =>
-          import('./pages/admin-lecture/admin-lecture.component').then(
-            (m) => m.AdminLectureComponent,
+        loadChildren: () =>
+          import('./pages/admin-lecture/admin-lecture.routes').then(
+            (m) => m.adminLectureRoutes,
           ),
         title: 'Quản lý bài giảng',
       },

@@ -1,4 +1,5 @@
 import { Params, UrlTree } from '@angular/router';
+import { HavePagination } from '@app/enums';
 
 // Common model
 export interface SelectItem {
@@ -50,4 +51,5 @@ export interface DataResponseWithPagination<T> extends DataResponse<T> {
 export interface PaginationParams {
   page?: number;
   limit?: number;
+  paging?: HavePagination;
 }

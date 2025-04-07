@@ -1,0 +1,49 @@
+<main>
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <div class="header-container">
+    <h1 class="bidv-text_headline-4 title">Danh sách bài giảng</h1>
+    <button
+      bidvButton
+      (click)="navigateToCreateLecture()"
+      iconLeft="bidvIconAdd"
+      variant="filled"
+    >
+      Tạo mới bài giảng
+    </button>
+  </div>
+
+  <section>
+    <form [formGroup]="filterForm">
+      <bidv-select formControlName="course" [valueContent]="courseContent">
+        Chọn khóa học
+        <app-single-select-dropdown *bidvDataList [items]="courseItems" />
+      </bidv-select>
+    </form>
+  </section>
+
+  <section class="lecture-list-container">
+    <ng-container *ngIf="renderedRowData; else noContent">
+      <div class="lecture-table-box">
+        <app-base-table
+          [renderedRowData]="renderedRowData"
+          [columnDefs]="columnDefs"
+          [gridOptions]="gridOptions"
+          [hiddenPagination]="false"
+        />
+      </div>
+    </ng-container>
+
+    <ng-template #noContent>
+      <div class="no-content-box">
+        <div class="no-content-box__content">
+          <img src="./cloud-shape.png" alt="cloud-shape" />
+          <p class="bidv-text_headline-7">Danh sách bài giảng</p>
+          <span
+            >Vui lòng chọn khóa học hoặc thêm bài giảng mới nếu không có</span
+          >
+        </div>
+      </div>
+    </ng-template>
+  </section>
+</main>

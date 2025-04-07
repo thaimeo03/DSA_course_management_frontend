@@ -1,0 +1,23 @@
+<bidv-primitive-textfield
+  #input
+  bidvTextfieldIconLeft="bidvIconSearchLarge"
+  class="bidv-space_all-2"
+  [(value)]="query"
+  (keydown.arrowDown.prevent)="onArrowDown(list, $event)"
+>
+  Tìm kiếm
+</bidv-primitive-textfield>
+<hr />
+<bidv-data-list
+  #list
+  emptyContent="Không tìm thấy"
+  (keydown)="onKeyDown($event.key, input.nativeFocusableElement)"
+>
+  <ng-container
+    *bidvLet="items | bidvFilter: filter : query : matcher as filtered"
+  >
+    <button *ngFor="let item of filtered" bidvOption [value]="item">
+      {{ item.label }}
+    </button>
+  </ng-container>
+</bidv-data-list>

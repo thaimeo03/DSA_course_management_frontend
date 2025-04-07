@@ -1,0 +1,60 @@
+<div class="admin-lecture-detail">
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <div *ngIf="lecture" class="lecture-content">
+    <div class="lecture-header">
+      <h1 class="lecture-title bidv-text_headline-4">{{ lecture.title }}</h1>
+
+      <div class="lecture-actions">
+        <button bidvButton variant="outlined" (click)="navigateToList()">
+          Quay lại
+        </button>
+        <button bidvButton variant="filled" (click)="navigateToEdit()">
+          Cập nhật
+        </button>
+      </div>
+    </div>
+
+    <bidv-divider></bidv-divider>
+
+    <div class="lecture-info">
+      <div class="lecture-metadata">
+        <div class="metadata-item">
+          <span class="label">Số thứ tự:</span>
+          <span class="value">{{ lecture.no }}</span>
+        </div>
+        <div class="metadata-item">
+          <span class="label">Ngày tạo:</span>
+          <span class="value">{{
+            lecture.createdAt | date: 'dd/MM/yyyy'
+          }}</span>
+        </div>
+        <div class="metadata-item">
+          <span class="label">Ngày cập nhật:</span>
+          <span class="value">{{
+            lecture.updatedAt | date: 'dd/MM/yyyy'
+          }}</span>
+        </div>
+      </div>
+
+      <div class="video-container" *ngIf="safeVideoUrl">
+        <iframe
+          [src]="safeVideoUrl"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+          allowfullscreen
+        >
+        </iframe>
+      </div>
+
+      <div class="lecture-description" *ngIf="lecture.content">
+        <h2 class="section-title bidv-text_title-1">Nội dung bài giảng</h2>
+        <div class="content-html" [innerHTML]="lecture.content"></div>
+      </div>
+
+      <div class="no-content" *ngIf="!lecture.content">
+        <p>Không có nội dung chi tiết cho bài giảng này.</p>
+      </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,89 @@
+.admin-lecture-detail {
+  padding: 16px;
+}
+
+.loading {
+  display: flex;
+  justify-content: center;
+  padding: 40px;
+  color: #666;
+}
+
+.lecture-content {
+  margin-top: 16px;
+}
+
+.lecture-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.lecture-title {
+  margin: 0;
+}
+
+.lecture-actions {
+  display: flex;
+  gap: 12px;
+}
+
+.lecture-metadata {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 24px;
+  margin: 16px 0;
+}
+
+.metadata-item {
+  display: flex;
+  gap: 8px;
+}
+
+.metadata-item .label {
+  font-weight: 500;
+  color: #555;
+}
+
+.video-container {
+  margin: 24px 0;
+  position: relative;
+  padding-bottom: 56.25%; /* 16:9 aspect ratio */
+  height: 0;
+}
+
+.video-container iframe {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  border-radius: 8px;
+}
+
+.section-title {
+  margin-bottom: 16px;
+  font-size: 18px;
+}
+
+.lecture-description {
+  margin-top: 24px;
+  padding-top: 16px;
+  border-top: 1px solid #eee;
+}
+
+.content-html {
+  line-height: 1.6;
+}
+
+.no-content {
+  margin-top: 24px;
+  padding: 16px;
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  color: #666;
+  text-align: center;
+}

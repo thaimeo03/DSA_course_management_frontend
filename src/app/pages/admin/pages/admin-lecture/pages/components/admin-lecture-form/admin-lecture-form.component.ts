@@ -12,9 +12,9 @@ import {
   ReactiveFormsModule,
   Validators,
 } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LinkItem } from '@app/models';
-import { LectureData } from '@app/models/lecture';
+import { CreateLectureBody, LectureData } from '@app/models/lecture';
 import { LectureService } from '@app/services/lecture.service';
 import { injectMutation } from '@bidv-api/angular';
 import { ROUTES } from '@app/constants/routes';
@@ -32,6 +32,15 @@ import {
 } from '@bidv-ui/kit';
 import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { of } from 'rxjs';
+import { EditorComponent } from '@app/pages/components/editor/editor.component';
+import { validateYoutubeUrl } from '@app/utils/form-handling';
+
+interface LectureForm {
+  title: FormControl<string>;
+  no: FormControl<string>;
+  videoUrl: FormControl<string>;
+  content: FormControl<string>;
+}
 
 @Component({
   selector: 'app-admin-lecture-form',
@@ -46,6 +55,7 @@ import { of } from 'rxjs';
     BidvFieldErrorPipeModule,
     BidvTextfieldControllerModule,
     BidvDividerDirective,
+    EditorComponent,
   ],
   templateUrl: './admin-lecture-form.component.html',
   styleUrl: './admin-lecture-form.component.scss',
@@ -68,43 +78,29 @@ import { of } from 'rxjs';
 })
 export class AdminLectureFormComponent implements OnInit {
   #router = inject(Router);
+  #activatedRoute = inject(ActivatedRoute);
   #lectureService = inject(LectureService);
   #alerts = inject(BidvAlertService);
   #mutation = injectMutation();
 
-  @Input() courseId?: string | null = null;
   @Input() lectureData?: LectureData | null = null;
 
-  // UI state
-  protected isLoading = false;
+  // Properties
   protected title = 'Tạo mới bài giảng';
   protected breadcrumbs: LinkItem[] = [];
 
+  // Data
+  private courseId = this.#activatedRoute.snapshot.queryParams['courseId'];
+  private lastNo = this.#activatedRoute.snapshot.queryParams['lastNo'];
+
   // Form
-  protected lectureForm = new FormGroup({
-    title: new FormControl('', [
-      Validators.required,
-      Validators.minLength(3),
-      Validators.maxLength(100),
-    ]),
-    no: new FormControl<number>(1, [
-      Validators.required,
-      Validators.min(1),
-      Validators.max(1000),
-    ]),
-    videoUrl: new FormControl('', [
-      Validators.required,
-      Validators.pattern(
-        /(https?:\/\/)?((www\.)?(youtube(-nocookie)?|youtube.googleapis)\.com.*(v\/|v=|vi=|vi\/|e\/|embed\/|user\/.*\/u\/\d+\/)|youtu\.be\/).*/,
-      ),
-    ]),
-    content: new FormControl(''),
-  });
+  protected lectureForm!: FormGroup<LectureForm>;
 
   // Mutations
   #createLectureMutation = this.#mutation({
-    mutationFn: (body: any) => this.#lectureService.createLecture(body),
-    onSuccess: (response) => {
+    mutationFn: (body: CreateLectureBody) =>
+      this.#lectureService.createLecture(body),
+    onSuccess: () => {
       this.#alerts
         .open('', {
           status: 'success',
@@ -112,10 +108,10 @@ export class AdminLectureFormComponent implements OnInit {
         })
         .subscribe();
 
-      // Navigate to lecture detail page
-      this.#router.navigate([ROUTES.adminLecture, response.data.id]);
+      // Navigate to lecture list page
+      this.#router.navigate([ROUTES.adminLecture]);
     },
-    onError: (error) => {
+    onError: () => {
       this.#alerts
         .open('', {
           status: 'error',
@@ -149,11 +145,17 @@ export class AdminLectureFormComponent implements OnInit {
     },
   });
 
-  ngOnInit(): void {
-    this.initUI();
-    this.initForm();
+  // Lifecycle
+  constructor() {
+    if (!this.courseId || !this.lastNo) return;
+    this.lectureForm = this.initForm();
   }
 
+  ngOnInit(): void {
+    this.initUI();
+  }
+
+  // Init data
   private initUI(): void {
     if (this.lectureData) {
       // Edit mode
@@ -186,41 +188,55 @@ export class AdminLectureFormComponent implements OnInit {
     }
   }
 
-  private initForm(): void {
-    if (this.lectureData) {
-      // Fill form with lecture data in edit mode
-      this.lectureForm.patchValue({
-        title: this.lectureData.title,
-        no: this.lectureData.no,
-        videoUrl: this.lectureData.videoUrl,
-        content: this.lectureData.content || '',
-      });
-    }
+  private initForm() {
+    return new FormGroup<LectureForm>({
+      title: new FormControl(this.lectureData?.title ?? '', {
+        nonNullable: true,
+        validators: [Validators.required],
+      }),
+      no: new FormControl((+this.lastNo + 1).toString(), {
+        nonNullable: true,
+        validators: [
+          Validators.required,
+          Validators.min(1),
+          Validators.max(300),
+        ],
+      }),
+      videoUrl: new FormControl(this.lectureData?.videoUrl ?? '', {
+        nonNullable: true,
+        validators: [Validators.required, validateYoutubeUrl],
+      }),
+      content: new FormControl(this.lectureData?.content ?? '', {
+        nonNullable: true,
+      }),
+    });
   }
 
+  // Handlers
   protected handleSubmit(): void {
     if (this.lectureForm.invalid) {
       this.lectureForm.markAllAsTouched();
       return;
     }
 
-    this.isLoading = true;
     const formValue = this.lectureForm.value;
 
-    const lectureData = {
+    const lectureData: Omit<CreateLectureBody, 'courseId'> = {
       title: formValue.title as string,
-      no: formValue.no as number,
+      no: Number.parseInt(formValue.no as string),
       videoUrl: formValue.videoUrl as string,
-      content: formValue.content as string,
+      content: formValue.content,
     };
+
+    console.log('lectureData', lectureData);
 
     if (this.lectureData) {
       // Update lecture
-      this.#updateLectureMutation.mutate({
-        id: this.lectureData.id,
-        body: lectureData,
-      });
-    } else if (this.courseId) {
+      // this.#updateLectureMutation.mutate({
+      //   id: this.lectureData.id,
+      //   body: lectureData,
+      // });
+    } else {
       // Create new lecture
       this.#createLectureMutation.mutate({
         ...lectureData,

@@ -56,7 +56,6 @@ interface FilterForm {
 })
 export class AdminLectureListComponent {
   #router = inject(Router);
-  #activatedRoute = inject(ActivatedRoute);
   #cdr = inject(ChangeDetectorRef);
   #destroyRef = inject(DestroyRef);
   #query = injectQuery();
@@ -78,6 +77,8 @@ export class AdminLectureListComponent {
   });
 
   protected renderedRowData: any[] | null = null;
+  private courseId = '';
+  private lastNo = 0;
 
   // Table config
   protected columnDefs: Array<ColDef | ColGroupDef> = [];
@@ -141,15 +142,21 @@ export class AdminLectureListComponent {
         if (!res.data) return;
 
         const lecturesData = res.data.data;
-        this.renderedRowData = lecturesData.map((item) => ({
-          id: item.id,
-          no: item.no,
-          title: item.title,
-          isActive: item.isActive ? 'Có' : 'Không',
-          updatedAt: BidvDay.fromLocalNativeDate(
-            new Date(item.updatedAt),
-          ).getFormattedDay('DMY', '/'),
-        }));
+        this.renderedRowData = lecturesData.map((item, index) => {
+          if (index === lecturesData.length - 1) {
+            this.lastNo = item.no;
+          }
+
+          return {
+            id: item.id,
+            no: item.no,
+            title: item.title,
+            isActive: item.isActive,
+            updatedAt: BidvDay.fromLocalNativeDate(
+              new Date(item.updatedAt),
+            ).getFormattedDay('DMY', '/'),
+          };
+        });
 
         this.#cdr.markForCheck();
       });
@@ -181,7 +188,7 @@ export class AdminLectureListComponent {
         field: 'isActive',
         cellRenderer: AdminLectureStatusCellComponent,
         sortable: true,
-        width: 150,
+        width: 200,
       },
       {
         headerName: 'Ngày cập nhật',
@@ -197,6 +204,7 @@ export class AdminLectureListComponent {
     this.filterForm.get('course')?.valueChanges.subscribe((item) => {
       if (!item) return;
 
+      this.courseId = item.value;
       this.#getAllLecturesQuery.updateOptions(
         this.getAllLecturesOptions(item.value),
       );
@@ -206,7 +214,12 @@ export class AdminLectureListComponent {
   }
 
   protected navigateToCreateLecture() {
-    this.#router.navigate([ROUTES.adminCreateLecture]);
+    this.#router.navigate([ROUTES.adminCreateLecture], {
+      queryParams: {
+        courseId: this.courseId,
+        lastNo: this.renderedRowData?.length,
+      },
+    });
   }
 
   private onRowClicked(event: RowClickedEvent) {

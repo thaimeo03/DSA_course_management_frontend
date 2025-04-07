@@ -13,11 +13,8 @@
   >
     <div class="form-controls">
       <label>
-        <span class="bidv-text_label-1">Tiêu đề bài giảng *</span>
-        <bidv-input
-          formControlName="title"
-          placeholder="Nhập tiêu đề"
-        ></bidv-input>
+        <span class="bidv-text_label-1">Tiêu đề bài giảng</span>
+        <bidv-input formControlName="title">Nhập tiêu đề</bidv-input>
         <bidv-error
           formControlName="title"
           [error]="[] | bidvFieldError | async"
@@ -25,12 +22,11 @@
       </label>
 
       <label>
-        <span class="bidv-text_label-1">Số thứ tự *</span>
-        <bidv-input
-          type="number"
-          formControlName="no"
-          placeholder="Nhập số thứ tự"
-        ></bidv-input>
+        <span class="bidv-text_label-1">Số thứ tự</span>
+        <bidv-input formControlName="no">
+          Nhập số thứ tự
+          <input bidvTextfield type="number" />
+        </bidv-input>
         <bidv-error
           formControlName="no"
           [error]="[] | bidvFieldError | async"
@@ -38,26 +34,19 @@
       </label>
 
       <label class="video-url">
-        <span class="bidv-text_label-1">URL Video Youtube *</span>
-        <bidv-input
-          formControlName="videoUrl"
-          placeholder="Nhập URL video Youtube"
-        ></bidv-input>
+        <span class="bidv-text_label-1">URL Video</span>
+        <bidv-input formControlName="videoUrl">
+          Nhập URL video Youtube
+        </bidv-input>
         <bidv-error
           formControlName="videoUrl"
           [error]="[] | bidvFieldError | async"
         ></bidv-error>
       </label>
 
-      <label class="content">
-        <span class="bidv-text_label-1">Nội dung bài giảng</span>
-        <textarea
-          class="content-textarea"
-          formControlName="content"
-          placeholder="Nhập nội dung bài giảng (HTML được hỗ trợ)"
-          rows="10"
-        ></textarea>
-      </label>
+      <div class="content">
+        <app-editor formControlName="content">Nội dung</app-editor>
+      </div>
     </div>
 
     <div class="actions">
@@ -69,7 +58,7 @@
       >
         Hủy
       </button>
-      <button bidvButton variant="filled" type="submit" [disabled]="isLoading">
+      <button bidvButton variant="filled" type="submit">
         {{ lectureData ? 'Cập nhật' : 'Tạo mới' }}
       </button>
     </div>

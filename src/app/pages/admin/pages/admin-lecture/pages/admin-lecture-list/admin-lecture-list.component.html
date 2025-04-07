@@ -4,6 +4,7 @@
   <div class="header-container">
     <h1 class="bidv-text_headline-4 title">Danh sách bài giảng</h1>
     <button
+      *ngIf="renderedRowData"
       bidvButton
       (click)="navigateToCreateLecture()"
       iconLeft="bidvIconAdd"

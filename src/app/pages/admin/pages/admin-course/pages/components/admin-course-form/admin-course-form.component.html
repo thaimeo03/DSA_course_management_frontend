@@ -18,9 +18,7 @@
           <!-- Title -->
           <label class="bidv-text_label-1">
             Tên khóa học
-            <bidv-input formControlName="title">
-              <input bidvTextfield placeholder="Nhập tên khóa học" />
-            </bidv-input>
+            <bidv-input formControlName="title"> Nhập tên khóa học </bidv-input>
             <bidv-error
               formControlName="title"
               [error]="[] | bidvFieldError | async"
@@ -31,12 +29,8 @@
           <label class="bidv-text_label-1">
             Giá tiền
             <bidv-input formControlName="price">
-              <input
-                type="number"
-                min="0"
-                bidvTextfield
-                placeholder="Nhập giá tiền"
-              />
+              Nhập giá tiền (VNĐ)
+              <input type="number" bidvTextfield />
             </bidv-input>
             <bidv-error
               formControlName="price"
@@ -48,7 +42,7 @@
           <label class="bidv-text_label-1">
             URL Video
             <bidv-input formControlName="videoUrl">
-              <input bidvTextfield placeholder="Nhập URL video khóa học" />
+              Nhập URL video khóa học
             </bidv-input>
             <bidv-error
               formControlName="videoUrl"

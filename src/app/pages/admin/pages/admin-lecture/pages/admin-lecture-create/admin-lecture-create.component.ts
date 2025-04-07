@@ -8,7 +8,6 @@ import {
 import { Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
 import { LinkItem } from '@app/models';
-import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { LectureService } from '@app/services/lecture.service';
 import { injectMutation } from '@bidv-api/angular';
 import { AdminLectureFormComponent } from '../components/admin-lecture-form/admin-lecture-form.component';
@@ -17,7 +16,7 @@ import { BidvAlertService } from '@bidv-ui/core';
 @Component({
   selector: 'app-admin-lecture-create',
   standalone: true,
-  imports: [CommonModule, BreadcrumbsComponent, AdminLectureFormComponent],
+  imports: [CommonModule, AdminLectureFormComponent],
   templateUrl: './admin-lecture-create.component.html',
   styleUrl: './admin-lecture-create.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,

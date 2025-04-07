@@ -4,6 +4,7 @@ export interface LectureQueryParams {
   no: number;
 }
 
+// Get all and active lectures
 export type GetActiveLecturesResponse = DataResponse<LectureData[]>;
 export type GetAllLecturesResponse = DataResponse<LectureData[]>;
 
@@ -18,3 +19,14 @@ export interface LectureData {
   createdAt: string;
   updatedAt: string;
 }
+
+// Create lesson
+export interface CreateLectureBody {
+  courseId: string;
+  no: number;
+  title: string;
+  content?: string;
+  videoUrl: string;
+}
+
+export type CreateLectureResponse = DataResponse<LectureData>;

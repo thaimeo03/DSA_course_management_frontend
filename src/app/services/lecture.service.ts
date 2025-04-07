@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
+  CreateLectureBody,
+  CreateLectureResponse,
   GetActiveLecturesResponse,
   GetAllLecturesResponse,
 } from '@app/models/lecture';
@@ -24,16 +26,16 @@ export class LectureService {
     );
   }
 
+  createLecture(body: CreateLectureBody) {
+    return this.#httpClient.post<CreateLectureResponse>('/lessons', body);
+  }
+
   getLecture(id: string, params?: any) {
     const httpParams = getHttpParams(params || {});
 
     return this.#httpClient.get<any>(`/lectures/${id}`, {
       params: httpParams,
     });
-  }
-
-  createLecture(body: any) {
-    return this.#httpClient.post<any>('/lectures', body);
   }
 
   updateLecture(id: string, body: any) {

@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
   ViewChild,
 } from '@angular/core';
@@ -15,7 +17,12 @@ import {
   BidvDialogService,
   BidvScrollbarComponent,
 } from '@bidv-ui/core';
-import { injectMutation, injectQueryClient } from '@bidv-api/angular';
+import {
+  injectMutation,
+  injectQuery,
+  injectQueryClient,
+  queryOptions,
+} from '@bidv-api/angular';
 import { ExecuteCodeBody, SubmissionHistoryData } from '@app/models/submission';
 import { SubmissionService } from '@app/services/submission.service';
 import { ActivatedRoute } from '@angular/router';
@@ -25,6 +32,9 @@ import { HttpErrorResponse } from '@angular/common/http';
 import { ProgrammingLanguage } from '@app/enums';
 import { Store } from '@ngrx/store';
 import { selectProblemData } from 'stores/selectors/problem.selector';
+import { GetTemplateParams } from '@app/models/template';
+import { TemplateService } from '@app/services/template.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 
 @Component({
   selector: 'app-problem',
@@ -44,10 +54,14 @@ import { selectProblemData } from 'stores/selectors/problem.selector';
 export class ProblemComponent {
   #activatedRoute = inject(ActivatedRoute);
   #submissionService = inject(SubmissionService);
+  #templateService = inject(TemplateService);
   #dialogs = inject(BidvDialogService);
+  #query = injectQuery();
   #mutation = injectMutation();
   #queryClient = injectQueryClient();
   #store = inject(Store);
+  #destroyRef = inject(DestroyRef);
+  #cdr = inject(ChangeDetectorRef);
 
   @ViewChild(CodeMirrorEditorComponent, { static: true })
   codeMirrorEditor!: CodeMirrorEditorComponent;
@@ -57,10 +71,31 @@ export class ProblemComponent {
   protected activeItemIndex = 0;
 
   // Data
-  protected problemId!: string;
+  protected problemId = this.#activatedRoute.snapshot.params['problemId'];
+  protected courseId = this.#activatedRoute.snapshot.params['id'];
   protected code = '';
   protected language: ProgrammingLanguage = ProgrammingLanguage.Javascript;
   protected content = '';
+
+  private params: GetTemplateParams = {
+    language: this.language,
+    problemId: this.problemId,
+  };
+
+  // Query options
+  protected getTemplateOptions = (params: GetTemplateParams | null) =>
+    queryOptions({
+      enabled: !!params,
+      queryKey: ['template', params],
+      queryFn: () => {
+        if (!params) return null;
+        return this.#templateService.getTemplate(params);
+      },
+      refetchOnWindowFocus: false,
+    });
+
+  // Queries
+  #getTemplateQuery = this.#query(this.getTemplateOptions(this.params));
 
   // Mutation
   #executeCodeMutation = this.#mutation({
@@ -108,12 +143,7 @@ export class ProblemComponent {
   // Init data
   private initData() {
     // Parse params from route
-    this.#activatedRoute.params.subscribe((params) => {
-      this.problemId = params['problemId'];
-
-      const courseId = params['id'];
-      this.breadcrumbs = this.initBreadcrumbs(courseId);
-    });
+    this.breadcrumbs = this.initBreadcrumbs(this.courseId);
 
     // Get problem data from store
     this.#store.select(selectProblemData).subscribe((data) => {
@@ -122,6 +152,19 @@ export class ProblemComponent {
 
       this.content = problemData.content;
     });
+
+    // Get template
+    this.#getTemplateQuery.result$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((res) => {
+        if (!res.data) return;
+
+        const template = res.data.data;
+        this.language = template.language;
+        this.code = template.code;
+
+        this.#cdr.markForCheck();
+      });
   }
 
   // Init breadcrumbs
@@ -159,5 +202,14 @@ export class ProblemComponent {
   protected handleSubmissionHistory(data: SubmissionHistoryData) {
     this.code = data.sourceCode.code;
     this.language = data.sourceCode.language as ProgrammingLanguage;
+  }
+
+  protected handleLanguageChange(lang: ProgrammingLanguage) {
+    this.#getTemplateQuery.updateOptions(
+      this.getTemplateOptions({
+        ...this.params,
+        language: lang,
+      }),
+    );
   }
 }

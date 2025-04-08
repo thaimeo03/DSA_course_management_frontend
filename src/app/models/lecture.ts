@@ -1,4 +1,3 @@
-import { L } from 'node_modules/@bidv-api/core/build/modern/types-BYziPhrv';
 import { DataResponse } from '.';
 
 export interface LectureQueryParams {

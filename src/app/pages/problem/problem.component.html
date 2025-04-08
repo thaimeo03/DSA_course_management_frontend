@@ -29,7 +29,11 @@
       </div>
     </div>
     <div class="code-editor-box">
-      <app-code-mirror-editor [code]="code" [language]="language" />
+      <app-code-mirror-editor
+        [code]="code"
+        [language]="language"
+        (languageChangeEvent)="handleLanguageChange($event)"
+      />
     </div>
   </div>
   <div class="submit-box">

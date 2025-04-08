@@ -168,7 +168,7 @@ export class AdminLectureDetailComponent {
     },
     onSuccess: () => {
       // Redirect to lecture list
-      this.#router.navigate([ROUTES.adminCourse]);
+      this.#router.navigate([ROUTES.adminLecture]);
 
       this.#alerts
         .open('', {

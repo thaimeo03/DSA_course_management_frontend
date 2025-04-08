@@ -3,9 +3,11 @@ import {
   ChangeDetectionStrategy,
   Component,
   ElementRef,
+  EventEmitter,
   Input,
   OnChanges,
   OnInit,
+  Output,
   SimpleChanges,
   ViewChild,
 } from '@angular/core';
@@ -64,6 +66,8 @@ export class CodeMirrorEditorComponent implements OnInit, OnChanges {
   @Input() code: string = '';
   @Input() language: ProgrammingLanguage = ProgrammingLanguage.Javascript;
 
+  @Output() languageChangeEvent = new EventEmitter<ProgrammingLanguage>();
+
   private editor!: EditorView;
   private langConfig = new Compartment();
   private themeConfig = new Compartment();
@@ -80,7 +84,7 @@ export class CodeMirrorEditorComponent implements OnInit, OnChanges {
     },
     {
       label: PROGRAMMING_LANGUAGE[ProgrammingLanguage.Java],
-      value: ProgrammingLanguage,
+      value: ProgrammingLanguage.Java,
     },
   ];
 
@@ -264,6 +268,8 @@ export class CodeMirrorEditorComponent implements OnInit, OnChanges {
         this.langConfig.reconfigure(this.getLanguageExtension(value.label)),
       ],
     });
+
+    this.languageChangeEvent.emit(value.value);
   }
 
   protected handleThemeChange(value: boolean) {

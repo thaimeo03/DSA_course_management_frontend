@@ -23,18 +23,6 @@
   background-color: #6c757d; // default gray
 }
 
-.status-active {
-  background-color: #28a745; // green for active
-}
-
-.status-inactive {
-  background-color: #dc3545; // red for inactive
-}
-
-.status-archived {
-  background-color: #6c757d; // gray for archived
-}
-
 .sub-title {
   display: flex;
   flex-wrap: wrap;
@@ -118,15 +106,6 @@
 
 .description {
   margin-top: 2rem;
-
-  h3 {
-    margin-bottom: 1rem;
-    color: #343a40;
-  }
-
-  div {
-    line-height: 1.6;
-  }
 }
 
 @media (max-width: 992px) {

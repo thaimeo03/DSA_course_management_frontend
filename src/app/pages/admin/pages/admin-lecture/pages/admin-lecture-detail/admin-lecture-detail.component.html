@@ -1,60 +1,122 @@
 <div class="admin-lecture-detail">
-  <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 
-  <div *ngIf="lecture" class="lecture-content">
+  <section *ngIf="lectureData">
     <div class="lecture-header">
-      <h1 class="lecture-title bidv-text_headline-4">{{ lecture.title }}</h1>
-
-      <div class="lecture-actions">
-        <button bidvButton variant="outlined" (click)="navigateToList()">
-          Quay lại
-        </button>
-        <button bidvButton variant="filled" (click)="navigateToEdit()">
-          Cập nhật
-        </button>
+      <h1 class="bidv-text_display-3 title">
+        {{ lectureData.title }}
+      </h1>
+      <div class="sub-title">
+        <span>ID: {{ lectureData.id }}</span>
+        <span>Cập nhật: {{ lectureData.updatedAt | date: 'dd/MM/yyyy' }}</span>
       </div>
     </div>
 
-    <bidv-divider></bidv-divider>
-
-    <div class="lecture-info">
-      <div class="lecture-metadata">
-        <div class="metadata-item">
-          <span class="label">Số thứ tự:</span>
-          <span class="value">{{ lecture.no }}</span>
-        </div>
-        <div class="metadata-item">
-          <span class="label">Ngày tạo:</span>
-          <span class="value">{{
-            lecture.createdAt | date: 'dd/MM/yyyy'
-          }}</span>
-        </div>
-        <div class="metadata-item">
-          <span class="label">Ngày cập nhật:</span>
-          <span class="value">{{
-            lecture.updatedAt | date: 'dd/MM/yyyy'
-          }}</span>
-        </div>
-      </div>
-
-      <div class="video-container" *ngIf="safeVideoUrl">
+    <div class="intro-container">
+      <div class="video-box">
         <iframe
-          [src]="safeVideoUrl"
+          *ngIf="videoUrl; else skeleton"
+          [src]="videoUrl"
+          width="100%"
+          height="520"
           frameborder="0"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowfullscreen
-        >
-        </iframe>
+        ></iframe>
+        <ng-template #skeleton>
+          <div [bidvSkeleton]="true" style="width: 100%; height: 520px"></div>
+        </ng-template>
       </div>
+      <div class="admin-actions">
+        <div class="action-box">
+          <h2 class="bidv-text_headline-4">Quản trị bài giảng</h2>
 
-      <div class="lecture-description" *ngIf="lecture.content">
-        <h2 class="section-title bidv-text_title-1">Nội dung bài giảng</h2>
-        <div class="content-html" [innerHTML]="lecture.content"></div>
-      </div>
+          <div class="actions-container">
+            <button
+              *ngIf="!isActive"
+              bidvButton
+              (click)="navigateToEdit()"
+              variant="filled"
+              appearance="gray"
+              class="action-btn"
+            >
+              Cập nhật
+            </button>
 
-      <div class="no-content" *ngIf="!lecture.content">
-        <p>Không có nội dung chi tiết cho bài giảng này.</p>
+            <button
+              *ngIf="!isActive"
+              bidvButton
+              (click)="handleActivateLecture()"
+              variant="filled"
+              class="action-btn"
+            >
+              Kích hoạt bài giảng
+            </button>
+
+            <button
+              *ngIf="isActive"
+              bidvButton
+              (click)="handleDeactivateLecture()"
+              variant="filled"
+              class="action-btn"
+            >
+              Hủy kích hoạt
+            </button>
+
+            <button
+              bidvButton
+              (click)="handleArchiveLecture()"
+              variant="outlined"
+              class="action-btn"
+            >
+              Lưu trữ bài giảng
+            </button>
+
+            <button
+              bidvButton
+              (click)="handleDeleteLecture()"
+              variant="outlined"
+              appearance="negative"
+              class="action-btn delete-btn"
+            >
+              Xóa bài giảng
+            </button>
+          </div>
+        </div>
       </div>
     </div>
-  </div>
+
+    <div class="admin-details">
+      <div class="section">
+        <h3 class="bidv-text_headline-5">Chi tiết bài giảng</h3>
+        <div class="details-grid">
+          <div class="detail-item">
+            <span class="label">Ngày tạo:</span>
+            <span class="value">{{
+              lectureData.createdAt | date: 'dd/MM/yyyy'
+            }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Ngày cập nhật:</span>
+            <span class="value">{{
+              lectureData.updatedAt | date: 'dd/MM/yyyy'
+            }}</span>
+          </div>
+          <div class="detail-item">
+            <span class="label">Trạng thái:</span>
+            <span>
+              <bidv-badge size="m" shape="square" [class]="badgeItem.class">
+                {{ badgeItem.label }}
+              </bidv-badge>
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="description">
+      <h3 class="bidv-text_headline-5">Mô tả bài giảng</h3>
+      <div [innerHTML]="lectureData.content"></div>
+    </div>
+  </section>
 </div>

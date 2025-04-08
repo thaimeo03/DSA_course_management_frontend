@@ -1,14 +1,15 @@
-import { CommonModule, DatePipe } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
-  OnInit,
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
-import { injectQuery } from '@bidv-api/angular';
+import { injectMutation, injectQuery } from '@bidv-api/angular';
 import { BidvAlertService, BidvButtonModule } from '@bidv-ui/core';
-import { BidvDividerDirective } from '@bidv-ui/kit';
+import { BidvBadgeModule, BidvSkeletonDirective } from '@bidv-ui/kit';
 import { ROUTES } from '@app/constants/routes';
 import { LectureService } from '@app/services/lecture.service';
 import { LectureData } from '@app/models/lecture';
@@ -16,7 +17,9 @@ import { LinkItem } from '@app/models';
 import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { extractVideoId } from '@app/utils/extract-data';
-import { catchError, EMPTY, tap } from 'rxjs';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { BadgeItem } from '@app/models';
+import { DialogService } from '@app/services/share/dialog.service';
 
 @Component({
   selector: 'app-admin-lecture-detail',
@@ -25,25 +28,26 @@ import { catchError, EMPTY, tap } from 'rxjs';
     CommonModule,
     BreadcrumbsComponent,
     BidvButtonModule,
-    BidvDividerDirective,
-    DatePipe,
+    BidvSkeletonDirective,
+    BidvBadgeModule,
   ],
   templateUrl: './admin-lecture-detail.component.html',
   styleUrl: './admin-lecture-detail.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AdminLectureDetailComponent implements OnInit {
-  #route = inject(ActivatedRoute);
+export class AdminLectureDetailComponent {
   #router = inject(Router);
+  #activatedRoute = inject(ActivatedRoute);
   #lectureService = inject(LectureService);
-  #alerts = inject(BidvAlertService);
-  #query = injectQuery();
   #sanitizer = inject(DomSanitizer);
+  #destroyRef = inject(DestroyRef);
+  #cdr = inject(ChangeDetectorRef);
+  #query = injectQuery();
+  #mutation = injectMutation();
+  #dialogs = inject(DialogService);
+  #alerts = inject(BidvAlertService);
 
-  protected lectureId = '';
-  protected lecture: LectureData | null = null;
-  protected safeVideoUrl: SafeResourceUrl | null = null;
-
+  // Properties
   protected breadcrumbs: LinkItem[] = [
     {
       label: 'Danh sách bài giảng',
@@ -54,39 +58,163 @@ export class AdminLectureDetailComponent implements OnInit {
     },
   ];
 
-  protected lectureQuery = this.#query({
+  protected badgeItems: { [key: string]: BadgeItem } = {
+    active: {
+      label: 'Đã kích hoạt',
+      value: '',
+      class: 'badge-green',
+    },
+    inactive: {
+      label: 'Chưa kích hoạt',
+      value: '',
+      class: 'badge-red',
+    },
+  };
+
+  // Data
+  protected lectureId = this.#activatedRoute.snapshot.params['id'];
+  protected lectureData: LectureData | null = null;
+  protected isActive!: boolean;
+  protected videoUrl: SafeResourceUrl | null = null;
+
+  // Queries
+  #lectureQuery = this.#query({
     queryKey: ['lecture-detail'],
-    enabled: false,
-    queryFn: () => {
-      return this.#lectureService.getLecture(this.lectureId).pipe(
-        tap((response) => {
-          this.lecture = response.data;
+    queryFn: () => this.#lectureService.getLectureDetail(this.lectureId),
+    refetchOnWindowFocus: false,
+  });
 
-          if (this.lecture && this.lecture.videoUrl) {
-            this.safeVideoUrl = this.getSafeVideoUrl(this.lecture.videoUrl);
-          }
-        }),
-        catchError((error) => {
-          this.#alerts
-            .open('', {
-              status: 'error',
-              label: 'Không tìm thấy bài giảng',
-            })
-            .subscribe();
+  // Mutations
+  #deleteLectureMutation = this.#mutation({
+    mutationFn: () => {
+      return this.#lectureService.deleteLecture(this.lectureId);
+    },
+    onSuccess: () => {
+      // Redirect to lecture list
+      this.#router.navigate([ROUTES.adminLecture]);
 
-          this.#router.navigate([ROUTES.adminLecture]);
-          return EMPTY;
-        }),
-      );
+      this.#alerts
+        .open('', {
+          status: 'success',
+          label: 'Xóa bài giảng thành công',
+        })
+        .subscribe();
+    },
+    onError: () => {
+      this.#alerts
+        .open('', {
+          status: 'error',
+          label: 'Xóa bài giảng thất bại',
+        })
+        .subscribe();
     },
   });
 
-  ngOnInit(): void {
-    this.#route.params.subscribe((params) => {
-      this.lectureId = params['id'];
-    });
+  #activeCourseMutation = this.#mutation({
+    mutationFn: () => {
+      return this.#lectureService.activeLecture(this.lectureId);
+    },
+    onSuccess: () => {
+      this.isActive = true;
+
+      this.#alerts
+        .open('', {
+          status: 'success',
+          label: 'Kích hoạt bài giảng thành công',
+        })
+        .subscribe();
+
+      this.#cdr.markForCheck();
+    },
+    onError: () => {
+      this.#alerts
+        .open('', {
+          status: 'error',
+          label: 'Kích hoạt bài giảng thất bại',
+        })
+        .subscribe();
+    },
+  });
+
+  #inactiveLectureMutation = this.#mutation({
+    mutationFn: () => {
+      return this.#lectureService.inactiveLecture(this.lectureId);
+    },
+    onSuccess: () => {
+      this.isActive = false;
+
+      this.#alerts
+        .open('', {
+          status: 'success',
+          label: 'Hủy kích hoạt bài giảng thành công',
+        })
+        .subscribe();
+
+      this.#cdr.markForCheck();
+    },
+    onError: () => {
+      this.#alerts
+        .open('', {
+          status: 'error',
+          label: 'Hủy kích hoạt bài giảng thất bại',
+        })
+        .subscribe();
+    },
+  });
+
+  #archiveLectureMutation = this.#mutation({
+    mutationFn: () => {
+      return this.#lectureService.archiveLecture(this.lectureId);
+    },
+    onSuccess: () => {
+      // Redirect to lecture list
+      this.#router.navigate([ROUTES.adminCourse]);
+
+      this.#alerts
+        .open('', {
+          status: 'success',
+          label: 'Lưu trữ bài giảng thành công',
+        })
+        .subscribe();
+    },
+    onError: () => {
+      this.#alerts
+        .open('', {
+          status: 'error',
+          label: 'Lưu trữ bài giảng thất bại',
+        })
+        .subscribe();
+    },
+  });
+
+  // Lifecycle
+  constructor() {
+    this.initData();
   }
 
+  // Init data
+  private initData() {
+    this.#lectureQuery.result$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((res) => {
+        if (!res.data) return;
+
+        this.lectureData = res.data.data;
+        this.isActive = this.lectureData.isActive;
+        this.videoUrl = this.initVideo(this.lectureData.videoUrl);
+
+        this.#cdr.markForCheck();
+      });
+  }
+
+  private initVideo(url: string): SafeResourceUrl {
+    const videoId = extractVideoId(url);
+    return this.#sanitizer.bypassSecurityTrustResourceUrl(
+      `https://www.youtube.com/embed/${videoId}`,
+    );
+  }
+
+  // Handlers
   protected navigateToEdit(): void {
     this.#router.navigate([ROUTES.adminLecture, this.lectureId, 'edit']);
   }
@@ -95,10 +223,49 @@ export class AdminLectureDetailComponent implements OnInit {
     this.#router.navigate([ROUTES.adminLecture]);
   }
 
-  private getSafeVideoUrl(url: string): SafeResourceUrl {
-    const videoId = extractVideoId(url);
-    return this.#sanitizer.bypassSecurityTrustResourceUrl(
-      `https://www.youtube.com/embed/${videoId}`,
-    );
+  protected handleActivateLecture() {
+    this.#dialogs
+      .openConfirmDialog('Bạn có chắc chắn muốn kích hoạt bài giảng này?')
+      .subscribe((status: any) => {
+        if (!status) return;
+
+        this.#activeCourseMutation.mutate(null);
+      });
+  }
+
+  protected handleDeactivateLecture() {
+    this.#dialogs
+      .openConfirmDialog('Bạn có chắc chắn muốn hủy kích hoạt bài giảng này?')
+      .subscribe((status: any) => {
+        if (!status) return;
+
+        this.#inactiveLectureMutation.mutate(null);
+      });
+  }
+
+  protected handleDeleteLecture() {
+    this.#dialogs
+      .openConfirmDialog('Bạn có chắc chắn muốn xóa bài giảng này?')
+      .subscribe((status: any) => {
+        if (!status) return;
+
+        this.#deleteLectureMutation.mutate(null);
+      });
+  }
+
+  protected handleArchiveLecture() {
+    this.#dialogs
+      .openConfirmDialog('Bạn có chắc chắn muốn lưu trữ bài giảng này?')
+      .subscribe((status: any) => {
+        if (!status) return;
+
+        this.#archiveLectureMutation.mutate(null);
+      });
+  }
+
+  protected get badgeItem(): BadgeItem {
+    return this.isActive
+      ? this.badgeItems['active']
+      : this.badgeItems['inactive'];
   }
 }

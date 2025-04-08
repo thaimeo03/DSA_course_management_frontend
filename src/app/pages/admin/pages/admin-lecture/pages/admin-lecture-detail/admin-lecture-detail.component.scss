@@ -1,5 +1,120 @@
 .admin-lecture-detail {
-  padding: 16px;
+  padding: 24px;
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+
+  section {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .lecture-header {
+    .title {
+      margin-bottom: 8px;
+      color: #333;
+      font-weight: 600;
+    }
+    .sub-title {
+      display: flex;
+      gap: 16px;
+      color: #666;
+      font-size: 14px;
+    }
+  }
+
+  .intro-container {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 24px;
+    margin-bottom: 24px;
+
+    @media (max-width: 992px) {
+      grid-template-columns: 1fr;
+    }
+
+    .video-box {
+      border-radius: 8px;
+      overflow: hidden;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .admin-actions {
+      .action-box {
+        background-color: #f8f9fa;
+        border-radius: 8px;
+        padding: 24px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+
+        h2 {
+          margin-bottom: 24px;
+          color: #444;
+          font-weight: 600;
+        }
+
+        .actions-container {
+          display: flex;
+          flex-direction: column;
+          gap: 16px;
+
+          .action-btn {
+            width: 100%;
+          }
+
+          .delete-btn {
+            margin-top: 8px;
+          }
+        }
+      }
+    }
+  }
+
+  .admin-details {
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    padding: 24px;
+    margin-bottom: 24px;
+
+    .section {
+      h3 {
+        margin-bottom: 16px;
+        color: #444;
+      }
+
+      .details-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+        gap: 24px;
+
+        .detail-item {
+          display: flex;
+          flex-direction: column;
+          gap: 4px;
+
+          .label {
+            font-weight: 500;
+            color: #666;
+            font-size: 14px;
+          }
+
+          .value {
+            font-size: 16px;
+            color: #333;
+          }
+        }
+      }
+    }
+  }
+
+  .description {
+    background-color: #fff;
+    border-radius: 8px;
+    padding: 24px;
+    border: 1px solid #eee;
+  }
 }
 
 .loading {
@@ -13,46 +128,48 @@
   margin-top: 16px;
 }
 
-.lecture-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  flex-wrap: wrap;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
 .lecture-title {
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
   margin: 0;
 }
 
 .lecture-actions {
   display: flex;
-  gap: 12px;
+  gap: 16px;
 }
 
 .lecture-metadata {
   display: flex;
   flex-wrap: wrap;
-  gap: 24px;
-  margin: 16px 0;
+  gap: 32px;
+  margin: 24px 0;
 }
 
 .metadata-item {
   display: flex;
-  gap: 8px;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .metadata-item .label {
-  font-weight: 500;
+  font-weight: 600;
   color: #555;
 }
 
+.metadata-item .value {
+  font-size: 14px;
+  color: #777;
+}
+
 .video-container {
-  margin: 24px 0;
+  margin: 32px 0;
   position: relative;
   padding-bottom: 56.25%; /* 16:9 aspect ratio */
   height: 0;
+  border-radius: 8px;
+  overflow: hidden;
 }
 
 .video-container iframe {
@@ -61,28 +178,32 @@
   left: 0;
   width: 100%;
   height: 100%;
-  border-radius: 8px;
+  border: none;
 }
 
 .section-title {
   margin-bottom: 16px;
-  font-size: 18px;
+  font-size: 20px;
+  font-weight: 600;
+  color: #444;
 }
 
 .lecture-description {
-  margin-top: 24px;
+  margin-top: 32px;
   padding-top: 16px;
-  border-top: 1px solid #eee;
+  border-top: 1px solid #ddd;
 }
 
 .content-html {
-  line-height: 1.6;
+  line-height: 1.8;
+  font-size: 16px;
+  color: #333;
 }
 
 .no-content {
-  margin-top: 24px;
+  margin-top: 32px;
   padding: 16px;
-  background-color: #f9f9f9;
+  background-color: #f1f1f1;
   border-radius: 8px;
   color: #666;
   text-align: center;

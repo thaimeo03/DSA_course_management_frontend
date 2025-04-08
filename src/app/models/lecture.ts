@@ -1,3 +1,4 @@
+import { L } from 'node_modules/@bidv-api/core/build/modern/types-BYziPhrv';
 import { DataResponse } from '.';
 
 export interface LectureQueryParams {
@@ -30,3 +31,6 @@ export interface CreateLectureBody {
 }
 
 export type CreateLectureResponse = DataResponse<LectureData>;
+
+// Lesson detail
+export type GetLectureDetailResponse = DataResponse<LectureData>;

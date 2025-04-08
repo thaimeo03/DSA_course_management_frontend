@@ -5,6 +5,7 @@ import {
   CreateLectureResponse,
   GetActiveLecturesResponse,
   GetAllLecturesResponse,
+  GetLectureDetailResponse,
 } from '@app/models/lecture';
 import { getHttpParams } from '@app/utils/handle-api';
 
@@ -30,19 +31,27 @@ export class LectureService {
     return this.#httpClient.post<CreateLectureResponse>('/lessons', body);
   }
 
-  getLecture(id: string, params?: any) {
-    const httpParams = getHttpParams(params || {});
-
-    return this.#httpClient.get<any>(`/lectures/${id}`, {
-      params: httpParams,
-    });
+  getLectureDetail(id: string) {
+    return this.#httpClient.get<GetLectureDetailResponse>(`/lessons/${id}`);
   }
 
   updateLecture(id: string, body: any) {
-    return this.#httpClient.patch<any>(`/lectures/${id}`, body);
+    return this.#httpClient.patch<any>(`/lessons/${id}`, body);
   }
 
   deleteLecture(id: string) {
-    return this.#httpClient.delete(`/lectures/${id}`);
+    return this.#httpClient.delete(`/lessons/${id}`);
+  }
+
+  activeLecture(id: string) {
+    return this.#httpClient.patch(`/lessons/active/${id}`, null);
+  }
+
+  inactiveLecture(id: string) {
+    return this.#httpClient.patch(`/lessons/inactive/${id}`, null);
+  }
+
+  archiveLecture(id: string) {
+    return this.#httpClient.patch(`/lessons/archive/${id}`, null);
   }
 }

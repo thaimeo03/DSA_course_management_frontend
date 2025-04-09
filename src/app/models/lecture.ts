@@ -33,3 +33,6 @@ export type CreateLectureResponse = DataResponse<LectureData>;
 
 // Lesson detail
 export type GetLectureDetailResponse = DataResponse<LectureData>;
+
+// Update lesson
+export interface UpdateLectureBody extends Partial<CreateLectureBody> {}

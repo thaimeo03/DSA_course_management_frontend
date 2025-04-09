@@ -3,42 +3,39 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  OnInit,
+  DestroyRef,
   inject,
+  OnInit,
 } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
 import { LectureData } from '@app/models/lecture';
 import { LinkItem } from '@app/models';
-import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { LectureService } from '@app/services/lecture.service';
-import { injectMutation, injectQuery } from '@bidv-api/angular';
+import { injectQuery, queryOptions } from '@bidv-api/angular';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { AdminLectureFormComponent } from '../components/admin-lecture-form/admin-lecture-form.component';
-import { BidvAlertService } from '@bidv-ui/core';
+import { Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-admin-lecture-edit',
   standalone: true,
-  imports: [CommonModule, BreadcrumbsComponent, AdminLectureFormComponent],
+  imports: [CommonModule, AdminLectureFormComponent],
   templateUrl: './admin-lecture-edit.component.html',
   styleUrl: './admin-lecture-edit.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AdminLectureEditComponent implements OnInit {
-  private router = inject(Router);
-  private route = inject(ActivatedRoute);
-  private lectureService = inject(LectureService);
-  private alerts = inject(BidvAlertService);
-  private cdr = inject(ChangeDetectorRef);
-  private query = injectQuery();
-  private mutation = injectMutation();
+  #activatedRoute = inject(ActivatedRoute);
+  #titleService = inject(Title);
+  #lectureService = inject(LectureService);
+  #query = injectQuery();
+  #destroyRef = inject(DestroyRef);
+  #cdr = inject(ChangeDetectorRef);
 
-  // Component state
-  protected isLoading = true;
-  protected isSubmitting = false;
-  protected lecture: LectureData | null = null;
-  protected lectureId: string = '';
+  // Data
+  protected lectureId = this.#activatedRoute.snapshot.params['id'];
+  protected lectureData: LectureData | null = null;
 
   // Breadcrumbs
   protected breadcrumbs: LinkItem[] = [
@@ -51,68 +48,35 @@ export class AdminLectureEditComponent implements OnInit {
     },
   ];
 
+  // Query Options
+  protected getLectureDetailOptions = () =>
+    queryOptions({
+      enabled: !!this.lectureId,
+      queryKey: ['admin-lecture-detail', this.lectureId],
+      queryFn: () => this.#lectureService.getLectureDetail(this.lectureId),
+      refetchOnWindowFocus: false,
+    });
+
   // Queries
-  // private getLectureQuery = this.query({
-  //   queryKey: ['admin-lecture-detail', this.lectureId],
-  //   queryFn: () => this.lectureService.getLectureById(this.lectureId),
-  //   enabled: false,
-  // });
-
-  // Mutations
-  private updateLectureMutation = this.mutation({
-    mutationFn: (data: any) =>
-      this.lectureService.updateLecture(this.lectureId, data),
-    onSuccess: () => {
-      this.isSubmitting = false;
-      this.alerts
-        .open('', {
-          status: 'success',
-          label: 'Cập nhật bài giảng thành công',
-        })
-        .subscribe();
-
-      this.router.navigate([ROUTES.adminLecture]);
-    },
-    onError: () => {
-      this.isSubmitting = false;
-      this.alerts
-        .open('', {
-          status: 'error',
-          label: 'Cập nhật bài giảng thất bại',
-        })
-        .subscribe();
-      this.cdr.markForCheck();
-    },
-  });
+  #getLectureDetailQuery = this.#query(this.getLectureDetailOptions());
 
   ngOnInit(): void {
-    this.lectureId = this.route.snapshot.params['id'];
-    this.breadcrumbs[1].label = 'Chỉnh sửa bài giảng';
-
-    // if (this.lectureId) {
-    //   this.getLectureQuery.updateOptions({
-    //     queryKey: ['admin-lecture-detail', this.lectureId],
-    //     enabled: true,
-    //   });
-
-    //   this.getLectureQuery.result$
-    //     .pipe(takeUntilDestroyed())
-    //     .subscribe((result) => {
-    //       this.isLoading = false;
-    //       if (result.data) {
-    //         this.lecture = result.data;
-    //         this.cdr.markForCheck();
-    //       }
-    //     });
-    // }
+    this.initData();
   }
 
-  protected handleFormSubmit(data: any): void {
-    this.isSubmitting = true;
-    this.updateLectureMutation.mutate(data);
-  }
+  // Init data
+  private initData() {
+    this.#getLectureDetailQuery.result$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((res) => {
+        const data = res.data;
+        if (!data) return;
 
-  protected handleFormCancel(): void {
-    this.router.navigate([ROUTES.adminLecture]);
+        this.lectureData = data.data;
+
+        this.#titleService.setTitle(this.lectureData.title);
+
+        this.#cdr.markForCheck();
+      });
   }
 }

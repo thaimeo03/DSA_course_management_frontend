@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { MessageResponse } from '@app/models';
 import {
   CreateLectureBody,
   CreateLectureResponse,
   GetActiveLecturesResponse,
   GetAllLecturesResponse,
   GetLectureDetailResponse,
+  UpdateLectureBody,
 } from '@app/models/lecture';
 import { getHttpParams } from '@app/utils/handle-api';
 
@@ -35,8 +37,8 @@ export class LectureService {
     return this.#httpClient.get<GetLectureDetailResponse>(`/lessons/${id}`);
   }
 
-  updateLecture(id: string, body: any) {
-    return this.#httpClient.patch<any>(`/lessons/${id}`, body);
+  updateLecture(id: string, body: UpdateLectureBody) {
+    return this.#httpClient.patch<MessageResponse>(`/lessons/${id}`, body);
   }
 
   deleteLecture(id: string) {

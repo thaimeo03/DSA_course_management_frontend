@@ -14,7 +14,11 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LinkItem } from '@app/models';
-import { CreateLectureBody, LectureData } from '@app/models/lecture';
+import {
+  CreateLectureBody,
+  LectureData,
+  UpdateLectureBody,
+} from '@app/models/lecture';
 import { LectureService } from '@app/services/lecture.service';
 import { injectMutation } from '@bidv-api/angular';
 import { ROUTES } from '@app/constants/routes';
@@ -86,7 +90,7 @@ export class AdminLectureFormComponent implements OnInit {
   @Input() lectureData?: LectureData | null = null;
 
   // Properties
-  protected title = 'Tạo mới bài giảng';
+  protected title = '';
   protected breadcrumbs: LinkItem[] = [];
 
   // Data
@@ -122,9 +126,9 @@ export class AdminLectureFormComponent implements OnInit {
   });
 
   #updateLectureMutation = this.#mutation({
-    mutationFn: ({ id, body }: { id: string; body: any }) =>
+    mutationFn: ({ id, body }: { id: string; body: UpdateLectureBody }) =>
       this.#lectureService.updateLecture(id, body),
-    onSuccess: (response) => {
+    onSuccess: () => {
       this.#alerts
         .open('', {
           status: 'success',
@@ -133,9 +137,9 @@ export class AdminLectureFormComponent implements OnInit {
         .subscribe();
 
       // Navigate to lecture detail page
-      this.#router.navigate([ROUTES.adminLecture, response.data.id]);
+      this.#router.navigate([ROUTES.adminLecture, this.lectureData?.id]);
     },
-    onError: (error) => {
+    onError: () => {
       this.#alerts
         .open('', {
           status: 'error',
@@ -146,12 +150,8 @@ export class AdminLectureFormComponent implements OnInit {
   });
 
   // Lifecycle
-  constructor() {
-    if (!this.courseId || !this.lastNo) return;
-    this.lectureForm = this.initForm();
-  }
-
   ngOnInit(): void {
+    this.lectureForm = this.initForm();
     this.initUI();
   }
 
@@ -194,14 +194,17 @@ export class AdminLectureFormComponent implements OnInit {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      no: new FormControl((+this.lastNo + 1).toString(), {
-        nonNullable: true,
-        validators: [
-          Validators.required,
-          Validators.min(1),
-          Validators.max(300),
-        ],
-      }),
+      no: new FormControl(
+        this.lectureData?.no.toString() ?? (+this.lastNo + 1).toString(),
+        {
+          nonNullable: true,
+          validators: [
+            Validators.required,
+            Validators.min(1),
+            Validators.max(300),
+          ],
+        },
+      ),
       videoUrl: new FormControl(this.lectureData?.videoUrl ?? '', {
         nonNullable: true,
         validators: [Validators.required, validateYoutubeUrl],
@@ -221,27 +224,26 @@ export class AdminLectureFormComponent implements OnInit {
 
     const formValue = this.lectureForm.value;
 
-    const lectureData: Omit<CreateLectureBody, 'courseId'> = {
-      title: formValue.title as string,
-      no: Number.parseInt(formValue.no as string),
-      videoUrl: formValue.videoUrl as string,
-      content: formValue.content,
-    };
-
-    console.log('lectureData', lectureData);
+    const lectureData: Omit<CreateLectureBody | UpdateLectureBody, 'courseId'> =
+      {
+        title: formValue.title as string,
+        no: Number.parseInt(formValue.no as string),
+        videoUrl: formValue.videoUrl as string,
+        content: formValue.content,
+      };
 
     if (this.lectureData) {
       // Update lecture
-      // this.#updateLectureMutation.mutate({
-      //   id: this.lectureData.id,
-      //   body: lectureData,
-      // });
+      this.#updateLectureMutation.mutate({
+        id: this.lectureData.id,
+        body: lectureData,
+      });
     } else {
       // Create new lecture
       this.#createLectureMutation.mutate({
         ...lectureData,
         courseId: this.courseId,
-      });
+      } as CreateLectureBody);
     }
   }
 

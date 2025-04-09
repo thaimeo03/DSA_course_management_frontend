@@ -40,6 +40,11 @@ export class AdminComponent {
       icon: 'bidvIconContentViewGalleryOutline',
       link: ROUTES.adminLecture,
     },
+    {
+      label: 'Bài tập',
+      icon: 'bidvIconClipboardTaskOutline',
+      link: ROUTES.adminProblem,
+    },
   ];
 
   activeAside: BidvNavigationNode | undefined = this.asideItems.find((item) =>

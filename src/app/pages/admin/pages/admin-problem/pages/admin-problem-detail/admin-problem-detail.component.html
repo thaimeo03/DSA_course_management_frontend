@@ -1,0 +1,146 @@
+<!-- <div class="admin-problem-detail">
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
+
+  <section *ngIf="problemData">
+    <div class="problem-header">
+      <h1 class="bidv-text_display-3 title">
+        {{ problemData.title }}
+      </h1>
+      <div class="sub-title">
+        <span>ID: {{ problemData.id }}</span>
+        <span>Cập nhật: {{ problemData.updatedAt | date: 'dd/MM/yyyy' }}</span>
+      </div>
+    </div>
+
+    <div class="grid-container">
+      <div class="main-content">
+        <div class="description-box">
+          <h2 class="bidv-text_headline-5">Mô tả bài tập</h2>
+          <div [innerHTML]="sanitizedDescription"></div>
+        </div>
+
+        <div class="code-box">
+          <h2 class="bidv-text_headline-5">Mẫu code</h2>
+          <app-code-mirror-editor
+            [value]="problemData.sampleCode"
+            [options]="{
+              language: 'javascript',
+              theme: 'light',
+              lineNumbers: true,
+              readOnly: true,
+            }"
+          ></app-code-mirror-editor>
+        </div>
+
+        <div class="code-box">
+          <h2 class="bidv-text_headline-5">Test cases</h2>
+          <app-code-mirror-editor
+            [value]="problemData.testCases"
+            [options]="{
+              language: 'json',
+              theme: 'light',
+              lineNumbers: true,
+              readOnly: true,
+            }"
+          ></app-code-mirror-editor>
+        </div>
+      </div>
+
+      <div class="admin-actions">
+        <div class="action-box">
+          <h2 class="bidv-text_headline-4">Quản trị bài tập</h2>
+
+          <div class="actions-container">
+            <button
+              *ngIf="!isActive"
+              bidvButton
+              (click)="navigateToEdit()"
+              variant="filled"
+              appearance="gray"
+              class="action-btn"
+            >
+              Cập nhật
+            </button>
+
+            <button
+              *ngIf="!isActive"
+              bidvButton
+              (click)="handleActivateProblem()"
+              variant="filled"
+              class="action-btn"
+            >
+              Kích hoạt bài tập
+            </button>
+
+            <button
+              *ngIf="isActive"
+              bidvButton
+              (click)="handleDeactivateProblem()"
+              variant="filled"
+              class="action-btn"
+            >
+              Hủy kích hoạt
+            </button>
+
+            <button
+              bidvButton
+              (click)="handleArchiveProblem()"
+              variant="outlined"
+              class="action-btn"
+            >
+              Lưu trữ bài tập
+            </button>
+
+            <button
+              bidvButton
+              (click)="handleDeleteProblem()"
+              variant="outlined"
+              appearance="negative"
+              class="action-btn delete-btn"
+            >
+              Xóa bài tập
+            </button>
+          </div>
+        </div>
+
+        <div class="details-box">
+          <h3 class="bidv-text_headline-5">Chi tiết bài tập</h3>
+          <div class="details-grid">
+            <div class="detail-item">
+              <span class="label">Ngày tạo:</span>
+              <span class="value">{{
+                problemData.createdAt | date: 'dd/MM/yyyy'
+              }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Ngày cập nhật:</span>
+              <span class="value">{{
+                problemData.updatedAt | date: 'dd/MM/yyyy'
+              }}</span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Độ khó:</span>
+              <span>
+                <bidv-badge
+                  size="m"
+                  shape="square"
+                  [class]="difficultyBadge.class"
+                >
+                  {{ difficultyBadge.label }}
+                </bidv-badge>
+              </span>
+            </div>
+            <div class="detail-item">
+              <span class="label">Trạng thái:</span>
+              <span>
+                <bidv-badge size="m" shape="square" [class]="badgeItem.class">
+                  {{ badgeItem.label }}
+                </bidv-badge>
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</div> -->

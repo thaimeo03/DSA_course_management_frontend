@@ -1,0 +1,92 @@
+<!-- <div>
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <div class="title-box">
+    <h1 class="bidv-text_headline-4 title">{{ title }}</h1>
+    <bidv-divider />
+  </div>
+
+  <form
+    [formGroup]="problemForm"
+    (ngSubmit)="handleSubmit()"
+    class="form-container"
+  >
+    <div class="form-controls">
+      <label>
+        <span class="bidv-text_label-1">Tiêu đề bài tập</span>
+        <bidv-input formControlName="title">Nhập tiêu đề</bidv-input>
+        <bidv-error
+          formControlName="title"
+          [error]="[] | bidvFieldError | async"
+        ></bidv-error>
+      </label>
+
+      <label>
+        <span class="bidv-text_label-1">Độ khó</span>
+        <bidv-select formControlName="difficulty">
+          <option
+            *ngFor="let option of difficultyOptions"
+            [value]="option.value"
+          >
+            {{ option.label }}
+          </option>
+        </bidv-select>
+        <bidv-error
+          formControlName="difficulty"
+          [error]="[] | bidvFieldError | async"
+        ></bidv-error>
+      </label>
+
+      <div class="editor-section">
+        <span class="bidv-text_label-1">Mô tả bài tập</span>
+        <app-editor formControlName="description">Nội dung mô tả</app-editor>
+        <bidv-error
+          formControlName="description"
+          [error]="[] | bidvFieldError | async"
+        ></bidv-error>
+      </div>
+
+      <div class="code-section">
+        <span class="bidv-text_label-1">Mẫu code</span>
+        <app-code-mirror-editor
+          formControlName="sampleCode"
+          [options]="{
+            language: 'javascript',
+            theme: 'light',
+            lineNumbers: true,
+          }"
+        ></app-code-mirror-editor>
+        <bidv-error
+          formControlName="sampleCode"
+          [error]="[] | bidvFieldError | async"
+        ></bidv-error>
+      </div>
+
+      <div class="code-section">
+        <span class="bidv-text_label-1">Test cases (JSON)</span>
+        <app-code-mirror-editor
+          formControlName="testCases"
+          [options]="{ language: 'json', theme: 'light', lineNumbers: true }"
+        ></app-code-mirror-editor>
+        <bidv-error
+          formControlName="testCases"
+          [error]="[] | bidvFieldError | async"
+        ></bidv-error>
+      </div>
+    </div>
+
+    <div class="actions">
+      <button
+        bidvButton
+        variant="outlined"
+        type="button"
+        (click)="handleCancel()"
+      >
+        Hủy
+      </button>
+      <button bidvButton variant="filled" type="submit">
+        {{ problemData ? 'Cập nhật' : 'Tạo mới' }}
+      </button>
+    </div>
+  </form>
+</div> -->

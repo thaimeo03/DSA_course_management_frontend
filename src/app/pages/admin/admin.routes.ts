@@ -23,6 +23,14 @@ export const adminRoutes: Route[] = [
         title: 'Quản lý bài giảng',
       },
       {
+        path: 'problem',
+        loadChildren: () =>
+          import('./pages/admin-problem/admin-problem.routes').then(
+            (m) => m.adminProblemRoutes,
+          ),
+        title: 'Quản lý bài tập',
+      },
+      {
         path: '**',
         redirectTo: 'course',
         pathMatch: 'full',

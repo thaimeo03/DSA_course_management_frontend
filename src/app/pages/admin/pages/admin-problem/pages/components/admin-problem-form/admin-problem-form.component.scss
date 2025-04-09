@@ -1,0 +1,45 @@
+.title-box {
+  margin-bottom: 24px;
+
+  .title {
+    margin-bottom: 8px;
+  }
+}
+
+.form-container {
+  margin-top: 24px;
+
+  .form-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+    margin-bottom: 32px;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .editor-section,
+  .code-section {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+
+    app-editor {
+      min-height: 300px;
+    }
+
+    app-code-mirror-editor {
+      height: 300px;
+    }
+  }
+
+  .actions {
+    display: flex;
+    gap: 16px;
+    justify-content: flex-end;
+  }
+}

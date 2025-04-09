@@ -16,4 +16,7 @@ export const ROUTES = {
   adminLecture: '/admin/lecture',
   adminCreateLecture: '/admin/lecture/create',
   adminLectureEdit: '/admin/lecture/:id/edit',
+  adminProblem: '/admin/problem',
+  adminCreateProblem: '/admin/problem/create',
+  adminProblemEdit: '/admin/problem/:id/edit',
 } as const;

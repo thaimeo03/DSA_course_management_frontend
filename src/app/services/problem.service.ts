@@ -22,4 +22,15 @@ export class ProblemService {
       },
     );
   }
+
+  getAllProblems(id: string, params: GetProblemRepositoryParams) {
+    const httpParams = getHttpParams(params);
+
+    return this.#httpClient.get<ProblemRepositoryResponse>(
+      `/problems/course/${id}`,
+      {
+        params: httpParams,
+      },
+    );
+  }
 }

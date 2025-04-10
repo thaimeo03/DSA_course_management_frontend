@@ -14,6 +14,7 @@ import { ICellRendererParams } from 'ag-grid-community';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class StatusComponent implements ICellRendererAngularComp {
+  // Case user view
   private todoStatusItem: BadgeItem = {
     label: 'Chưa làm',
     value: SubmissionStatus.Todo,
@@ -35,19 +36,40 @@ export class StatusComponent implements ICellRendererAngularComp {
     class: 'badge-green',
   };
 
+  // Case admin view (isActive type boolean)
+  private inActiveStatusItem: BadgeItem = {
+    label: 'Chưa kích hoạt',
+    value: false,
+    icon: 'bidvIconDismissCircle',
+    class: 'badge-red',
+  };
+
+  private activeStatusItem: BadgeItem = {
+    label: 'Đã kích hoạt',
+    value: true,
+    icon: 'bidvIconCheckmarkCircle',
+    class: 'badge-green',
+  };
+
   protected curStatusItem: BadgeItem | null = null;
 
   agInit(params: ICellRendererParams<any, any, any>): void {
-    switch (params.value as SubmissionStatus) {
-      case SubmissionStatus.Todo:
-        this.curStatusItem = this.todoStatusItem;
-        break;
-      case SubmissionStatus.Failed:
-        this.curStatusItem = this.failedStatusItem;
-        break;
-      case SubmissionStatus.Passed:
-        this.curStatusItem = this.passedStatusItem;
-        break;
+    if (typeof params.value === 'boolean') {
+      this.curStatusItem = params.value
+        ? this.activeStatusItem
+        : this.inActiveStatusItem;
+    } else {
+      switch (params.value as SubmissionStatus) {
+        case SubmissionStatus.Todo:
+          this.curStatusItem = this.todoStatusItem;
+          break;
+        case SubmissionStatus.Failed:
+          this.curStatusItem = this.failedStatusItem;
+          break;
+        case SubmissionStatus.Passed:
+          this.curStatusItem = this.passedStatusItem;
+          break;
+      }
     }
   }
 

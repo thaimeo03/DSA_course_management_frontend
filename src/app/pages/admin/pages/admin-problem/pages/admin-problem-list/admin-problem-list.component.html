@@ -23,16 +23,20 @@
   </section>
 
   <section class="problem-list-container">
-    <!-- <ng-container *ngIf="renderedRowData; else noContent"> -->
-    <div class="problem-table-box">
-      <!-- <app-base-table
-          [renderedRowData]="renderedRowData"
-          [columnDefs]="columnDefs"
-          [gridOptions]="gridOptions"
-          [hiddenPagination]="false"
-        /> -->
-    </div>
-    <!-- </ng-container> -->
+    <ng-container *ngIf="courseId; else noContent">
+      <div class="problem-table-box">
+        <ng-container *ngIf="courseId">
+          <app-problem-table
+            *ngIf="courseChangeTracker"
+            [courseId]="courseId"
+            [hideStatus]="false"
+            [hidePagination]="false"
+            [clickableRow]="true"
+            [userView]="false"
+          />
+        </ng-container>
+      </div>
+    </ng-container>
 
     <ng-template #noContent>
       <div class="no-content-box">

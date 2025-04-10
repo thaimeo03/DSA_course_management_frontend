@@ -59,6 +59,7 @@ export class ProblemTableComponent implements OnInit {
   #store = inject(Store);
 
   @Input({ required: true }) courseId!: string | null;
+  @Input() userView: boolean = true;
   @Input() hidePagination = false;
   @Input() hideStatus = false;
   @Input() clickableRow = false;
@@ -90,11 +91,9 @@ export class ProblemTableComponent implements OnInit {
   protected getActiveProblemsApi: (params: any) => Observable<any> = () =>
     of(null);
 
-  constructor() {
-    this.createColumnDefs();
-  }
-
+  // Lifecycle
   ngOnInit(): void {
+    this.createColumnDefs();
     this.initData();
     this.initTableStyle();
   }
@@ -103,12 +102,22 @@ export class ProblemTableComponent implements OnInit {
   private initData() {
     // Set api
     if (!this.courseId) return;
-    this.getActiveProblemsApi = (params: any) => {
-      return this.#problemService.getActiveProblems(
-        this.courseId as string,
-        params,
-      );
-    };
+
+    if (this.userView) {
+      this.getActiveProblemsApi = (params: any) => {
+        return this.#problemService.getActiveProblems(
+          this.courseId as string,
+          params,
+        );
+      };
+    } else {
+      this.getActiveProblemsApi = (params: any) => {
+        return this.#problemService.getAllProblems(
+          this.courseId as string,
+          params,
+        );
+      };
+    }
 
     // Search
     this.filterForm
@@ -165,7 +174,7 @@ export class ProblemTableComponent implements OnInit {
       },
       {
         headerName: 'Trạng thái',
-        field: 'status',
+        field: this.userView ? 'status' : 'isActive',
         cellRenderer: StatusComponent,
         sortable: true,
         width: 150,

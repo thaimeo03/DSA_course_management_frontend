@@ -7,13 +7,13 @@ import {
   inject,
 } from '@angular/core';
 import { FormControl, FormGroup, ReactiveFormsModule } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Router } from '@angular/router';
 import { HavePagination } from '@app/enums';
 import { LinkItem, SelectItem } from '@app/models';
 import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { CourseService } from '@app/services/course.service';
 import { ProblemService } from '@app/services/problem.service';
-import { injectQuery, queryOptions } from '@bidv-api/angular';
+import { injectQuery } from '@bidv-api/angular';
 import {
   BidvButtonModule,
   BidvDataListModule,
@@ -21,16 +21,12 @@ import {
 } from '@bidv-ui/core';
 import { BidvSelectModule } from '@bidv-ui/kit';
 import { SingleSelectDropdownComponent } from '@app/pages/components/single-select-dropdown/single-select-dropdown.component';
-import { BidvDay, BidvStringHandler } from '@bidv-ui/cdk';
-import {
-  ColDef,
-  ColGroupDef,
-  GridOptions,
-  RowClickedEvent,
-} from 'ag-grid-community';
-import { BaseTableComponent } from '@app/pages/components/base-table/base-table.component';
+import { BidvStringHandler } from '@bidv-ui/cdk';
+import { RowClickedEvent } from 'ag-grid-community';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ROUTES } from '@app/constants/routes';
+import { ProblemTableComponent } from '@app/pages/components/problem-table/problem-table.component';
+import { tap } from 'rxjs';
 
 interface FilterForm {
   course: FormControl<SelectItem | null>;
@@ -47,7 +43,7 @@ interface FilterForm {
     BidvSelectModule,
     SingleSelectDropdownComponent,
     BidvDataListModule,
-    BaseTableComponent,
+    ProblemTableComponent,
   ],
   templateUrl: './admin-problem-list.component.html',
   styleUrl: './admin-problem-list.component.scss',
@@ -75,7 +71,8 @@ export class AdminProblemListComponent {
     course: new FormControl(null),
   });
 
-  private courseId = '';
+  protected courseId = '';
+  protected courseChangeTracker = true;
 
   // Queries
   #getAllCoursesQuery = this.#query({
@@ -110,9 +107,15 @@ export class AdminProblemListComponent {
     this.filterForm.get('course')?.valueChanges.subscribe((item) => {
       if (!item) return;
 
+      // Khi courseId thay đổi, đặt courseChangeTracker = false trước
+      this.courseChangeTracker = false;
       this.courseId = item.value;
 
-      this.#cdr.markForCheck();
+      // Sau đó đặt lại = true để tạo lại component
+      setTimeout(() => {
+        this.courseChangeTracker = true;
+        this.#cdr.markForCheck();
+      }, 0);
     });
   }
 

@@ -38,6 +38,9 @@ export interface CreateProblemBody {
 
 export type CreateProblemResponse = DataResponse<ProblemRepositoryData>;
 
-// Update
+// Update problem
 export interface UpdateProblemBody
   extends Partial<Omit<CreateProblemBody, 'courseId'>> {}
+
+// Get problem detail
+export type GetProblemDetailResponse = DataResponse<ProblemRepositoryData>;

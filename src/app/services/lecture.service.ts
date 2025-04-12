@@ -42,18 +42,27 @@ export class LectureService {
   }
 
   deleteLecture(id: string) {
-    return this.#httpClient.delete(`/lessons/${id}`);
+    return this.#httpClient.delete<MessageResponse>(`/lessons/${id}`);
   }
 
   activeLecture(id: string) {
-    return this.#httpClient.patch(`/lessons/active/${id}`, null);
+    return this.#httpClient.patch<MessageResponse>(
+      `/lessons/active/${id}`,
+      null,
+    );
   }
 
   inactiveLecture(id: string) {
-    return this.#httpClient.patch(`/lessons/inactive/${id}`, null);
+    return this.#httpClient.patch<MessageResponse>(
+      `/lessons/inactive/${id}`,
+      null,
+    );
   }
 
   archiveLecture(id: string) {
-    return this.#httpClient.patch(`/lessons/archive/${id}`, null);
+    return this.#httpClient.patch<MessageResponse>(
+      `/lessons/archive/${id}`,
+      null,
+    );
   }
 }

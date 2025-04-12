@@ -1,4 +1,4 @@
-<!-- <div class="admin-problem-detail">
+<div class="admin-problem-detail">
   <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 
   <section *ngIf="problemData">
@@ -17,32 +17,6 @@
         <div class="description-box">
           <h2 class="bidv-text_headline-5">Mô tả bài tập</h2>
           <div [innerHTML]="sanitizedDescription"></div>
-        </div>
-
-        <div class="code-box">
-          <h2 class="bidv-text_headline-5">Mẫu code</h2>
-          <app-code-mirror-editor
-            [value]="problemData.sampleCode"
-            [options]="{
-              language: 'javascript',
-              theme: 'light',
-              lineNumbers: true,
-              readOnly: true,
-            }"
-          ></app-code-mirror-editor>
-        </div>
-
-        <div class="code-box">
-          <h2 class="bidv-text_headline-5">Test cases</h2>
-          <app-code-mirror-editor
-            [value]="problemData.testCases"
-            [options]="{
-              language: 'json',
-              theme: 'light',
-              lineNumbers: true,
-              readOnly: true,
-            }"
-          ></app-code-mirror-editor>
         </div>
       </div>
 
@@ -131,6 +105,10 @@
               </span>
             </div>
             <div class="detail-item">
+              <span class="label">Điểm:</span>
+              <span class="value">{{ problemData.point }}</span>
+            </div>
+            <div class="detail-item">
               <span class="label">Trạng thái:</span>
               <span>
                 <bidv-badge size="m" shape="square" [class]="badgeItem.class">
@@ -143,4 +121,4 @@
       </div>
     </div>
   </section>
-</div> -->
+</div>

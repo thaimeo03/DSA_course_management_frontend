@@ -1,6 +1,4 @@
 .admin-problem-detail {
-  padding: 24px;
-
   section {
     display: flex;
     flex-direction: column;
@@ -17,15 +15,19 @@
     .sub-title {
       display: flex;
       gap: 16px;
-      color: #666;
+      color: var(--bidv-color-text-tertiary);
       font-size: 14px;
     }
   }
 
   .grid-container {
     display: grid;
-    grid-template-columns: 2fr 1fr;
-    gap: 24px;
+    grid-template-columns: 1fr 360px;
+    gap: 32px;
+
+    @media (max-width: 1200px) {
+      grid-template-columns: 1fr;
+    }
 
     @media (max-width: 992px) {
       grid-template-columns: 1fr;
@@ -35,35 +37,15 @@
       display: flex;
       flex-direction: column;
       gap: 32px;
+      background-color: #fff;
+      border-radius: 12px;
+      overflow: hidden;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 
       .description-box {
-        background-color: #fff;
-        border-radius: 8px;
-        padding: 24px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-
         h2 {
           margin-bottom: 16px;
           color: #444;
-        }
-      }
-
-      .code-box {
-        background-color: #fff;
-        border-radius: 8px;
-        padding: 24px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-
-        h2 {
-          margin-bottom: 16px;
-          color: #444;
-        }
-
-        app-code-mirror-editor {
-          display: block;
-          height: 300px;
-          border-radius: 4px;
-          overflow: hidden;
         }
       }
     }
@@ -73,13 +55,14 @@
       flex-direction: column;
       gap: 24px;
 
-      .action-box {
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        padding: 24px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      .action-box,
+      .details-box {
+        background-color: #fff;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 
-        h2 {
+        h2,
+        h3 {
           margin-bottom: 24px;
           color: #444;
           font-weight: 600;
@@ -88,41 +71,31 @@
         .actions-container {
           display: flex;
           flex-direction: column;
-          gap: 16px;
+          gap: 12px;
 
           .action-btn {
             width: 100%;
           }
 
           .delete-btn {
-            margin-top: 8px;
+            margin-top: 12px;
           }
-        }
-      }
-
-      .details-box {
-        background-color: #f8f9fa;
-        border-radius: 8px;
-        padding: 24px;
-        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
-
-        h3 {
-          margin-bottom: 16px;
-          color: #444;
         }
 
         .details-grid {
           display: grid;
-          grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+          grid-template-columns: 1fr;
           gap: 16px;
 
           .detail-item {
             display: flex;
-            flex-direction: column;
-            gap: 4px;
+            align-items: center;
+            justify-content: space-between;
+            padding-bottom: 12px;
+            border-bottom: 1px solid var(--bidv-color-border-divider);
 
             .label {
-              font-weight: 500;
+              font-weight: 600;
               color: #666;
               font-size: 14px;
             }
@@ -136,19 +109,21 @@
       }
     }
   }
-}
 
-.badge-green {
-  background-color: #4caf50;
-  color: white;
-}
+  :host ::ng-deep {
+    .badge-green {
+      background-color: rgba(var(--bidv-color-rgb-success), 0.1);
+      color: var(--bidv-color-text-success);
+    }
 
-.badge-yellow {
-  background-color: #ff9800;
-  color: white;
-}
+    .badge-yellow {
+      background-color: rgba(var(--bidv-color-rgb-warning), 0.1);
+      color: var(--bidv-color-text-warning);
+    }
 
-.badge-red {
-  background-color: #f44336;
-  color: white;
+    .badge-red {
+      background-color: rgba(var(--bidv-color-rgb-negative), 0.1);
+      color: var(--bidv-color-text-negative);
+    }
+  }
 }

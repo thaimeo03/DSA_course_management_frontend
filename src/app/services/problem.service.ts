@@ -1,10 +1,13 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
+import { MessageResponse } from '@app/models';
 import {
   CreateProblemBody,
   CreateProblemResponse,
+  GetProblemDetailResponse,
   GetProblemRepositoryParams,
   ProblemRepositoryResponse,
+  UpdateProblemBody,
 } from '@app/models/problem';
 import { getHttpParams } from '@app/utils/handle-api';
 
@@ -37,6 +40,39 @@ export class ProblemService {
       {
         params: httpParams,
       },
+    );
+  }
+
+  updateProblem(id: string, body: UpdateProblemBody) {
+    return this.#httpClient.patch<MessageResponse>(`/problems/${id}`, body);
+  }
+
+  getProblemDetail(id: string) {
+    return this.#httpClient.get<GetProblemDetailResponse>(`/problems/${id}`);
+  }
+
+  deleteProblem(id: string) {
+    return this.#httpClient.delete<MessageResponse>(`/problems/${id}`);
+  }
+
+  activeProblem(id: string) {
+    return this.#httpClient.patch<MessageResponse>(
+      `/problems/active/${id}`,
+      null,
+    );
+  }
+
+  inactiveProblem(id: string) {
+    return this.#httpClient.patch<MessageResponse>(
+      `/problems/inactive/${id}`,
+      null,
+    );
+  }
+
+  archiveProblem(id: string) {
+    return this.#httpClient.patch<MessageResponse>(
+      `/problems/archive/${id}`,
+      null,
     );
   }
 }

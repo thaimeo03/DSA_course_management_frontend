@@ -22,11 +22,9 @@ import {
 import { BidvSelectModule } from '@bidv-ui/kit';
 import { SingleSelectDropdownComponent } from '@app/pages/components/single-select-dropdown/single-select-dropdown.component';
 import { BidvStringHandler } from '@bidv-ui/cdk';
-import { RowClickedEvent } from 'ag-grid-community';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { ROUTES } from '@app/constants/routes';
 import { ProblemTableComponent } from '@app/pages/components/problem-table/problem-table.component';
-import { tap } from 'rxjs';
 
 interface FilterForm {
   course: FormControl<SelectItem | null>;

@@ -4,7 +4,6 @@ import {
   Component,
   inject,
   Input,
-  OnInit,
 } from '@angular/core';
 import {
   FormControl,
@@ -14,11 +13,6 @@ import {
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { LinkItem, SelectItem } from '@app/models';
-// import {
-//   CreateProblemBody,
-//   ProblemData,
-//   UpdateProblemBody,
-// } from '@app/models/problem';
 import { ProblemService } from '@app/services/problem.service';
 import { injectMutation } from '@bidv-api/angular';
 import { ROUTES } from '@app/constants/routes';
@@ -40,14 +34,17 @@ import {
 import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { of } from 'rxjs';
 import { EditorComponent } from '@app/pages/components/editor/editor.component';
-import { CodeMirrorEditorComponent } from '@app/pages/components/code-mirror-editor/code-mirror-editor.component';
 import { Difficulty } from '@app/enums/problem';
-import { CreateProblemBody } from '@app/models/problem';
+import {
+  CreateProblemBody,
+  ProblemRepositoryData,
+  UpdateProblemBody,
+} from '@app/models/problem';
 
 interface ProblemForm {
   title: FormControl<string>;
   content: FormControl<string>;
-  difficulty: FormControl<SelectItem>;
+  difficulty: FormControl<SelectItem | null>;
   point: FormControl<string>;
 }
 
@@ -97,7 +94,7 @@ export class AdminProblemFormComponent {
   #alerts = inject(BidvAlertService);
   #mutation = injectMutation();
 
-  @Input() problemData?: any | null = null;
+  @Input() problemData: ProblemRepositoryData | null = null;
 
   // Properties
   protected title = '';
@@ -148,31 +145,32 @@ export class AdminProblemFormComponent {
     },
   });
 
-  // #updateProblemMutation = this.#mutation({
-  //   mutationFn: ({ id, body }: { id: string; body: UpdateProblemBody }) =>
-  //     this.#problemService.updateProblem(id, body),
-  //   onSuccess: () => {
-  //     this.#alerts
-  //       .open('', {
-  //         status: 'success',
-  //         label: 'Cập nhật bài tập thành công',
-  //       })
-  //       .subscribe();
+  #updateProblemMutation = this.#mutation({
+    mutationFn: ({ id, body }: { id: string; body: UpdateProblemBody }) =>
+      this.#problemService.updateProblem(id, body),
+    onSuccess: () => {
+      this.#alerts
+        .open('', {
+          status: 'success',
+          label: 'Cập nhật bài tập thành công',
+        })
+        .subscribe();
 
-  //     // Navigate to problem detail page
-  //     this.#router.navigate([ROUTES.adminProblem, this.problemData?.id]);
-  //   },
-  //   onError: () => {
-  //     this.#alerts
-  //       .open('', {
-  //         status: 'error',
-  //         label: 'Cập nhật bài tập thất bại',
-  //       })
-  //       .subscribe();
-  //   },
-  // });
+      // Navigate to problem detail page
+      this.#router.navigate([ROUTES.adminProblem, this.problemData?.id]);
+    },
+    onError: () => {
+      this.#alerts
+        .open('', {
+          status: 'error',
+          label: 'Cập nhật bài tập thất bại',
+        })
+        .subscribe();
+    },
+  });
 
   // Lifecycle
+
   ngOnInit(): void {
     this.problemForm = this.initForm();
     this.initUI();
@@ -212,20 +210,26 @@ export class AdminProblemFormComponent {
   }
 
   private initForm() {
+    console.log;
     return new FormGroup<ProblemForm>({
       title: new FormControl(this.problemData?.title ?? '', {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      content: new FormControl(this.problemData?.description ?? '', {
+      content: new FormControl(this.problemData?.content ?? '', {
         nonNullable: true,
         validators: [Validators.required],
       }),
-      difficulty: new FormControl(this.problemData?.difficulty ?? null, {
-        nonNullable: true,
-        validators: [Validators.required],
-      }),
-      point: new FormControl(this.problemData?.point ?? 0, {
+      difficulty: new FormControl(
+        this.difficultyOptions.find(
+          (item) => item.value === this.problemData?.difficulty,
+        ) ?? null,
+        {
+          nonNullable: true,
+          validators: [Validators.required],
+        },
+      ),
+      point: new FormControl(this.problemData?.point.toString() ?? '0', {
         nonNullable: true,
         validators: [Validators.required, Validators.min(0)],
       }),
@@ -244,16 +248,16 @@ export class AdminProblemFormComponent {
     const problemData: Omit<CreateProblemBody, 'courseId'> = {
       title: formValue.title as string,
       content: formValue.content as string,
-      point: Number.parseInt(formValue.point as string),
+      point: +(formValue.point as string),
       difficulty: formValue.difficulty?.value,
     };
 
     if (this.problemData) {
       // Update problem
-      // this.#updateProblemMutation.mutate({
-      //   id: this.problemData.id,
-      //   body: problemData,
-      // });
+      this.#updateProblemMutation.mutate({
+        id: this.problemData.id,
+        body: problemData,
+      });
     } else {
       // Create new problem
       this.#createProblemMutation.mutate({

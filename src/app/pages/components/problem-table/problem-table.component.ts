@@ -224,12 +224,16 @@ export class ProblemTableComponent implements OnInit {
       this.#store.dispatch(setProblemData({ problemData: clickedProblemData }));
     }
 
-    this.router.navigate([
-      ROUTES.detailCourse,
-      this.courseId,
-      ROUTES.problem,
-      problemId,
-    ]);
+    if (this.userView) {
+      this.router.navigate([
+        ROUTES.detailCourse,
+        this.courseId,
+        ROUTES.problem,
+        problemId,
+      ]);
+    } else {
+      this.router.navigate([ROUTES.adminProblem, problemId]);
+    }
   }
 
   protected handleDataReturn(data: ProblemRepositoryData[]) {

@@ -1,6 +1,8 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
+  CreateProblemBody,
+  CreateProblemResponse,
   GetProblemRepositoryParams,
   ProblemRepositoryResponse,
 } from '@app/models/problem';
@@ -11,6 +13,10 @@ import { getHttpParams } from '@app/utils/handle-api';
 })
 export class ProblemService {
   readonly #httpClient = inject(HttpClient);
+
+  createProblem(body: CreateProblemBody) {
+    return this.#httpClient.post<CreateProblemResponse>('/problems', body);
+  }
 
   getActiveProblems(id: string, params: GetProblemRepositoryParams) {
     const httpParams = getHttpParams(params);

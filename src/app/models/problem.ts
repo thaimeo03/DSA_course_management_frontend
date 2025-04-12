@@ -1,8 +1,9 @@
 import { Difficulty, SortBy } from '@app/enums/problem';
 import { SubmissionStatus } from '@app/enums/submission';
-import { DataResponseWithPagination, PaginationParams } from '.';
+import { DataResponse, DataResponseWithPagination, PaginationParams } from '.';
 import { Order } from '@app/enums';
 
+// Get problems
 export type ProblemRepositoryResponse = DataResponseWithPagination<
   ProblemRepositoryData[]
 >;
@@ -25,3 +26,18 @@ export interface GetProblemRepositoryParams extends PaginationParams {
   order?: Order;
   search?: string;
 }
+
+// Create problem
+export interface CreateProblemBody {
+  title: string;
+  content: string;
+  point: number;
+  difficulty: Difficulty;
+  courseId: string;
+}
+
+export type CreateProblemResponse = DataResponse<ProblemRepositoryData>;
+
+// Update
+export interface UpdateProblemBody
+  extends Partial<Omit<CreateProblemBody, 'courseId'>> {}

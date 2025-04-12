@@ -116,6 +116,8 @@ export class AdminProblemListComponent {
         this.courseChangeTracker = true;
         this.#cdr.markForCheck();
       }, 0);
+
+      this.#cdr.markForCheck();
     });
   }
 
@@ -125,11 +127,6 @@ export class AdminProblemListComponent {
         courseId: this.courseId,
       },
     });
-  }
-
-  private onRowClicked(event: RowClickedEvent) {
-    const { id } = event.data;
-    this.#router.navigate([ROUTES.adminProblem, id]);
   }
 
   // Helpers

@@ -16,30 +16,16 @@
     margin-bottom: 32px;
   }
 
-  label {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
   .editor-section,
   .code-section {
     display: flex;
     flex-direction: column;
     gap: 8px;
-
-    app-editor {
-      min-height: 300px;
-    }
-
-    app-code-mirror-editor {
-      height: 300px;
-    }
   }
 
   .actions {
     display: flex;
     gap: 16px;
-    justify-content: flex-end;
+    justify-content: start;
   }
 }

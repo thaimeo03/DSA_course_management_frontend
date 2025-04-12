@@ -9,7 +9,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { injectMutation, injectQuery } from '@bidv-api/angular';
 import { BidvAlertService, BidvButtonModule } from '@bidv-ui/core';
-import { BidvBadgeModule } from '@bidv-ui/kit';
+import { BidvBadgeModule, BidvTabsModule } from '@bidv-ui/kit';
 import { ROUTES } from '@app/constants/routes';
 import { ProblemService } from '@app/services/problem.service';
 import { ProblemRepositoryData } from '@app/models/problem';
@@ -20,6 +20,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BadgeItem } from '@app/models';
 import { DialogService } from '@app/services/share/dialog.service';
 import { Difficulty } from '@app/enums/problem';
+import { AdminProblemTemplateComponent } from './components/admin-problem-template/admin-problem-template.component';
 
 @Component({
   selector: 'app-admin-problem-detail',
@@ -29,6 +30,8 @@ import { Difficulty } from '@app/enums/problem';
     BreadcrumbsComponent,
     BidvButtonModule,
     BidvBadgeModule,
+    BidvTabsModule,
+    AdminProblemTemplateComponent,
   ],
   templateUrl: './admin-problem-detail.component.html',
   styleUrl: './admin-problem-detail.component.scss',
@@ -287,4 +290,6 @@ export class AdminProblemDetailComponent {
     if (!this.problemData?.content) return null;
     return this.#sanitizer.bypassSecurityTrustHtml(this.problemData.content);
   }
+
+  protected activeTabIndex = 0;
 }

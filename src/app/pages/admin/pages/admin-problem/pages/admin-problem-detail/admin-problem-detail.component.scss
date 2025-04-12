@@ -6,24 +6,53 @@
   }
 
   .problem-header {
-    .title {
-      margin-bottom: 8px;
-      color: #333;
-      font-weight: 600;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    background-color: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      gap: 16px;
     }
 
-    .sub-title {
+    .title-section {
+      .title {
+        margin-bottom: 8px;
+        color: #333;
+        font-weight: 600;
+      }
+
+      .sub-title {
+        display: flex;
+        gap: 16px;
+        color: var(--bidv-color-text-tertiary);
+        font-size: 14px;
+      }
+    }
+
+    .status-badges {
       display: flex;
-      gap: 16px;
-      color: var(--bidv-color-text-tertiary);
-      font-size: 14px;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
+
+      .point-badge {
+        padding: 6px 12px;
+        background-color: rgba(var(--bidv-color-rgb-primary), 0.1);
+        color: var(--bidv-color-text-primary);
+        border-radius: 4px;
+        font-size: 14px;
+      }
     }
   }
 
   .grid-container {
     display: grid;
-    grid-template-columns: 1fr 360px;
-    gap: 32px;
+    grid-template-columns: 1fr 320px;
+    gap: 24px;
 
     @media (max-width: 1200px) {
       grid-template-columns: 1fr;
@@ -34,13 +63,27 @@
     }
 
     .main-content {
-      display: flex;
-      flex-direction: column;
-      gap: 32px;
       background-color: #fff;
       border-radius: 12px;
-      overflow: hidden;
       box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+      display: flex;
+      flex-direction: column;
+
+      .tabs-container {
+        border-bottom: 1px solid var(--bidv-color-border-divider);
+
+        ::ng-deep .bidv-tabs-buttons-container {
+          padding: 0 24px;
+        }
+      }
+
+      .tab-content {
+        padding: 24px;
+      }
+
+      .tab-pane {
+        min-height: 300px;
+      }
 
       .description-box {
         h2 {
@@ -48,22 +91,42 @@
           color: #444;
         }
       }
+
+      .placeholder-content {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        height: 200px;
+        border: 2px dashed var(--bidv-color-border-divider);
+        border-radius: 8px;
+        color: var(--bidv-color-text-tertiary);
+      }
+
+      // Override the template component's styling to integrate better with tab
+      ::ng-deep app-admin-problem-template {
+        .template-container {
+          box-shadow: none;
+          padding: 0;
+          margin-bottom: 0;
+        }
+      }
     }
 
-    .admin-actions {
+    .admin-sidebar {
       display: flex;
       flex-direction: column;
-      gap: 24px;
+      gap: 12px;
 
       .action-box,
       .details-box {
         background-color: #fff;
         border-radius: 12px;
+        padding: 12px;
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
 
-        h2,
-        h3 {
-          margin-bottom: 24px;
+        h2 {
+          margin-bottom: 20px;
           color: #444;
           font-weight: 600;
         }
@@ -94,6 +157,10 @@
             padding-bottom: 12px;
             border-bottom: 1px solid var(--bidv-color-border-divider);
 
+            &:last-child {
+              border-bottom: none;
+            }
+
             .label {
               font-weight: 600;
               color: #666;
@@ -101,7 +168,7 @@
             }
 
             .value {
-              font-size: 16px;
+              font-size: 14px;
               color: #333;
             }
           }

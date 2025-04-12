@@ -35,6 +35,8 @@ import { selectProblemData } from 'stores/selectors/problem.selector';
 import { GetTemplateParams } from '@app/models/template';
 import { TemplateService } from '@app/services/template.service';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
+import { ProblemService } from '@app/services/problem.service';
 
 @Component({
   selector: 'app-problem',
@@ -54,6 +56,7 @@ import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 export class ProblemComponent {
   #activatedRoute = inject(ActivatedRoute);
   #submissionService = inject(SubmissionService);
+  #problemService = inject(ProblemService);
   #templateService = inject(TemplateService);
   #dialogs = inject(BidvDialogService);
   #query = injectQuery();
@@ -62,6 +65,7 @@ export class ProblemComponent {
   #store = inject(Store);
   #destroyRef = inject(DestroyRef);
   #cdr = inject(ChangeDetectorRef);
+  #sanitizer = inject(DomSanitizer);
 
   @ViewChild(CodeMirrorEditorComponent, { static: true })
   codeMirrorEditor!: CodeMirrorEditorComponent;
@@ -75,7 +79,7 @@ export class ProblemComponent {
   protected courseId = this.#activatedRoute.snapshot.params['id'];
   protected code = '';
   protected language: ProgrammingLanguage = ProgrammingLanguage.Javascript;
-  protected content = '';
+  protected safeContent: SafeHtml = '';
 
   private params: GetTemplateParams = {
     language: this.language,
@@ -96,6 +100,12 @@ export class ProblemComponent {
 
   // Queries
   #getTemplateQuery = this.#query(this.getTemplateOptions(this.params));
+
+  #problemQuery = this.#query({
+    queryKey: ['problem-detail'],
+    queryFn: () => this.#problemService.getProblemDetail(this.problemId),
+    refetchOnWindowFocus: false,
+  });
 
   // Mutation
   #executeCodeMutation = this.#mutation({
@@ -148,9 +158,24 @@ export class ProblemComponent {
     // Get problem data from store
     this.#store.select(selectProblemData).subscribe((data) => {
       const problemData = data.problemData;
-      if (!problemData) return;
 
-      this.content = problemData.content;
+      if (problemData) {
+        this.safeContent = this.#sanitizer.bypassSecurityTrustHtml(
+          problemData.content,
+        );
+      } else {
+        this.#problemQuery.result$
+          .pipe(takeUntilDestroyed(this.#destroyRef))
+          .subscribe((res) => {
+            if (!res.data) return;
+
+            this.safeContent = this.#sanitizer.bypassSecurityTrustHtml(
+              res.data.data?.content ?? '',
+            );
+
+            this.#cdr.markForCheck();
+          });
+      }
     });
 
     // Get template

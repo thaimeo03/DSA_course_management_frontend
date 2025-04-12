@@ -1,0 +1,61 @@
+<section class="template-container">
+  <form class="form-container">
+    <div class="code-editor-container">
+      <app-code-mirror-editor
+        [code]="code"
+        [language]="language"
+        (languageChangeEvent)="handleLanguageChange($event)"
+      ></app-code-mirror-editor>
+
+      <bidv-error [error]="errorMessage" />
+    </div>
+
+    <div class="actions-container">
+      <!-- Template exists but not in edit mode -->
+      <ng-container *ngIf="currentTemplateId && !isEditMode">
+        <button
+          bidvButton
+          type="button"
+          variant="filled"
+          size="s"
+          (click)="handleEditTemplate()"
+        >
+          Sửa mẫu code
+        </button>
+        <button
+          bidvButton
+          type="button"
+          variant="outlined"
+          size="s"
+          appearance="negative"
+          (click)="handleDeleteTemplate()"
+        >
+          Xóa mẫu code
+        </button>
+      </ng-container>
+
+      <!-- Edit mode or creating new template -->
+      <ng-container *ngIf="isEditMode || !currentTemplateId">
+        <button
+          bidvButton
+          (click)="handleSaveTemplate()"
+          type="button"
+          variant="filled"
+          size="s"
+        >
+          {{ currentTemplateId ? 'Lưu mẫu code' : 'Tạo mẫu code' }}
+        </button>
+        <button
+          *ngIf="isEditMode"
+          type="button"
+          bidvButton
+          variant="outlined"
+          size="s"
+          (click)="handleCancelEdit()"
+        >
+          Hủy
+        </button>
+      </ng-container>
+    </div>
+  </form>
+</section>

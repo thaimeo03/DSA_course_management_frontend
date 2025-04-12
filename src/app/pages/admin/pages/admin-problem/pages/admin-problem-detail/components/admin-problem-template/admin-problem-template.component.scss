@@ -1,0 +1,39 @@
+:host {
+  display: block;
+}
+
+.template-container {
+  background-color: #fff;
+  border-radius: 12px;
+  padding: 24px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.06);
+  margin-bottom: 24px;
+
+  .header-container {
+    margin-bottom: 24px;
+
+    .divider {
+      margin-top: 8px;
+    }
+  }
+
+  .form-container {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+
+    .language-selector {
+      max-width: 300px;
+    }
+
+    .code-editor-container {
+      width: 100%;
+      margin: 10px 0;
+    }
+
+    .actions-container {
+      display: flex;
+      gap: 16px;
+    }
+  }
+}

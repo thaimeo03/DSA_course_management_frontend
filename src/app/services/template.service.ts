@@ -1,6 +1,12 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
-import { GetTemplateParams, GetTemplateResponse } from '@app/models/template';
+import { MessageResponse } from '@app/models';
+import {
+  CreateTemplateBody,
+  GetTemplateParams,
+  GetTemplateResponse,
+  UpdateTemplateBody,
+} from '@app/models/template';
 import { getHttpParams } from '@app/utils/handle-api';
 
 @Injectable({
@@ -15,5 +21,17 @@ export class TemplateService {
     return this.#httpClient.get<GetTemplateResponse>('/templates/problem', {
       params: httpParams,
     });
+  }
+
+  createTemplate(body: CreateTemplateBody) {
+    return this.#httpClient.post<MessageResponse>('/templates', body);
+  }
+
+  updateTemplate(id: string, body: UpdateTemplateBody) {
+    return this.#httpClient.patch<MessageResponse>(`/templates/${id}`, body);
+  }
+
+  deleteTemplate(id: string) {
+    return this.#httpClient.delete<MessageResponse>(`/templates/${id}`);
   }
 }

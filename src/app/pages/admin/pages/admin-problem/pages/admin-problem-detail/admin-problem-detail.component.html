@@ -2,28 +2,82 @@
   <app-breadcrumbs [breadcrumbs]="breadcrumbs"></app-breadcrumbs>
 
   <section *ngIf="problemData">
+    <!-- Problem Header -->
     <div class="problem-header">
-      <h1 class="bidv-text_display-3 title">
-        {{ problemData.title }}
-      </h1>
-      <div class="sub-title">
-        <span>ID: {{ problemData.id }}</span>
-        <span>Cập nhật: {{ problemData.updatedAt | date: 'dd/MM/yyyy' }}</span>
+      <div class="title-section">
+        <h1 class="bidv-text_display-3 title">
+          {{ problemData.title }}
+        </h1>
+        <div class="sub-title">
+          <span>ID: {{ problemData.id }}</span>
+          <span
+            >Cập nhật: {{ problemData.updatedAt | date: 'dd/MM/yyyy' }}</span
+          >
+        </div>
+      </div>
+
+      <div class="status-badges">
+        <bidv-badge size="m" shape="square" [class]="badgeItem.class">
+          {{ badgeItem.label }}
+        </bidv-badge>
+        <bidv-badge size="m" shape="square" [class]="difficultyBadge.class">
+          {{ difficultyBadge.label }}
+        </bidv-badge>
+        <span class="point-badge">
+          <strong>{{ problemData.point }}</strong> điểm
+        </span>
       </div>
     </div>
 
     <div class="grid-container">
+      <!-- Main Content -->
       <div class="main-content">
-        <div class="description-box">
-          <h2 class="bidv-text_headline-5">Mô tả bài tập</h2>
-          <div [innerHTML]="sanitizedDescription"></div>
+        <bidv-tabs [(activeItemIndex)]="activeTabIndex" class="tabs-container">
+          <button
+            bidvTab
+            iconLeft="bidvIconDocumentDataOutline"
+            class="tab-item"
+          >
+            Mô tả bài toán
+          </button>
+          <button bidvTab iconLeft="bidvIconCodeOutline" class="tab-item">
+            Quản lý template
+          </button>
+          <!-- Reserved for future test case management -->
+          <button bidvTab iconLeft="bidvIconNotebookOutline" class="tab-item">
+            Quản lý bộ test
+          </button>
+        </bidv-tabs>
+
+        <div class="tab-content">
+          <!-- Tab: Problem Description -->
+          <div *ngIf="activeTabIndex === 0" class="tab-pane description-box">
+            <div [innerHTML]="sanitizedDescription"></div>
+          </div>
+
+          <!-- Tab: Template Management -->
+          <div *ngIf="activeTabIndex === 1" class="tab-pane">
+            <app-admin-problem-template
+              [problemId]="problemId"
+            ></app-admin-problem-template>
+          </div>
+
+          <!-- Tab: Test Case Management (placeholder for future implementation) -->
+          <div *ngIf="activeTabIndex === 2" class="tab-pane">
+            <div class="placeholder-content">
+              <p class="bidv-text_body-1">
+                Chức năng quản lý bộ test sẽ được thêm trong tương lai.
+              </p>
+            </div>
+          </div>
         </div>
       </div>
 
-      <div class="admin-actions">
+      <!-- Sidebar -->
+      <div class="admin-sidebar">
+        <!-- Actions Box -->
         <div class="action-box">
-          <h2 class="bidv-text_headline-4">Quản trị bài tập</h2>
-
+          <h2 class="bidv-text_headline-5">Quản trị bài tập</h2>
           <div class="actions-container">
             <button
               *ngIf="!isActive"
@@ -33,7 +87,7 @@
               appearance="gray"
               class="action-btn"
             >
-              Cập nhật
+              Chỉnh sửa bài tập
             </button>
 
             <button
@@ -77,8 +131,9 @@
           </div>
         </div>
 
+        <!-- Details Box -->
         <div class="details-box">
-          <h3 class="bidv-text_headline-5">Chi tiết bài tập</h3>
+          <h2 class="bidv-text_headline-5">Chi tiết bài tập</h2>
           <div class="details-grid">
             <div class="detail-item">
               <span class="label">Ngày tạo:</span>
@@ -93,28 +148,10 @@
               }}</span>
             </div>
             <div class="detail-item">
-              <span class="label">Độ khó:</span>
-              <span>
-                <bidv-badge
-                  size="m"
-                  shape="square"
-                  [class]="difficultyBadge.class"
-                >
-                  {{ difficultyBadge.label }}
-                </bidv-badge>
-              </span>
-            </div>
-            <div class="detail-item">
-              <span class="label">Điểm:</span>
-              <span class="value">{{ problemData.point }}</span>
-            </div>
-            <div class="detail-item">
-              <span class="label">Trạng thái:</span>
-              <span>
-                <bidv-badge size="m" shape="square" [class]="badgeItem.class">
-                  {{ badgeItem.label }}
-                </bidv-badge>
-              </span>
+              <span class="label">Trạng thái lưu trữ:</span>
+              <span class="value">{{
+                problemData.isArchived ? 'Đã lưu trữ' : 'Chưa lưu trữ'
+              }}</span>
             </div>
           </div>
         </div>

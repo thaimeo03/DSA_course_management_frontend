@@ -43,7 +43,6 @@
           <button bidvTab iconLeft="bidvIconCodeOutline" class="tab-item">
             Quản lý template
           </button>
-          <!-- Reserved for future test case management -->
           <button bidvTab iconLeft="bidvIconNotebookOutline" class="tab-item">
             Quản lý bộ test
           </button>
@@ -62,13 +61,11 @@
             ></app-admin-problem-template>
           </div>
 
-          <!-- Tab: Test Case Management (placeholder for future implementation) -->
+          <!-- Tab: Test Case Management -->
           <div *ngIf="activeTabIndex === 2" class="tab-pane">
-            <div class="placeholder-content">
-              <p class="bidv-text_body-1">
-                Chức năng quản lý bộ test sẽ được thêm trong tương lai.
-              </p>
-            </div>
+            <app-admin-problem-test-suite
+              [problemId]="problemId"
+            ></app-admin-problem-test-suite>
           </div>
         </div>
       </div>

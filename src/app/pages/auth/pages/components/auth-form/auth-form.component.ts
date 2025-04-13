@@ -89,7 +89,7 @@ function passwordMatchValidator(): ValidatorFn {
         email: 'Vui lòng nhập email hợp lệ',
         minlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Độ dài tối thiểu — ${requiredLength}`),
-        maxLength: ({ requiredLength }: { requiredLength: string }) =>
+        maxlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Độ dài tối đa — ${requiredLength}`),
         passwordMismatch: 'Mật khẩu xác nhận không khớp',
       },

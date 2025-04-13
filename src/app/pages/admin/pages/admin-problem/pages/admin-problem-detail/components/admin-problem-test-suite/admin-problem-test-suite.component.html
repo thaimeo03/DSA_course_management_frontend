@@ -1,0 +1,204 @@
+<section class="test-suite-container">
+  <div class="header-container">
+    <div class="left-section">
+      <h2 class="bidv-text_headline-5">Bộ kiểm thử</h2>
+    </div>
+    <div class="right-section" *ngIf="testSuiteData && !isEditMode">
+      <button bidvButton variant="filled" size="s" (click)="handleEdit()">
+        Sửa bộ kiểm thử
+      </button>
+      <button
+        bidvButton
+        variant="outlined"
+        size="s"
+        appearance="negative"
+        (click)="handleDelete()"
+      >
+        Xóa bộ kiểm thử
+      </button>
+    </div>
+  </div>
+
+  <bidv-divider class="divider"></bidv-divider>
+
+  <!-- Form Container -->
+  <ng-container *ngIf="!testSuiteData || isEditMode; else viewMode">
+    <form
+      [formGroup]="testSuiteForm"
+      (ngSubmit)="handleSubmit()"
+      class="form-container"
+    >
+      <!-- Function Name -->
+      <div class="form-group">
+        <label class="bidv-text_label-1">
+          Tên hàm
+
+          <bidv-input formControlName="functionName">
+            Nhập tên hàm, ví dụ: threeSumClosest
+            <input bidvTextfield />
+          </bidv-input>
+
+          <bidv-error
+            formControlName="functionName"
+            [error]="[] | bidvFieldError | async"
+          />
+        </label>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+        <!-- Input Types -->
+        <div class="col-span-1">
+          <label class="bidv-text_label-1">Kiểu dữ liệu đầu vào</label>
+          <div class="input-types-container">
+            <ng-container
+              *ngFor="let control of inputTypesArray.controls; let i = index"
+            >
+              <div>
+                <div class="input-type-row">
+                  <bidv-select [formControl]="control" bidvTextfieldSize="m">
+                    Chọn kiểu dữ liệu
+                    <bidv-data-list-wrapper
+                      *bidvDataList
+                      [items]="dataTypeOptions"
+                    ></bidv-data-list-wrapper>
+                  </bidv-select>
+                  <div class="input-type-actions">
+                    <button
+                      type="button"
+                      bidvIconButton
+                      variant="outlined"
+                      iconLeft="bidvIconDeleteOutline"
+                      appearance="negative"
+                      size="m"
+                      (click)="removeInputType(i)"
+                      [disabled]="inputTypesArray.length <= 1"
+                    ></button>
+                  </div>
+                </div>
+                <bidv-error
+                  [formControl]="control"
+                  [error]="[] | bidvFieldError | async"
+                />
+              </div>
+            </ng-container>
+            <button
+              type="button"
+              bidvButton
+              variant="outlined"
+              iconLeft="bidvIconAdd"
+              size="s"
+              (click)="addInputType()"
+            >
+              Thêm kiểu dữ liệu
+            </button>
+          </div>
+        </div>
+
+        <!-- Input Suite -->
+        <div class="col-span-1">
+          <label class="bidv-text_label-1 textarea-label">
+            Dữ liệu đầu vào (mỗi dòng ứng với một kiểu dữ liệu)
+
+            <bidv-textarea formControlName="inputSuit">
+              Nhập dữ liệu đầu vào cho hàm
+            </bidv-textarea>
+            <bidv-error
+              formControlName="functionName"
+              [error]="[] | bidvFieldError | async"
+            />
+          </label>
+        </div>
+      </div>
+
+      <!-- Output Type -->
+      <div>
+        <label class="bidv-text_label-1">
+          Kiểu dữ liệu đầu ra
+          <bidv-select formControlName="outputType" bidvTextfieldSize="m">
+            Chọn kiểu dữ liệu
+            <bidv-data-list-wrapper
+              *bidvDataList
+              [items]="dataTypeOptions"
+            ></bidv-data-list-wrapper>
+          </bidv-select>
+          <bidv-error
+            formControlName="outputType"
+            [error]="[] | bidvFieldError | async"
+          />
+        </label>
+      </div>
+
+      <!-- Expected Output Suite -->
+      <div>
+        <label class="bidv-text_label-1">
+          Dữ liệu đầu ra mong đợi (1 dòng duy nhất)
+          <bidv-textarea formControlName="expectedOutputSuit">
+            Nhập dữ liệu đầu ra mong đợi cho hàm
+          </bidv-textarea>
+          <bidv-error
+            formControlName="expectedOutputSuit"
+            [error]="[] | bidvFieldError | async"
+          />
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button
+          *ngIf="isEditMode"
+          type="button"
+          bidvButton
+          variant="outlined"
+          size="s"
+          (click)="handleCancelEdit()"
+        >
+          Hủy
+        </button>
+        <button type="submit" bidvButton variant="filled" size="s">
+          {{ testSuiteData && isEditMode ? 'Cập nhật' : 'Tạo bộ kiểm thử' }}
+        </button>
+      </div>
+    </form>
+  </ng-container>
+
+  <!-- View Mode -->
+  <ng-template #viewMode>
+    <div class="view-container" *ngIf="testSuiteData">
+      <div class="view-group">
+        <h3 class="bidv-text_headline-6">Tên hàm</h3>
+        <div class="code-block">{{ testSuiteData.functionName }}</div>
+      </div>
+
+      <div class="view-group">
+        <h3 class="bidv-text_headline-6">Kiểu dữ liệu đầu vào</h3>
+        <div class="code-block">{{ testSuiteData.inputTypes.join(', ') }}</div>
+      </div>
+
+      <div class="view-group">
+        <h3 class="bidv-text_headline-6">Dữ liệu đầu vào</h3>
+        <div class="code-block">
+          <pre>{{ testSuiteData.inputSuit }}</pre>
+        </div>
+      </div>
+
+      <div class="view-group">
+        <h3 class="bidv-text_headline-6">Kiểu dữ liệu đầu ra</h3>
+        <div class="code-block">{{ testSuiteData.outputType }}</div>
+      </div>
+
+      <div class="view-group">
+        <h3 class="bidv-text_headline-6">Dữ liệu đầu ra mong đợi</h3>
+        <div class="code-block">
+          <pre>{{ testSuiteData.expectedOutputSuit }}</pre>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+
+  <!-- Empty State -->
+  <!-- <div class="empty-state" *ngIf="!testSuiteData && !isEditMode">
+    <p class="bidv-text_body-1">Chưa có bộ kiểm thử nào cho bài toán này.</p>
+    <button bidvButton variant="filled" size="s" (click)="isEditMode = true">
+      Tạo bộ kiểm thử
+    </button>
+  </div> -->
+</section>

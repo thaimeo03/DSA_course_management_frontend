@@ -21,6 +21,7 @@ import { BadgeItem } from '@app/models';
 import { DialogService } from '@app/services/share/dialog.service';
 import { Difficulty } from '@app/enums/problem';
 import { AdminProblemTemplateComponent } from './components/admin-problem-template/admin-problem-template.component';
+import { AdminProblemTestSuiteComponent } from './components/admin-problem-test-suite/admin-problem-test-suite.component';
 
 @Component({
   selector: 'app-admin-problem-detail',
@@ -32,6 +33,7 @@ import { AdminProblemTemplateComponent } from './components/admin-problem-templa
     BidvBadgeModule,
     BidvTabsModule,
     AdminProblemTemplateComponent,
+    AdminProblemTestSuiteComponent,
   ],
   templateUrl: './admin-problem-detail.component.html',
   styleUrl: './admin-problem-detail.component.scss',

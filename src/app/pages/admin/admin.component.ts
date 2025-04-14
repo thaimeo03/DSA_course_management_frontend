@@ -45,6 +45,11 @@ export class AdminComponent {
       icon: 'bidvIconClipboardTaskOutline',
       link: ROUTES.adminProblem,
     },
+    {
+      label: 'Mã giảm giá',
+      icon: 'bidvIconMoneyOutline',
+      link: ROUTES.adminCoupon,
+    },
   ];
 
   activeAside: BidvNavigationNode | undefined = this.asideItems.find((item) =>

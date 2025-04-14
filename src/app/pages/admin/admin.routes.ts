@@ -31,6 +31,14 @@ export const adminRoutes: Route[] = [
         title: 'Quản lý bài tập',
       },
       {
+        path: 'coupon',
+        loadChildren: () =>
+          import('./pages/admin-coupon/admin-coupon.routes').then(
+            (m) => m.adminCouponRoutes,
+          ),
+        title: 'Quản lý mã giảm giá',
+      },
+      {
         path: '**',
         redirectTo: 'course',
         pathMatch: 'full',

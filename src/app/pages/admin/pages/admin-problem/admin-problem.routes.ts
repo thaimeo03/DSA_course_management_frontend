@@ -39,7 +39,7 @@ export const adminProblemRoutes: Route[] = [
         title: 'Cập nhật bài tập',
       },
       {
-        path: '*',
+        path: '',
         pathMatch: 'full',
         redirectTo: '',
       },

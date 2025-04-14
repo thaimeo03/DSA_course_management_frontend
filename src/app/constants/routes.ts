@@ -19,4 +19,7 @@ export const ROUTES = {
   adminProblem: '/admin/problem',
   adminCreateProblem: '/admin/problem/create',
   adminProblemEdit: '/admin/problem/:id/edit',
+  adminCoupon: '/admin/coupon',
+  adminCreateCoupon: '/admin/coupon/create',
+  adminCouponEdit: '/admin/coupon/:id/edit',
 } as const;

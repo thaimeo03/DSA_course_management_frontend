@@ -53,7 +53,6 @@ export class AdminProblemListComponent {
   #destroyRef = inject(DestroyRef);
   #query = injectQuery();
   #courseService = inject(CourseService);
-  #problemService = inject(ProblemService);
 
   // Properties
   protected breadcrumbs: LinkItem[] = [

@@ -13,6 +13,7 @@ import { BidvDay } from '@bidv-ui/cdk';
 import { BidvButtonModule } from '@bidv-ui/core';
 import { ColDef, ColGroupDef, GridOptions } from 'ag-grid-community';
 import { BaseTableComponent } from '../../../../../components/base-table/base-table.component';
+import { AdminCouponListActionComponent } from './components/admin-coupon-list-action/admin-coupon-list-action.component';
 
 @Component({
   selector: 'app-admin-coupon-list',
@@ -154,6 +155,10 @@ export class AdminCouponListComponent {
           );
         },
         sortable: true,
+      },
+      {
+        headerName: 'Thao tác',
+        cellRenderer: AdminCouponListActionComponent,
         flex: 1,
       },
     ];

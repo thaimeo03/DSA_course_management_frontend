@@ -14,4 +14,12 @@
   </div>
 
   <!-- Coupon table here -->
+  <app-base-table
+    queryKey="problem-repository"
+    [columnDefs]="columnDefs"
+    [params]="params"
+    [api]="getAllCouponsQuery"
+    [gridOptions]="gridOptions"
+    [hiddenPagination]="false"
+  />
 </main>

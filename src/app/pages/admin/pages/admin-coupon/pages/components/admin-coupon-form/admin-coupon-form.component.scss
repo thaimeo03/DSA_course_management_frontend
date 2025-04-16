@@ -1,3 +1,31 @@
 :host {
   display: block;
 }
+
+.title-box {
+  margin-bottom: 2rem;
+
+  .title {
+    margin-bottom: 1rem;
+  }
+}
+
+.form-container {
+  .form-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+  }
+
+  label {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .actions {
+    margin-top: 2rem;
+    display: flex;
+    gap: 1rem;
+    justify-content: flex-start;
+  }
+}

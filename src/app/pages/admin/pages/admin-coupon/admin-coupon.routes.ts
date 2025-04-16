@@ -1,7 +1,7 @@
-import { Routes } from '@angular/router';
+import { Route } from '@angular/router';
 import { AdminCouponComponent } from './admin-coupon.component';
 
-export const adminCouponRoutes: Routes = [
+export const adminCouponRoutes: Route[] = [
   {
     path: '',
     component: AdminCouponComponent,
@@ -31,7 +31,7 @@ export const adminCouponRoutes: Routes = [
         title: 'Cập nhật mã giảm giá',
       },
       {
-        path: '',
+        path: '**',
         pathMatch: 'full',
         redirectTo: '',
       },

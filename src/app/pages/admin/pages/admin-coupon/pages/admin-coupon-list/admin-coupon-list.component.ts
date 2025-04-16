@@ -130,7 +130,14 @@ export class AdminCouponListComponent {
       {
         headerName: 'Số lượng',
         field: 'maxRedeem',
-        width: 100,
+        valueGetter: (params) => {
+          const maxRedeem = params.data.maxRedeem;
+
+          if (maxRedeem === null) return 'Không giới hạn';
+
+          return maxRedeem;
+        },
+        width: 150,
       },
       {
         headerName: 'Hết hạn lúc',

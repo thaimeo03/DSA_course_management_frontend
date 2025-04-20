@@ -95,7 +95,7 @@ export class AdminCourseFormComponent implements OnInit {
   // Data
   protected isUploading = false;
   protected maxMBFileSize = 5; // MB
-  protected acceptedFileTypes = ['image/jpeg', 'image/png', 'image/jpg'];
+  protected acceptedFileTypes = ['image/jpeg', 'image/png'];
   protected thumbnailSrc: string | null = null;
 
   protected breadcrumbs: LinkItem[] = [];

@@ -1,0 +1,37 @@
+.document-list {
+  margin-top: 0.5rem;
+
+  .document-item {
+    display: flex;
+    align-items: center;
+    column-gap: 0.5rem;
+    background: var(--colors-gray-100);
+    border: 1px solid #ccc;
+    border-radius: var(--corner-radius-l);
+    cursor: pointer;
+    transition: all 0.2s linear;
+
+    .document-item-content {
+      padding: 0.75rem;
+      flex-grow: 1;
+      display: flex;
+      align-items: center;
+      column-gap: 0.5rem;
+
+      &:hover {
+        opacity: 0.75;
+      }
+    }
+
+    .document-icon {
+      width: 32px;
+      height: 32px;
+    }
+  }
+}
+
+.actions {
+  margin-right: 0.75rem;
+  display: flex;
+  column-gap: 0.5rem;
+}

@@ -114,9 +114,25 @@
       </div>
     </div>
 
-    <div class="description">
-      <h3 class="bidv-text_headline-5">Mô tả bài giảng</h3>
-      <div [innerHTML]="lectureData.content"></div>
+    <!-- Tabs -->
+    <div class="tabs-container">
+      <bidv-tabs [(activeItemIndex)]="activeTabIndex">
+        <button bidvTab iconLeft="bidvIconTextboxSettingsOutline">
+          Mô tả bài giảng
+        </button>
+        <button bidvTab iconLeft="bidvIconDocumentTextOutline">
+          Quản lý tài liệu
+        </button>
+      </bidv-tabs>
+
+      <div *ngIf="activeTabIndex === 0" class="description">
+        <h3 class="bidv-text_headline-5">Mô tả bài giảng</h3>
+        <div [innerHTML]="lectureData.content"></div>
+      </div>
+
+      <div *ngIf="activeTabIndex === 1">
+        <app-admin-lecture-document />
+      </div>
     </div>
   </section>
 </div>

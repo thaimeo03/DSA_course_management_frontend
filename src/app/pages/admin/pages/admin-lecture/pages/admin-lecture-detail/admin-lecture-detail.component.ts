@@ -9,7 +9,11 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { injectMutation, injectQuery } from '@bidv-api/angular';
 import { BidvAlertService, BidvButtonModule } from '@bidv-ui/core';
-import { BidvBadgeModule, BidvSkeletonDirective } from '@bidv-ui/kit';
+import {
+  BidvBadgeModule,
+  BidvSkeletonDirective,
+  BidvTabsModule,
+} from '@bidv-ui/kit';
 import { ROUTES } from '@app/constants/routes';
 import { LectureService } from '@app/services/lecture.service';
 import { LectureData } from '@app/models/lecture';
@@ -20,6 +24,7 @@ import { extractVideoId } from '@app/utils/extract-data';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
 import { BadgeItem } from '@app/models';
 import { DialogService } from '@app/services/share/dialog.service';
+import { AdminLectureDocumentComponent } from './components/admin-lecture-document/admin-lecture-document.component';
 
 @Component({
   selector: 'app-admin-lecture-detail',
@@ -30,6 +35,8 @@ import { DialogService } from '@app/services/share/dialog.service';
     BidvButtonModule,
     BidvSkeletonDirective,
     BidvBadgeModule,
+    BidvTabsModule,
+    AdminLectureDocumentComponent,
   ],
   templateUrl: './admin-lecture-detail.component.html',
   styleUrl: './admin-lecture-detail.component.scss',
@@ -70,6 +77,8 @@ export class AdminLectureDetailComponent {
       class: 'badge-red',
     },
   };
+
+  protected activeTabIndex = 0;
 
   // Data
   protected lectureId = this.#activatedRoute.snapshot.params['id'];

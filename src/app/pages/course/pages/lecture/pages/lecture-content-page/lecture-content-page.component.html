@@ -38,19 +38,7 @@
     <div class="document-box">
       <h2 class="bidv-text_title-1">Tài liệu</h2>
 
-      <div *ngIf="documents" class="document-list">
-        <ng-container *ngFor="let item of documents">
-          <a [href]="item.link" download class="document-item">
-            <img
-              class="document-icon"
-              [src]="item.iconSrc"
-              [alt]="item.label"
-            />
-
-            <div class="bidv-text_body-2">{{ item.label }}</div>
-          </a>
-        </ng-container>
-      </div>
+      <app-document-viewer [documents]="documentData" />
     </div>
   </div>
 </ng-container>

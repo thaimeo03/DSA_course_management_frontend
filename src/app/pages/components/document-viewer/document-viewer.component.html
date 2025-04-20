@@ -1,0 +1,48 @@
+<div class="grid grid-cols-2 gap-4 document-list">
+  <ng-container *ngFor="let item of documents">
+    <div class="col-span-1">
+      <div class="document-item">
+        <a
+          [href]="item.fileUrl"
+          download
+          target="_blank"
+          class="document-item-content"
+        >
+          <img
+            class="document-icon"
+            [src]="getDocumentIconSrc(item.fileUrl)"
+            [alt]="item.title"
+          />
+
+          <bidv-line-clamp [linesLimit]="1" [content]="title" />
+          <ng-template #title>
+            <div class="bidv-text_body-1">
+              {{ item.title }}
+            </div>
+          </ng-template>
+        </a>
+        <div *ngIf="enableActions" class="actions">
+          <button
+            bidvIconButton
+            (click)="onEditMode(item)"
+            bidvHint="Chỉnh sửa"
+            iconLeft="bidvIconDocumentEditOutline"
+            size="s"
+            variant="outlined"
+            appearance="primary"
+          ></button>
+
+          <button
+            bidvIconButton
+            (click)="onDeleteMode(item.id)"
+            bidvHint="Xóa"
+            iconLeft="bidvIconDeleteOutline"
+            size="s"
+            variant="outlined"
+            appearance="negative"
+          ></button>
+        </div>
+      </div>
+    </div>
+  </ng-container>
+</div>

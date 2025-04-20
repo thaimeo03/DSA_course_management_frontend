@@ -1,4 +1,4 @@
-import { DocumentType } from '@app/enums/document';
+import { FileType } from '@app/enums/document';
 import { YTB_URL_REGEX } from '@app/constants';
 
 export const extractVideoId = (url: string): string => {
@@ -7,15 +7,17 @@ export const extractVideoId = (url: string): string => {
   return match ? match[1] : '';
 };
 
-export const extractFileType = (url: string): DocumentType => {
+export const extractFileType = (url: string): FileType => {
   const ext = url.split('.').pop();
 
   switch (ext) {
     case 'pdf':
-      return DocumentType.PDF;
+      return FileType.PDF;
     case 'docx':
-      return DocumentType.DOCX;
+      return FileType.DOCX;
+    case 'pptx':
+      return FileType.PPTX;
     default:
-      return DocumentType.OTHER;
+      return FileType.UNKNOWN;
   }
 };

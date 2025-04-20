@@ -1,5 +1,7 @@
 import { AbstractControl, ValidationErrors } from '@angular/forms';
 import { YTB_URL_REGEX } from '@app/constants';
+import { DOC_ICONS } from '@app/constants/document';
+import { FileType } from '@app/enums/document';
 import { BidvFileLike } from '@bidv-ui/kit';
 
 export const getNameFile = (file: BidvFileLike): string => {
@@ -24,7 +26,9 @@ export const getIconSrc = (type: string) => {
     return './image.png';
   }
 
-  return '';
+  if (DOC_ICONS[type]) return DOC_ICONS[type];
+
+  return DOC_ICONS[FileType.UNKNOWN];
 };
 
 export const validateYoutubeUrl = (
@@ -39,4 +43,22 @@ export const validateYoutubeUrl = (
   const match = url.match(regExp);
 
   return match ? null : { invalidYoutubeUrl: true };
+};
+
+export const validateUrl = (
+  control: AbstractControl,
+): ValidationErrors | null => {
+  if (!control.value) {
+    return null;
+  }
+
+  try {
+    const url = new URL(control.value);
+    // Check if protocol is http or https
+    return url.protocol === 'http:' || url.protocol === 'https:'
+      ? null
+      : { invalidUrl: true };
+  } catch (e) {
+    return { invalidUrl: true };
+  }
 };

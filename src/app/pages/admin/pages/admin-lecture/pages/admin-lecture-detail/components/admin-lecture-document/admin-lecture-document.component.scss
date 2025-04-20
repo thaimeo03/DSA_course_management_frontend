@@ -1,0 +1,122 @@
+:host {
+  display: block;
+}
+
+.document-manager {
+  background-color: #fff;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+  margin-top: 16px;
+}
+
+.document-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 24px;
+}
+
+.document-form {
+  background-color: #f8f9fa;
+  border-radius: 8px;
+  margin-bottom: 24px;
+
+  h3 {
+    margin-bottom: 16px;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .form-actions {
+    display: flex;
+    gap: 12px;
+    justify-content: start;
+  }
+
+  .upload-toggle {
+    display: flex;
+    justify-content: start;
+    margin: -8px 0;
+  }
+}
+
+.document-list {
+  margin-top: 24px;
+
+  .empty-state {
+    text-align: center;
+    padding: 40px;
+    background-color: #f8f9fa;
+    border-radius: 8px;
+    color: #666;
+  }
+
+  .loading-text {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+}
+
+.document-table {
+  width: 100%;
+  border-collapse: collapse;
+
+  th {
+    text-align: left;
+    padding: 12px;
+    background-color: #f8f9fa;
+    font-weight: 600;
+    color: #444;
+  }
+
+  td {
+    padding: 12px;
+    border-bottom: 1px solid #f0f0f0;
+    vertical-align: middle;
+  }
+
+  .document-title {
+    min-width: 200px;
+  }
+
+  .document-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+
+  .document-icon {
+    width: 24px;
+    height: 24px;
+    object-fit: contain;
+  }
+
+  .document-link {
+    color: #0066cc;
+    text-decoration: none;
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 8px;
+  }
+}
+
+label.bidv-label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: 500;
+  color: #444;
+}
+
+bidv-select {
+  width: 200px;
+}

@@ -1,0 +1,110 @@
+<div class="document-manager">
+  <div class="document-header">
+    <h2 class="bidv-text_headline-5">Tài liệu bài giảng</h2>
+    <button *ngIf="!showForm" bidvButton (click)="toggleForm()">
+      Thêm tài liệu
+    </button>
+  </div>
+
+  <!-- Document Form -->
+  <div class="document-form" *ngIf="showForm">
+    <h3 class="bidv-text_headline-6">
+      {{ editingDocumentId ? 'Cập nhật' : 'Thêm' }} tài liệu
+    </h3>
+
+    <form [formGroup]="documentForm" (ngSubmit)="submitDocument()">
+      <div class="form-group">
+        <label class="bidv-label">
+          Tên tài liệu
+          <bidv-input formControlName="title"> Nhập tên tài liệu </bidv-input>
+          <bidv-error
+            formControlName="title"
+            [error]="[] | bidvFieldError | async"
+          />
+        </label>
+      </div>
+
+      <!-- Toggle mode -->
+      <label *ngIf="!editingDocumentId" class="bidv-label">
+        Loại tài liệu
+        <bidv-select [formControl]="documentTypeControl" bidvTextfieldSize="s">
+          Chọn loại tài liệu
+          <bidv-data-list-wrapper *bidvDataList [items]="documentTypes" />
+        </bidv-select>
+        <bidv-error
+          [formControl]="documentTypeControl"
+          [error]="[] | bidvFieldError | async"
+        />
+      </label>
+
+      <!-- Upload File Mode -->
+      <div
+        class="form-group"
+        *ngIf="documentType === documentTypeE.Uploaded && !editingDocumentId"
+      >
+        <label class="bidv-label">File tài liệu</label>
+        <app-single-file-upload
+          [fileControl]="documentFileControl"
+          [maxMBFileSize]="maxMBFileSize"
+          [acceptedFileTypes]="acceptedFileTypes"
+        />
+      </div>
+
+      <!-- URL Mode -->
+      <div
+        class="form-group"
+        *ngIf="documentType === documentTypeE.Url || editingDocumentId"
+      >
+        <label class="bidv-label">
+          Link tài liệu
+
+          <bidv-input formControlName="fileUrl">
+            Nhập đường dẫn tài liệu
+          </bidv-input>
+          <bidv-error
+            formControlName="fileUrl"
+            [error]="[] | bidvFieldError | async"
+          ></bidv-error>
+        </label>
+      </div>
+
+      <div class="form-actions">
+        <button
+          type="button"
+          bidvButton
+          variant="outlined"
+          appearance="gray"
+          (click)="resetForm()"
+        >
+          Hủy
+        </button>
+        <button bidvButton [loading]="isLoading" type="submit" variant="filled">
+          {{ editingDocumentId ? 'Cập nhật' : 'Lưu' }}
+        </button>
+      </div>
+    </form>
+  </div>
+
+  <!-- Document List -->
+  <div class="document-list">
+    <div
+      *ngIf="!this.showForm && documentData.length === 0"
+      class="empty-state"
+    >
+      <p>Chưa có tài liệu nào. Nhấn nút "Thêm tài liệu" để bắt đầu.</p>
+    </div>
+
+    <div>
+      <p class="bidv-text_title-1" *ngIf="documentData.length > 0">
+        Danh sách tài liệu ({{ documentData.length }} tài liệu)
+      </p>
+
+      <app-document-viewer
+        [documents]="documentData"
+        [enableActions]="true"
+        (editModeEvent)="handleEditDocument($event)"
+        (deleteModeEvent)="handleDeleteDocument($event)"
+      />
+    </div>
+  </div>
+</div>

@@ -1,7 +1,8 @@
-import { DocumentType } from '@app/enums/document';
+import { FileType } from '@app/enums/document';
 
-export const DOC_ICONS: Record<DocumentType, string> = {
-  other: '/documents/doc-icon.png',
-  pdf: '/documents/pdf-icon.png',
-  docx: '/documents/docx-icon.png',
+export const DOC_ICONS: Record<string, string> = {
+  [FileType.DOCX]: '/documents/docx.png',
+  [FileType.PDF]: '/documents/pdf.png',
+  [FileType.PPTX]: '/documents/pptx.png',
+  [FileType.UNKNOWN]: '/documents/unknown.png',
 } as const;

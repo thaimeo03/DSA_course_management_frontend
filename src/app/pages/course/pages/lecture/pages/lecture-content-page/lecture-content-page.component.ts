@@ -3,26 +3,35 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  DestroyRef,
   inject,
 } from '@angular/core';
-import { DocumentItem } from '@app/models';
 import { ROUTES } from '@app/constants/routes';
 import { ActivatedRoute, Router } from '@angular/router';
-import { extractFileType, extractVideoId } from '@app/utils/extract-data';
+import { extractVideoId } from '@app/utils/extract-data';
 import {
   DomSanitizer,
   SafeResourceUrl,
   Title,
 } from '@angular/platform-browser';
 import { BidvButtonModule, BidvSvgModule } from '@bidv-ui/core';
-import { DOC_ICONS } from '@app/constants/document';
 import { LectureData, LectureQueryParams } from '@app/models/lecture';
 import { Store } from '@ngrx/store';
 import { selectLectureData } from 'stores/selectors/lecture.selector';
+import { injectQuery, queryOptions } from '@bidv-api/angular';
+import { DocumentService } from '@app/services/document.service';
+import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
+import { DocumentData } from '@app/models/document';
+import { DocumentViewerComponent } from '../../../../../components/document-viewer/document-viewer.component';
 
 @Component({
   selector: 'app-lecture-content-page',
-  imports: [CommonModule, BidvButtonModule, BidvSvgModule],
+  imports: [
+    CommonModule,
+    BidvButtonModule,
+    BidvSvgModule,
+    DocumentViewerComponent,
+  ],
   templateUrl: './lecture-content-page.component.html',
   styleUrl: './lecture-content-page.component.scss',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -34,27 +43,32 @@ export class LectureContentPageComponent {
   private sanitizer = inject(DomSanitizer);
   #cdr = inject(ChangeDetectorRef);
   #store = inject(Store);
+  #query = injectQuery();
+  #documentService = inject(DocumentService);
+  #destroyRef = inject(DestroyRef);
 
   // Data
   protected courseId = this.activatedRoute.snapshot.paramMap.get('id');
   protected lectureData: LectureData | null = null;
   protected quantity = 0;
   protected videoUrl!: SafeResourceUrl;
+  protected documentData: DocumentData[] = [];
 
-  protected documents: DocumentItem[] = [
-    {
-      label: 'Tài liệu 1',
-      link: 'https://www.youtube.com/watch?v=9EqRXHVQvLA',
-    },
-    {
-      label: 'Tài liệu 2',
-      link: 'https://res.cloudinary.com/dnhs6xylt/raw/upload/v1740849541/DecuongDATN_211203622_TranHongThai_CNTT3_K62_qfqit2.docx',
-    },
-    {
-      label: 'Tài liệu 3',
-      link: 'https://res.cloudinary.com/dnhs6xylt/image/upload/v1740849848/Ke-hoach-thuc-hien-%C4%90ATN-K62-tro-ve-truoc-Dot-1_wc7hd7.pdf',
-    },
-  ];
+  // Query options
+  private getDocumentsOptions(lectureId?: string) {
+    return queryOptions({
+      enabled: !!lectureId,
+      queryKey: ['lecture-documents', lectureId],
+      queryFn: () => {
+        if (!lectureId) return;
+        return this.#documentService.getDocumentsByLessonId(lectureId);
+      },
+      refetchOnWindowFocus: false,
+    });
+  }
+
+  // Queries
+  #getDocumentsQuery = this.#query(this.getDocumentsOptions());
 
   constructor() {
     this.initData();
@@ -70,6 +84,9 @@ export class LectureContentPageComponent {
 
       this.titleService.setTitle(this.lectureData.title);
       this.initVideo(this.lectureData.videoUrl);
+      this.#getDocumentsQuery.updateOptions(
+        this.getDocumentsOptions(this.lectureData.id),
+      );
 
       this.#cdr.markForCheck();
     });
@@ -83,10 +100,16 @@ export class LectureContentPageComponent {
   }
 
   private initDocuments() {
-    this.documents = this.documents.map((document) => ({
-      ...document,
-      iconSrc: DOC_ICONS[extractFileType(document.link)],
-    }));
+    this.#getDocumentsQuery.result$
+      .pipe(takeUntilDestroyed(this.#destroyRef))
+      .subscribe((res) => {
+        const data = res.data;
+        if (!data) return;
+
+        this.documentData = data.data;
+
+        this.#cdr.markForCheck();
+      });
   }
 
   // Handlers

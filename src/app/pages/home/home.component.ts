@@ -15,7 +15,6 @@ export class HomeComponent {
   protected breadcrumbs: LinkItem[] = [
     {
       label: 'Trang chủ',
-      link: ROUTES.home,
     },
   ];
 

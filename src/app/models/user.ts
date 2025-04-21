@@ -1,5 +1,5 @@
 import { Role } from '@app/enums/user';
-import { DataResponse } from '.';
+import { DataResponse, DataResponseWithPagination, PaginationParams } from '.';
 
 export interface LoginBody {
   email: string;
@@ -32,4 +32,23 @@ export interface UpdateProfileBody {
   phoneNumber?: string;
   dateOfBirth?: string;
   avatar?: string;
+}
+
+// Get ranks
+export interface GetRanksParams extends PaginationParams {
+  search?: string;
+}
+
+export type GetRanksResponse = DataResponseWithPagination<RankData[]>;
+
+export interface RankData {
+  rank: number;
+  user: UserRankData;
+  score: number;
+}
+
+export interface UserRankData {
+  id: string;
+  fullName: string;
+  avatar: string | null;
 }

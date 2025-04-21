@@ -1,0 +1,14 @@
+<div>
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <h1 class="bidv-text_headline-4 title">Bảng xếp hạng thành tích</h1>
+
+  <app-base-table
+    queryKey="ranks"
+    [columnDefs]="columnDefs"
+    [params]="params"
+    [api]="getRanksQuery"
+    [gridOptions]="gridOptions"
+    [hiddenPagination]="false"
+  />
+</div>

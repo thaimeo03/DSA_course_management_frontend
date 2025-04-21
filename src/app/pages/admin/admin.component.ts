@@ -50,6 +50,10 @@ export class AdminComponent {
       icon: 'bidvIconMoneyOutline',
       link: ROUTES.adminCoupon,
     },
+    {
+      label: 'Học viên',
+      icon: 'bidvIconPersonStarOutline',
+    },
   ];
 
   activeAside: BidvNavigationNode | undefined = this.asideItems.find((item) =>

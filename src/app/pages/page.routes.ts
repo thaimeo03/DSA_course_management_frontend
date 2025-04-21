@@ -22,7 +22,13 @@ export const pageRoutes: Route[] = [
           import('./purchased-course/purchased-course.component').then(
             (m) => m.PurchasedCourseComponent,
           ),
-        title: 'Purchased course',
+        title: 'Khóa học đã mua',
+      },
+      {
+        path: 'ranks',
+        loadComponent: () =>
+          import('./ranks/ranks.component').then((m) => m.RanksComponent),
+        title: 'Bảng xếp hạng',
       },
       {
         path: 'user',

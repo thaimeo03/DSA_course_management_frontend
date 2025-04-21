@@ -2,11 +2,14 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
   GetMeResponse,
+  GetRanksParams,
+  GetRanksResponse,
   LoginBody,
   RegisterBody,
   UpdateProfileBody,
 } from '../models/user';
 import { MessageResponse } from '../models';
+import { getHttpParams } from '@app/utils/handle-api';
 
 @Injectable({
   providedIn: 'root',
@@ -38,5 +41,13 @@ export class UserService {
       '/users/update/profile',
       body,
     );
+  }
+
+  getRanks(params: GetRanksParams) {
+    const httpParams = getHttpParams(params);
+
+    return this.#httpClient.get<GetRanksResponse>('/users/ranks', {
+      params: httpParams,
+    });
   }
 }

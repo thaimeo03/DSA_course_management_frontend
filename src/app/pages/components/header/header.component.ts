@@ -41,6 +41,10 @@ export class HeaderComponent {
       label: 'Trang chủ',
       link: ROUTES.home,
     },
+    {
+      label: 'Bảng xếp hạng',
+      link: ROUTES.ranks,
+    },
   ];
 
   protected me: MeData | null = null;
@@ -85,6 +89,10 @@ export class HeaderComponent {
         {
           label: 'Khóa học của tôi',
           link: ROUTES.purchasedCourse,
+        },
+        {
+          label: 'Bảng xếp hạng',
+          link: ROUTES.ranks,
         },
       ];
 

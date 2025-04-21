@@ -8,11 +8,10 @@ import { GetAllCouponsParams } from '@app/models/coupon';
 import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { CouponService } from '@app/services/coupon.service';
 import { getDateTime } from '@app/utils/transform-data';
-import { injectQuery } from '@bidv-api/angular';
 import { BidvDay } from '@bidv-ui/cdk';
 import { BidvButtonModule } from '@bidv-ui/core';
 import { ColDef, ColGroupDef, GridOptions } from 'ag-grid-community';
-import { BaseTableComponent } from '../../../../../components/base-table/base-table.component';
+import { BaseTableComponent } from '@app/pages/components/base-table/base-table.component';
 import { AdminCouponListActionComponent } from './components/admin-coupon-list-action/admin-coupon-list-action.component';
 
 @Component({

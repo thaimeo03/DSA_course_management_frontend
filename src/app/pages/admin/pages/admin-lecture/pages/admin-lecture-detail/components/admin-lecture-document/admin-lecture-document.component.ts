@@ -44,7 +44,7 @@ import {
   DocumentData,
   UpdateDocumentBody,
 } from '@app/models/document';
-import { SelectItem } from '@app/models';
+import { ErrorResponse, SelectItem } from '@app/models';
 import { DocumentFolder, DocumentType } from '@app/enums/document';
 import { validateUrl } from '@app/utils/form-handling';
 import { SingleFileUploadComponent } from '@app/pages/components/single-file-upload/single-file-upload.component';
@@ -159,11 +159,11 @@ export class AdminLectureDocumentComponent implements OnInit {
           lessonId: this.lectureId,
         });
       },
-      onError: () => {
+      onError: (error: ErrorResponse) => {
         this.#alerts
           .open('', {
             status: 'error',
-            label: 'Tải tài liệu thất bại',
+            label: error.error.message,
           })
           .subscribe();
       },
@@ -188,12 +188,12 @@ export class AdminLectureDocumentComponent implements OnInit {
 
       this.#cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.isLoading = false;
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Thêm tài liệu thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -218,12 +218,12 @@ export class AdminLectureDocumentComponent implements OnInit {
 
       this.#cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.isLoading = false;
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Cập nhật tài liệu thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -243,11 +243,11 @@ export class AdminLectureDocumentComponent implements OnInit {
         })
         .subscribe();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Xóa tài liệu thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },

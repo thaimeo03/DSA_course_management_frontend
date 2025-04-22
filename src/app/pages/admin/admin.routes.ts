@@ -39,6 +39,14 @@ export const adminRoutes: Route[] = [
         title: 'Quản lý mã giảm giá',
       },
       {
+        path: 'account',
+        loadComponent: () =>
+          import('./pages/admin-account/admin-account.component').then(
+            (m) => m.AdminAccountComponent,
+          ),
+        title: 'Quản lý tài khoản',
+      },
+      {
         path: '**',
         redirectTo: 'course',
         pathMatch: 'full',

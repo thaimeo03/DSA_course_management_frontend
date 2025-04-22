@@ -36,3 +36,9 @@ export type GetCouponDetailResponse = DataResponse<CouponData>;
 
 // Update coupon
 export interface UpdateCouponBody extends Partial<CreateCouponBody> {}
+
+// Apply coupon
+export interface ApplyCouponBody {
+  code: string;
+  userId: string;
+}

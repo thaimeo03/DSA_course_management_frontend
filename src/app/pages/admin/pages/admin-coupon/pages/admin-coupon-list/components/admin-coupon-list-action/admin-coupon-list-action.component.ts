@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 import { Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
+import { ErrorResponse } from '@app/models';
 import { CouponService } from '@app/services/coupon.service';
 import { DialogService } from '@app/services/share/dialog.service';
 import { injectMutation, injectQueryClient } from '@bidv-api/angular';
@@ -44,11 +45,11 @@ export class AdminCouponListActionComponent
         })
         .subscribe();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Xóa mã giảm giá thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },

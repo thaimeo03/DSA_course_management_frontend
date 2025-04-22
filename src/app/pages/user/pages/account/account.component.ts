@@ -11,6 +11,7 @@ import {
 } from '@angular/forms';
 import { SafeResourceUrl } from '@angular/platform-browser';
 import { ImageFolder } from '@app/enums/image';
+import { ErrorResponse } from '@app/models';
 import { MeData, UpdateProfileBody } from '@app/models/user';
 import { ImageService } from '@app/services/image.service';
 import { UserService } from '@app/services/user.service';
@@ -119,11 +120,11 @@ export class AccountComponent {
         })
         .subscribe();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Cập nhật thông tin thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -142,12 +143,12 @@ export class AccountComponent {
           avatar: avatarUrl,
         });
       },
-      onError: () => {
+      onError: (error: ErrorResponse) => {
         this.isUploading = false;
         this.#alerts
           .open('', {
             status: 'error',
-            label: 'Cập nhật ảnh đại diện thất bại',
+            label: error.error.message,
           })
           .subscribe();
       },

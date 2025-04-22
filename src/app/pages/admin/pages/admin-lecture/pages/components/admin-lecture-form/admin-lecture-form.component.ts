@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LinkItem } from '@app/models';
+import { ErrorResponse, LinkItem } from '@app/models';
 import {
   CreateLectureBody,
   LectureData,
@@ -115,11 +115,11 @@ export class AdminLectureFormComponent implements OnInit {
       // Navigate to lecture list page
       this.#router.navigate([ROUTES.adminLecture]);
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Tạo bài giảng thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -139,11 +139,11 @@ export class AdminLectureFormComponent implements OnInit {
       // Navigate to lecture detail page
       this.#router.navigate([ROUTES.adminLecture, this.lectureData?.id]);
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Cập nhật bài giảng thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },

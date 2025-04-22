@@ -1,0 +1,10 @@
+<div *ngIf="accountData" class="user-info-box">
+  <bidv-avatar [src]="accountData.avatar ?? './avatar.jpg'" size="40">{{
+    accountData.fullName
+  }}</bidv-avatar>
+
+  <div class="user-info">
+    <div class="bidv-text_label-1">{{ accountData.fullName }}</div>
+    <span class="bidv-text_body-3">{{ accountData.email }}</span>
+  </div>
+</div>

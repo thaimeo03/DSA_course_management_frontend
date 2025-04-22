@@ -23,4 +23,5 @@ export const ROUTES = {
   adminCoupon: '/admin/coupon',
   adminCreateCoupon: '/admin/coupon/create',
   adminCouponEdit: '/admin/coupon/:id/edit',
+  adminAccount: '/admin/account',
 } as const;

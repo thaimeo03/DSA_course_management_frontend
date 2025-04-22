@@ -12,7 +12,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
-import { LinkItem, SelectItem } from '@app/models';
+import { ErrorResponse, LinkItem, SelectItem } from '@app/models';
 import { ProblemService } from '@app/services/problem.service';
 import { injectMutation } from '@bidv-api/angular';
 import { ROUTES } from '@app/constants/routes';
@@ -135,11 +135,11 @@ export class AdminProblemFormComponent {
       // Navigate to problem list page
       this.#router.navigate([ROUTES.adminProblem]);
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Tạo bài tập thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -159,11 +159,11 @@ export class AdminProblemFormComponent {
       // Navigate to problem detail page
       this.#router.navigate([ROUTES.adminProblem, this.problemData?.id]);
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Cập nhật bài tập thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },

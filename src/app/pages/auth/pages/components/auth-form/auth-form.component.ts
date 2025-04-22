@@ -35,6 +35,7 @@ import { LoginBody, RegisterBody } from '@app/models/user';
 import { UserService } from 'src/app/services/user.service';
 import { setAuth } from 'stores/actions/auth.action';
 import { injectMutation } from '@bidv-api/angular';
+import { ErrorResponse } from '@app/models';
 
 interface AuthItem {
   title: string;
@@ -161,10 +162,13 @@ export class AuthFormComponent {
       this.#store.dispatch(setAuth({ isAuthenticated: true }));
       this.router.navigate([ROUTES.home]);
     },
-    onError: (err: any) => {
-      if (err.status === 0 || err.status === 500) return;
+    onError: (error: ErrorResponse) => {
+      if (error.status === 0 || error.status === 500) return;
+      const errorMessage = error.error.message;
+      this.failed = Array.isArray(errorMessage)
+        ? errorMessage[0]
+        : errorMessage;
 
-      this.failed = err.error.message;
       this.cdr.markForCheck();
     },
   });
@@ -175,10 +179,13 @@ export class AuthFormComponent {
       this.#store.dispatch(setAuth({ isAuthenticated: true }));
       this.router.navigate([ROUTES.home]);
     },
-    onError: (err: any) => {
-      if (err.status === 0 || err.status === 500) return;
+    onError: (error: ErrorResponse) => {
+      if (error.status === 0 || error.status === 500) return;
+      const errorMessage = error.error.message;
+      this.failed = Array.isArray(errorMessage)
+        ? errorMessage[0]
+        : errorMessage;
 
-      this.failed = err.error.message;
       this.cdr.markForCheck();
     },
   });

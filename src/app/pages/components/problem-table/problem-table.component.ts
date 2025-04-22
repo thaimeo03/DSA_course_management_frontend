@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import {
   ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   inject,
   Input,
@@ -57,6 +58,7 @@ export class ProblemTableComponent implements OnInit {
   private router = inject(Router);
   #problemService = inject(ProblemService);
   #store = inject(Store);
+  #cdr = inject(ChangeDetectorRef);
 
   @Input({ required: true }) courseId!: string | null;
   @Input() userView: boolean = true;
@@ -135,6 +137,8 @@ export class ProblemTableComponent implements OnInit {
             search: value,
           };
         }
+
+        this.#cdr.markForCheck();
       });
   }
 

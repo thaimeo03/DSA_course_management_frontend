@@ -2,6 +2,7 @@ import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import { MessageResponse } from '@app/models';
 import {
+  ApplyCouponBody,
   CreateCouponBody,
   CreateCouponResponse,
   GetAllCouponsParams,
@@ -39,5 +40,9 @@ export class CouponService {
 
   deleteCoupon(id: string) {
     return this.#httpClient.delete<MessageResponse>(`/coupons/${id}`);
+  }
+
+  applyCoupon(body: ApplyCouponBody) {
+    return this.#httpClient.post<MessageResponse>('/coupons/apply', body);
   }
 }

@@ -1,0 +1,10 @@
+.user-info-box {
+  display: flex;
+  align-items: center;
+  column-gap: 0.5rem;
+
+  .user-info {
+    display: flex;
+    flex-direction: column;
+  }
+}

@@ -17,7 +17,7 @@ import {
 import { ROUTES } from '@app/constants/routes';
 import { LectureService } from '@app/services/lecture.service';
 import { LectureData } from '@app/models/lecture';
-import { LinkItem } from '@app/models';
+import { ErrorResponse, LinkItem } from '@app/models';
 import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser';
 import { extractVideoId } from '@app/utils/extract-data';
@@ -109,11 +109,11 @@ export class AdminLectureDetailComponent {
         })
         .subscribe();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Xóa bài giảng thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -135,11 +135,11 @@ export class AdminLectureDetailComponent {
 
       this.#cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Kích hoạt bài giảng thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -161,11 +161,11 @@ export class AdminLectureDetailComponent {
 
       this.#cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Hủy kích hoạt bài giảng thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -186,11 +186,11 @@ export class AdminLectureDetailComponent {
         })
         .subscribe();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Lưu trữ bài giảng thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },

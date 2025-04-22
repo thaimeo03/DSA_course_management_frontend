@@ -15,7 +15,7 @@ import {
 import { Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
 import { CouponType } from '@app/enums/coupon';
-import { LinkItem, SelectItem } from '@app/models';
+import { ErrorResponse, LinkItem, SelectItem } from '@app/models';
 import {
   CouponData,
   CreateCouponBody,
@@ -128,11 +128,11 @@ export class AdminCouponFormComponent implements OnInit {
       // Navigate to coupon list page
       this.#router.navigate([ROUTES.adminCoupon]);
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Tạo mã giảm giá thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -155,11 +155,11 @@ export class AdminCouponFormComponent implements OnInit {
       });
       this.#router.navigate([ROUTES.adminCoupon]);
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Cập nhật mã giảm giá thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },

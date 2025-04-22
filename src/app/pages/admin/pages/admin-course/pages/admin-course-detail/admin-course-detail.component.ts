@@ -9,7 +9,7 @@ import {
 } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
-import { BadgeItem, LinkItem } from '@app/models';
+import { BadgeItem, ErrorResponse, LinkItem } from '@app/models';
 import {
   CourseData,
   DetailCourseData,
@@ -127,11 +127,11 @@ export class AdminCourseDetailComponent implements OnInit {
         })
         .subscribe();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.alerts
         .open('', {
           status: 'error',
-          label: 'Xóa khóa học thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -160,11 +160,11 @@ export class AdminCourseDetailComponent implements OnInit {
 
       this.cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.alerts
         .open('', {
           status: 'error',
-          label: 'Kích hoạt khóa học thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -193,11 +193,11 @@ export class AdminCourseDetailComponent implements OnInit {
 
       this.cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.alerts
         .open('', {
           status: 'error',
-          label: 'Hủy kích hoạt khóa học thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -218,11 +218,11 @@ export class AdminCourseDetailComponent implements OnInit {
         })
         .subscribe();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.alerts
         .open('', {
           status: 'error',
-          label: 'Lưu trữ khóa học thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },

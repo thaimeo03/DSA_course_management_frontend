@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Params, UrlTree } from '@angular/router';
 import { HavePagination } from '@app/enums';
 
@@ -34,6 +35,17 @@ export interface MessageResponse {
 // Data success response
 export interface DataResponse<T> extends MessageResponse {
   data: T;
+}
+
+// Data error response
+export interface ErrorResponse extends HttpErrorResponse {
+  error: ErrorData;
+}
+
+interface ErrorData {
+  error: string;
+  message: string | string[];
+  statusCode: number;
 }
 
 // Pagination

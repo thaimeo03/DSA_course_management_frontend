@@ -1,6 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { inject, Injectable } from '@angular/core';
 import {
+  GetAccountsParams,
   GetMeResponse,
   GetRanksParams,
   GetRanksResponse,
@@ -47,6 +48,14 @@ export class UserService {
     const httpParams = getHttpParams(params);
 
     return this.#httpClient.get<GetRanksResponse>('/users/ranks', {
+      params: httpParams,
+    });
+  }
+
+  getAccounts(params: GetAccountsParams) {
+    const httpParams = getHttpParams(params);
+
+    return this.#httpClient.get<GetRanksResponse>('/users/accounts', {
       params: httpParams,
     });
   }

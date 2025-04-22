@@ -7,7 +7,7 @@ import {
 } from '@angular/core';
 import { Router } from '@angular/router';
 import { ROUTES } from '@app/constants/routes';
-import { LinkItem } from '@app/models';
+import { ErrorResponse, LinkItem } from '@app/models';
 import { LectureService } from '@app/services/lecture.service';
 import { injectMutation } from '@bidv-api/angular';
 import { AdminLectureFormComponent } from '../components/admin-lecture-form/admin-lecture-form.component';
@@ -56,12 +56,12 @@ export class AdminLectureCreateComponent {
 
       this.router.navigate([ROUTES.adminLecture]);
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.isSubmitting = false;
       this.alerts
         .open('', {
           status: 'error',
-          label: 'Tạo mới bài giảng thất bại',
+          label: error.error.message,
         })
         .subscribe();
       this.cdr.markForCheck();

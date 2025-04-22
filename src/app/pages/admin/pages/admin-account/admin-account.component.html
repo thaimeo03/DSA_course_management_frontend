@@ -1,0 +1,54 @@
+<main>
+  <app-breadcrumbs [breadcrumbs]="breadcrumbs" />
+
+  <h1 class="bidv-text_headline-4 title">Danh sách tài khoản người dùng</h1>
+
+  <div class="account-table-box">
+    <div class="feature-box">
+      <form [formGroup]="filterForm" class="filter-form">
+        <bidv-input
+          class="search-input"
+          bidvTextfieldIconLeft="bidvIconSearch"
+          formControlName="search"
+          [bidvTextfieldCleaner]="true"
+        >
+          Tìm kiếm theo tên hoặc email
+        </bidv-input>
+      </form>
+
+      <div class="coupon-box">
+        <div *ngIf="couponControl.value">
+          <button
+            bidvButton
+            (click)="handleApplyCoupon()"
+            [loading]="applyCouponResult().isPending"
+            type="button"
+            variant="filled"
+          >
+            Áp dụng
+          </button>
+        </div>
+
+        <bidv-select
+          *ngIf="accountsData.length > 0"
+          [formControl]="couponControl"
+          [bidvTextfieldCleaner]="true"
+          bidvTextfieldIconLeft="bidvIconMoneyOutline"
+          class="coupon-select"
+        >
+          Chọn mã giảm giá
+          <app-single-select-dropdown *bidvDataList [items]="couponList" />
+        </bidv-select>
+      </div>
+    </div>
+
+    <app-base-table
+      queryKey="accounts"
+      [columnDefs]="columnDefs"
+      [params]="params"
+      [api]="getAccountsQuery"
+      [gridOptions]="gridOptions"
+      [hiddenPagination]="false"
+    />
+  </div>
+</main>

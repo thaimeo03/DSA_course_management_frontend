@@ -14,7 +14,7 @@ import {
 } from '@angular/forms';
 import { Router } from '@angular/router';
 import { injectMutation } from '@bidv-api/angular';
-import { LinkItem } from '@app/models';
+import { ErrorResponse, LinkItem } from '@app/models';
 import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { CourseService } from '@app/services/course.service';
 import { ImageService } from '@app/services/image.service';
@@ -117,11 +117,11 @@ export class AdminCourseFormComponent implements OnInit {
 
       this.#router.navigate([ROUTES.adminCourse]);
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Tạo khóa học thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -140,11 +140,11 @@ export class AdminCourseFormComponent implements OnInit {
 
       this.#router.navigate([ROUTES.adminCourse]);
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Cập nhật khóa học thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -165,13 +165,13 @@ export class AdminCourseFormComponent implements OnInit {
           thumbnail: thumbnailUrl,
         });
       },
-      onError: () => {
+      onError: (error: ErrorResponse) => {
         this.isUploading = false;
 
         this.#alerts
           .open('', {
             status: 'error',
-            label: 'Tải ảnh thumbnail thất bại',
+            label: error.error.message,
           })
           .subscribe();
       },
@@ -200,13 +200,13 @@ export class AdminCourseFormComponent implements OnInit {
           },
         });
       },
-      onError: () => {
+      onError: (error: ErrorResponse) => {
         this.isUploading = false;
 
         this.#alerts
           .open('', {
             status: 'error',
-            label: 'Tải ảnh thumbnail thất bại',
+            label: error.error.message,
           })
           .subscribe();
       },

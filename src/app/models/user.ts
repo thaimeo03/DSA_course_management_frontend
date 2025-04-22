@@ -35,9 +35,7 @@ export interface UpdateProfileBody {
 }
 
 // Get ranks
-export interface GetRanksParams extends PaginationParams {
-  search?: string;
-}
+export interface GetRanksParams extends PaginationParams {}
 
 export type GetRanksResponse = DataResponseWithPagination<RankData[]>;
 
@@ -51,4 +49,16 @@ export interface UserRankData {
   id: string;
   fullName: string;
   avatar: string | null;
+}
+
+// Get accounts
+export interface GetAccountsParams extends PaginationParams {
+  search?: string; // search by email or full name
+}
+
+export type GetAccountsResponse = DataResponseWithPagination<AccountData[]>;
+
+export interface AccountData extends MeData {
+  createdAt: string;
+  updatedAt: string;
 }

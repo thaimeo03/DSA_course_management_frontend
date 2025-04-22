@@ -17,7 +17,7 @@ import {
 } from '@angular/forms';
 import { PROGRAMMING_LANGUAGE } from '@app/constants';
 import { ProgrammingLanguage } from '@app/enums';
-import { SelectItem } from '@app/models';
+import { ErrorResponse, SelectItem } from '@app/models';
 import {
   BidvAlertService,
   BidvButtonModule,
@@ -114,11 +114,11 @@ export class AdminProblemTemplateComponent implements OnInit {
 
       this.#cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Tạo mẫu code thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -144,11 +144,11 @@ export class AdminProblemTemplateComponent implements OnInit {
 
       this.#cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Cập nhật mẫu code thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -170,11 +170,11 @@ export class AdminProblemTemplateComponent implements OnInit {
 
       this.#cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Xóa mẫu code thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },

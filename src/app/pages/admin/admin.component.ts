@@ -53,6 +53,7 @@ export class AdminComponent {
     {
       label: 'Học viên',
       icon: 'bidvIconPersonStarOutline',
+      link: ROUTES.adminAccount,
     },
   ];
 

@@ -19,7 +19,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { DataType } from '@app/enums/data-types';
-import { SelectItem } from '@app/models';
+import { ErrorResponse, SelectItem } from '@app/models';
 import { TestSuiteData } from '@app/models/test-suite';
 import { TestSuiteService } from '@app/services/test-suite.service';
 import {
@@ -171,11 +171,11 @@ export class AdminProblemTestSuiteComponent implements OnInit {
         })
         .subscribe();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Tạo bộ kiểm thử thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -196,11 +196,11 @@ export class AdminProblemTestSuiteComponent implements OnInit {
 
       this.#cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Cập nhật bộ kiểm thử thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -222,11 +222,11 @@ export class AdminProblemTestSuiteComponent implements OnInit {
 
       this.#cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Xóa bộ kiểm thử thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },

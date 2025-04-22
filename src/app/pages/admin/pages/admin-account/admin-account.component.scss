@@ -1,0 +1,28 @@
+.title {
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+.account-table-box {
+  margin-top: 2rem;
+}
+
+.feature-box {
+  margin-bottom: 1rem;
+  display: flex;
+  justify-content: space-between;
+
+  .filter-form {
+    margin-bottom: 1rem;
+    width: 50%;
+  }
+
+  .coupon-box {
+    display: flex;
+    column-gap: 0.5rem;
+
+    .coupon-select {
+      min-width: 250px;
+    }
+  }
+}

@@ -13,7 +13,7 @@ import { BidvBadgeModule, BidvTabsModule } from '@bidv-ui/kit';
 import { ROUTES } from '@app/constants/routes';
 import { ProblemService } from '@app/services/problem.service';
 import { ProblemRepositoryData } from '@app/models/problem';
-import { LinkItem } from '@app/models';
+import { ErrorResponse, LinkItem } from '@app/models';
 import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
@@ -121,11 +121,11 @@ export class AdminProblemDetailComponent {
         })
         .subscribe();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Xóa bài tập thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -147,11 +147,11 @@ export class AdminProblemDetailComponent {
 
       this.#cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Kích hoạt bài tập thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -173,11 +173,11 @@ export class AdminProblemDetailComponent {
 
       this.#cdr.markForCheck();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Hủy kích hoạt bài tập thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },
@@ -198,11 +198,11 @@ export class AdminProblemDetailComponent {
         })
         .subscribe();
     },
-    onError: () => {
+    onError: (error: ErrorResponse) => {
       this.#alerts
         .open('', {
           status: 'error',
-          label: 'Lưu trữ bài tập thất bại',
+          label: error.error.message,
         })
         .subscribe();
     },

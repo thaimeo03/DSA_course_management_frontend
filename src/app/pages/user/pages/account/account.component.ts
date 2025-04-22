@@ -73,7 +73,7 @@ function phoneNumberValidator(): ValidatorFn {
         required: 'Trường này là bắt buộc',
         minlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Độ dài tối thiểu — ${requiredLength}`),
-        maxLength: ({ requiredLength }: { requiredLength: string }) =>
+        maxlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Độ dài tối đa — ${requiredLength}`),
         invalidPhoneNumber: 'Số điện thoại phải có 10 chữ số',
       },

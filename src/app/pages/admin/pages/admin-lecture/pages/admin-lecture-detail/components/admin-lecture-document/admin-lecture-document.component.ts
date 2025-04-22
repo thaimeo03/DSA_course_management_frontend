@@ -86,7 +86,7 @@ interface DocumentForm {
         required: 'Trường này là bắt buộc',
         minlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Độ dài tối thiểu — ${requiredLength}`),
-        maxLength: ({ requiredLength }: { requiredLength: string }) =>
+        maxlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Độ dài tối đa — ${requiredLength}`),
         invalidUrl: 'Đường dẫn không hợp lệ',
       },

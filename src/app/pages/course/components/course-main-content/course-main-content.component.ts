@@ -72,7 +72,7 @@ import { setCourseData } from 'stores/actions/course.action';
       useValue: {
         minlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Độ dài tối thiểu — ${requiredLength}`),
-        maxLength: ({ requiredLength }: { requiredLength: string }) =>
+        maxlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Độ dài tối đa — ${requiredLength}`),
       },
     },

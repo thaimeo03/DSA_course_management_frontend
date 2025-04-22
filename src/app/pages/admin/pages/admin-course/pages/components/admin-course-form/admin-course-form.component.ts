@@ -74,7 +74,7 @@ import { ActiveStatus } from '@app/enums';
         required: 'Trường này là bắt buộc',
         minlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Độ dài tối thiểu — ${requiredLength}`),
-        maxLength: ({ requiredLength }: { requiredLength: string }) =>
+        maxlength: ({ requiredLength }: { requiredLength: string }) =>
           of(`Độ dài tối đa — ${requiredLength}`),
         min: ({ min }: { min: string }) => of(`Giá trị tối thiểu — ${min}`),
         invalidYoutubeUrl: 'URL không đúng định dạng YouTube',

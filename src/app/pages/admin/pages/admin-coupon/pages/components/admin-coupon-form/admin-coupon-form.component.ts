@@ -266,7 +266,7 @@ export class AdminCouponFormComponent implements OnInit {
         this.percentOff.markAsUntouched();
 
         this.amountOff.disable();
-        this.amountOff.clearValidators();
+        this.amountOff.removeValidators(Validators.required);
         this.amountOff.setValue(null);
       } else if (item?.value === CouponType.AmountOff) {
         this.amountOff.enable();
@@ -274,7 +274,7 @@ export class AdminCouponFormComponent implements OnInit {
         this.amountOff.markAsUntouched();
 
         this.percentOff.disable();
-        this.percentOff.clearValidators();
+        this.percentOff.removeValidators(Validators.required);
         this.percentOff.setValue(null);
       }
 

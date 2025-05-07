@@ -10,6 +10,7 @@ import {
   Output,
   SimpleChanges,
   ViewChild,
+  ViewEncapsulation,
 } from '@angular/core';
 import { basicSetup } from 'codemirror';
 import { EditorState, Compartment } from '@codemirror/state';
@@ -42,6 +43,7 @@ type ITheme = 'light' | 'dark';
 
 @Component({
   selector: 'app-code-mirror-editor',
+  standalone: true,
   imports: [
     CommonModule,
     ReactiveFormsModule,

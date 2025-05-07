@@ -4,9 +4,11 @@
 }
 
 .content-container {
+  width: 50%;
   flex: 1;
   display: flex;
   flex-direction: column;
+  overflow: hidden;
 
   .content-box {
     flex-grow: 1;
@@ -16,6 +18,7 @@
 }
 
 .code-editor-box {
+  width: 50%;
   flex: 1;
 }
 

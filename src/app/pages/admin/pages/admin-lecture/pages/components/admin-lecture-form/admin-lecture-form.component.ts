@@ -192,17 +192,17 @@ export class AdminLectureFormComponent implements OnInit {
     return new FormGroup<LectureForm>({
       title: new FormControl(this.lectureData?.title ?? '', {
         nonNullable: true,
-        validators: [Validators.required],
+        validators: [
+          Validators.required,
+          Validators.minLength(1),
+          Validators.maxLength(300),
+        ],
       }),
       no: new FormControl(
         this.lectureData?.no.toString() ?? (+this.lastNo + 1).toString(),
         {
           nonNullable: true,
-          validators: [
-            Validators.required,
-            Validators.min(1),
-            Validators.max(300),
-          ],
+          validators: [Validators.required, Validators.min(1)],
         },
       ),
       videoUrl: new FormControl(this.lectureData?.videoUrl ?? '', {

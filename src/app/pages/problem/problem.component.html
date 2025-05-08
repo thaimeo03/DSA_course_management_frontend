@@ -14,20 +14,20 @@
 
       <!-- Tab content -->
       <div class="content-box">
-        <ng-container *ngIf="activeItemIndex === 0">
-          <!-- <bidv-scrollbar> -->
-          <div [innerHTML]="safeContent"></div>
-          <!-- </bidv-scrollbar> -->
-        </ng-container>
+        <bidv-scrollbar style="height: calc(600px - 1rem)">
+          <ng-container *ngIf="activeItemIndex === 0">
+            <!-- <bidv-scrollbar> -->
+            <div [innerHTML]="safeContent"></div>
+            <!-- </bidv-scrollbar> -->
+          </ng-container>
 
-        <ng-container *ngIf="activeItemIndex === 1">
-          <bidv-scrollbar>
+          <ng-container *ngIf="activeItemIndex === 1">
             <app-submission-history
               (selectedRowDataEvent)="handleSubmissionHistory($event)"
               [problemId]="problemId"
             />
-          </bidv-scrollbar>
-        </ng-container>
+          </ng-container>
+        </bidv-scrollbar>
       </div>
     </div>
     <div class="code-editor-box">

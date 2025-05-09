@@ -17,7 +17,7 @@ export class LanguageCellComponent implements ICellRendererAngularComp {
   protected curLanguageItem: BadgeItem | null = null;
 
   private javascriptItem: BadgeItem = {
-    label: 'JavaScript',
+    label: 'Javascript',
     value: ProgrammingLanguage.Javascript,
     class: 'badge-orange',
   };

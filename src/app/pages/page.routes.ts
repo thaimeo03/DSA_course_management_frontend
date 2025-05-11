@@ -1,6 +1,7 @@
 import { Route } from '@angular/router';
 import { authGuard } from '@app/guards/auth.guard';
 import { courseGuard } from '@app/guards/course.guard';
+import { adminGuard } from './admin/admin.guard';
 
 export const pageRoutes: Route[] = [
   {
@@ -73,6 +74,7 @@ export const pageRoutes: Route[] = [
     loadChildren: () =>
       import('./admin/admin.routes').then((m) => m.adminRoutes),
     canActivate: [authGuard],
+    canActivateChild: [adminGuard],
   },
   {
     path: '**',

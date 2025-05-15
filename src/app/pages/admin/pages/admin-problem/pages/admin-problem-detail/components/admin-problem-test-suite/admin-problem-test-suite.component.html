@@ -103,7 +103,7 @@
               Nhập dữ liệu đầu vào cho hàm
             </bidv-textarea>
             <bidv-error
-              formControlName="functionName"
+              formControlName="inputSuit"
               [error]="[] | bidvFieldError | async"
             />
           </label>
@@ -193,12 +193,4 @@
       </div>
     </div>
   </ng-template>
-
-  <!-- Empty State -->
-  <!-- <div class="empty-state" *ngIf="!testSuiteData && !isEditMode">
-    <p class="bidv-text_body-1">Chưa có bộ kiểm thử nào cho bài toán này.</p>
-    <button bidvButton variant="filled" size="s" (click)="isEditMode = true">
-      Tạo bộ kiểm thử
-    </button>
-  </div> -->
 </section>

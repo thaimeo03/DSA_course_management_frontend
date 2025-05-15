@@ -53,7 +53,7 @@
             <ng-container
               *ngFor="let control of inputTypesArray.controls; let i = index"
             >
-              <div>
+              <div [attr.data-index]="i">
                 <div class="input-type-row">
                   <bidv-select [formControl]="control" bidvTextfieldSize="m">
                     Chọn kiểu dữ liệu

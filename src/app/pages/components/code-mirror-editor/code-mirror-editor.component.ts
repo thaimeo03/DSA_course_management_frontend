@@ -109,13 +109,6 @@ export class CodeMirrorEditorComponent implements OnInit, OnChanges {
         },
       });
     }
-
-    for (const lang of this.languages) {
-      if (lang.value === this.language) {
-        this.codeEditorForm.get('language')?.setValue(lang);
-        break;
-      }
-    }
   }
 
   // Config editor

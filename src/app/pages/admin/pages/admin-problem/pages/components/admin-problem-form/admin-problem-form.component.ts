@@ -14,7 +14,7 @@ import {
 import { ActivatedRoute, Router } from '@angular/router';
 import { ErrorResponse, LinkItem, SelectItem } from '@app/models';
 import { ProblemService } from '@app/services/problem.service';
-import { injectMutation } from '@bidv-api/angular';
+import { injectMutation, injectQueryClient } from '@bidv-api/angular';
 import { ROUTES } from '@app/constants/routes';
 import {
   BidvAlertService,
@@ -93,6 +93,7 @@ export class AdminProblemFormComponent {
   #problemService = inject(ProblemService);
   #alerts = inject(BidvAlertService);
   #mutation = injectMutation();
+  #queryClient = injectQueryClient();
 
   @Input() problemData: ProblemRepositoryData | null = null;
 
@@ -155,6 +156,10 @@ export class AdminProblemFormComponent {
           label: 'Cập nhật bài tập thành công',
         })
         .subscribe();
+
+      this.#queryClient.removeQueries({
+        queryKey: ['problem-detail-edit'],
+      });
 
       // Navigate to problem detail page
       this.#router.navigate([ROUTES.adminProblem, this.problemData?.id]);

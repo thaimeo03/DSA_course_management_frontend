@@ -110,9 +110,9 @@ export class AdminProblemTemplateComponent implements OnInit {
         })
         .subscribe();
 
-      this.isEditMode = true;
-
-      this.#cdr.markForCheck();
+      this.#queryClient.invalidateQueries({
+        queryKey: ['template'],
+      });
     },
     onError: (error: ErrorResponse) => {
       this.#alerts

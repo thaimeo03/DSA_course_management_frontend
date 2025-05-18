@@ -185,6 +185,10 @@ export class AdminProblemTestSuiteComponent implements OnInit {
     mutationFn: ({ id, body }: { id: string; body: any }) =>
       this.#testSuiteService.updateTestSuite(id, body),
     onSuccess: () => {
+      this.#queryClient.invalidateQueries({
+        queryKey: ['test-suite'],
+      });
+
       this.isEditMode = false;
 
       this.#alerts

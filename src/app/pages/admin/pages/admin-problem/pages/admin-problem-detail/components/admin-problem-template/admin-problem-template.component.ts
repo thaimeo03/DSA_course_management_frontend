@@ -133,6 +133,10 @@ export class AdminProblemTemplateComponent implements OnInit {
       body: { code: string; language: number };
     }) => this.#templateService.updateTemplate(id, body),
     onSuccess: () => {
+      this.#queryClient.invalidateQueries({
+        queryKey: ['template'],
+      });
+
       this.isEditMode = false;
 
       this.#alerts

@@ -13,7 +13,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { Router } from '@angular/router';
-import { injectMutation } from '@bidv-api/angular';
+import { injectMutation, injectQueryClient } from '@bidv-api/angular';
 import { ErrorResponse, LinkItem } from '@app/models';
 import { BreadcrumbsComponent } from '@app/pages/components/breadcrumbs/breadcrumbs.component';
 import { CourseService } from '@app/services/course.service';
@@ -87,6 +87,7 @@ export class AdminCourseFormComponent implements OnInit {
   #courseService = inject(CourseService);
   #imageService = inject(ImageService);
   #mutation = injectMutation();
+  #queryClient = injectQueryClient();
   #alerts = inject(BidvAlertService);
   #dialogs = inject(DialogService);
 

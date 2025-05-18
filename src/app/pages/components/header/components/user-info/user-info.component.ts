@@ -50,6 +50,14 @@ export class UserInfoComponent implements OnChanges {
     { label: 'Đăng ký', link: ROUTES.register },
   ];
 
+  private adminNavLinks: LinkItem[] = [
+    {
+      label: 'Trang quản trị',
+      link: ROUTES.admin,
+    },
+    ...this.authenticatedNavLinks,
+  ];
+
   protected ROLES = ROLES;
 
   // Mutations
@@ -64,10 +72,7 @@ export class UserInfoComponent implements OnChanges {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['me'] && this.me) {
       if (this.me && this.me.role === Role.Admin) {
-        this.authenticatedNavLinks.unshift({
-          label: 'Trang quản trị',
-          link: ROUTES.admin,
-        });
+        this.authenticatedNavLinks = this.adminNavLinks;
       }
     }
   }

@@ -65,6 +65,7 @@ export class RanksComponent {
         field: 'user',
         cellRenderer: RanksUserCellComponent,
         width: 350,
+        tooltipField: 'fullName',
       },
       {
         headerName: 'Tổng điểm',

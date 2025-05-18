@@ -109,6 +109,15 @@ export class CodeMirrorEditorComponent implements OnInit, OnChanges {
         },
       });
     }
+
+    if (changes['language']) {
+      this.languageControl.patchValue(
+        this.languages.find((item) => item.value === this.language),
+        {
+          emitModelToViewChange: false,
+        },
+      );
+    }
   }
 
   // Config editor
@@ -278,5 +287,10 @@ export class CodeMirrorEditorComponent implements OnInit, OnChanges {
         ),
       ],
     });
+  }
+
+  // Getters
+  private get languageControl() {
+    return this.codeEditorForm.get('language') as FormControl;
   }
 }

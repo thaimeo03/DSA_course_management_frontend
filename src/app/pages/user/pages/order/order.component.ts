@@ -60,6 +60,7 @@ export class OrderComponent {
         field: 'course',
         cellRenderer: CourseCellComponent,
         width: 400,
+        tooltipField: 'title',
       },
       {
         headerName: 'Giá tiền',

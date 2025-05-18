@@ -182,6 +182,7 @@ export class AdminLectureListComponent {
         cellStyle: {
           fontWeight: '500',
         },
+        tooltipField: 'title',
       },
       {
         headerName: 'Kích hoạt',

@@ -214,6 +214,7 @@ export class AdminAccountComponent {
         headerName: 'Học viên',
         width: 350,
         cellRenderer: AdminAccountStudentCellComponent,
+        tooltipField: 'fullName',
       },
       {
         headerName: 'Vai trò',

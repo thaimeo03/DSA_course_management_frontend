@@ -175,13 +175,14 @@ export class ProblemTableComponent implements OnInit {
         headerName: 'Tiêu đề',
         field: 'title',
         flex: 1,
+        tooltipField: 'title',
       },
       {
         headerName: 'Trạng thái',
         field: this.userView ? 'status' : 'isActive',
         cellRenderer: StatusComponent,
         sortable: true,
-        width: 150,
+        width: 170,
       },
       {
         headerName: 'Điểm',

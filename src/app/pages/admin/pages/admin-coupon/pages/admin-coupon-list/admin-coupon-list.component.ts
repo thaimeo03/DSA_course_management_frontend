@@ -103,6 +103,7 @@ export class AdminCouponListComponent {
         cellStyle: {
           fontWeight: '500',
         },
+        tooltipField: 'code',
       },
       {
         headerName: 'Giá trị',

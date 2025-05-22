@@ -30,7 +30,7 @@ export type GetMeResponse = DataResponse<MeData>;
 export interface UpdateProfileBody {
   fullName?: string;
   phoneNumber?: string;
-  dateOfBirth?: string;
+  dateOfBirth?: string | null;
   avatar?: string;
 }
 

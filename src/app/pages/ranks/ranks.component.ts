@@ -28,7 +28,7 @@ export class RanksComponent {
   // Data
   protected params: GetRanksParams = {
     page: 1,
-    limit: 20,
+    limit: 10,
   };
 
   // Queries

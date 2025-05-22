@@ -202,7 +202,7 @@ export class AccountComponent {
     const profileData: UpdateProfileBody = {
       fullName: fullName as string | undefined,
       phoneNumber: phoneNumber as string | undefined,
-      dateOfBirth: dob ? dob?.toUtcNativeDate().toISOString() : undefined,
+      dateOfBirth: dob ? dob?.toUtcNativeDate().toISOString() : null,
     };
 
     if (avatar) {

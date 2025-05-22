@@ -31,8 +31,9 @@
       </button>
     </div>
 
-    <div class="bidv-text_headline-8 lecture-desc">
-      {{ lectureData.content }}
+    <div class="lecture-desc">
+      <h3 class="bidv-text_headline-5">Nội dung bài giảng</h3>
+      <div [innerHTML]="sanitizedContent"></div>
     </div>
 
     <div class="document-box">

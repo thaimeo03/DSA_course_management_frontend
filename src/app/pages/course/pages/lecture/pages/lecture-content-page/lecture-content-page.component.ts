@@ -11,6 +11,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { extractVideoId } from '@app/utils/extract-data';
 import {
   DomSanitizer,
+  SafeHtml,
   SafeResourceUrl,
   Title,
 } from '@angular/platform-browser';
@@ -140,5 +141,11 @@ export class LectureContentPageComponent {
   // Getters
   protected get isLastLecture() {
     return this.lectureData?.no === this.quantity;
+  }
+
+  // Getters
+  protected get sanitizedContent(): SafeHtml | null {
+    if (!this.lectureData?.content) return null;
+    return this.sanitizer.bypassSecurityTrustHtml(this.lectureData.content);
   }
 }

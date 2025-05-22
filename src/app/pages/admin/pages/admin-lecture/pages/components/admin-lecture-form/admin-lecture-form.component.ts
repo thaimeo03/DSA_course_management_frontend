@@ -20,7 +20,7 @@ import {
   UpdateLectureBody,
 } from '@app/models/lecture';
 import { LectureService } from '@app/services/lecture.service';
-import { injectMutation } from '@bidv-api/angular';
+import { injectMutation, injectQueryClient } from '@bidv-api/angular';
 import { ROUTES } from '@app/constants/routes';
 import {
   BidvAlertService,
@@ -86,6 +86,7 @@ export class AdminLectureFormComponent implements OnInit {
   #lectureService = inject(LectureService);
   #alerts = inject(BidvAlertService);
   #mutation = injectMutation();
+  #queryClient = injectQueryClient();
 
   @Input() lectureData?: LectureData | null = null;
 
@@ -129,6 +130,10 @@ export class AdminLectureFormComponent implements OnInit {
     mutationFn: ({ id, body }: { id: string; body: UpdateLectureBody }) =>
       this.#lectureService.updateLecture(id, body),
     onSuccess: () => {
+      this.#queryClient.removeQueries({
+        queryKey: ['admin-lecture-detail'],
+      });
+
       this.#alerts
         .open('', {
           status: 'success',
